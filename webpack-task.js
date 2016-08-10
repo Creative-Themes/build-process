@@ -4,10 +4,14 @@ var named = require('vinyl-named');
 var plumber = require('gulp-plumber');
 var notify = require('gulp-notify');
 var gutil = require('gulp-util');
+var uglify = require('gulp-uglify');
+var gulpIf = require('gulp-if');
 
 var sass = require('gulp-sass');
 
 var webpackOptions = require('./webpack.config.js');
+
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
 	assign: webpackTask
@@ -80,6 +84,7 @@ function webpackTask (gulp, options) {
 				}))
 				.pipe(named(function () { return entry.named; }))
 				.pipe(webpackStream( webpackOptions, null, done ))
+				.pipe(gulpIf(!isDevelopment, uglify()))
 				.pipe(gulp.dest(entry.output))
 				.on('data', function () {
 					if (firstBuildReady && !callback.called) {

@@ -1,6 +1,8 @@
 var path = require("path");
 var webpack = require('webpack');
 
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
+
 module.exports = {
 	/*
 	entry: './static/js/main.js',
@@ -11,18 +13,26 @@ module.exports = {
 	},
    */
 
-	devtool: 'source-map',
+    devtool: isDevelopment ? 'source-map' : null,
 
 	module: {
 		loaders: [
-			/*
 			{
-				test: /\.js$/,
-				loader: 'babel',
-				include: [
-				]
+				test: /\.(js|jsx)$/,
+				loader: require.resolve('babel-loader'),
+				query: {
+					presets: [
+						require.resolve('babel-preset-es2015-loose')
+					],
+					plugins: [
+						require.resolve('babel-plugin-transform-es3-property-literals'),
+						require.resolve('babel-plugin-transform-es3-member-expression-literals')
+					]
+				}
+
+				// TODO: configure load paths here. May slow down builds!!!
 			},
-			*/
+
 			{
 				test: /\.scss$/,
 				loaders: ["style", "css", "sass"]
@@ -63,6 +73,6 @@ module.exports = {
 		'_': 'window._'
 	},
 
-	watch: true
+	watch: isDevelopment
 };
 
