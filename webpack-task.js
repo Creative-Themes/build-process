@@ -30,62 +30,66 @@ var defaultStatsOptions = {
 };
 
 function webpackTask (gulp, options) {
-	gulp.task('webpack', function (callback) {
-		var firstBuildReady = false;
-		var callingDone = false;
+	var series = options.entries.map(function (entry) {
+		return function (callback) {
+			var firstBuildReady = false;
+			var callingDone = false;
 
-		function done (err, stats) {
-			firstBuildReady = true;
+			function done (err, stats) {
+				firstBuildReady = true;
 
-			if (err) {
-				// The err is here just to match the API but isnt used
-				return;
-			}
-
-			stats = stats || {};
-
-			if (webpackOptions.quiet || callingDone) {
-				return;
-			}
-
-			// Debounce output a little for when in watch mode
-			if (webpackOptions.watch) {
-				callingDone = true;
-				setTimeout(function () { callingDone = false; }, 500);
-			}
-
-			if (webpackOptions.verbose) {
-				gutil.log(stats.toString({
-					colors: gutil.colors.supportsColor
-				}));
-			} else {
-				var statsOptions = webpackOptions && webpackOptions.stats || {};
-
-				Object.keys(defaultStatsOptions).forEach(function (key) {
-				if (typeof statsOptions[key] === 'undefined') {
-					statsOptions[key] = defaultStatsOptions[key];
+				if (err) {
+					// The err is here just to match the API but isnt used
+					return;
 				}
-				});
 
-				gutil.log(stats.toString(statsOptions));
+				stats = stats || {};
+
+				if (webpackOptions.quiet || callingDone) {
+					return;
+				}
+
+				// Debounce output a little for when in watch mode
+				if (webpackOptions.watch) {
+					callingDone = true;
+					setTimeout(function () { callingDone = false; }, 500);
+				}
+
+				if (webpackOptions.verbose) {
+					gutil.log(stats.toString({
+						colors: gutil.colors.supportsColor
+					}));
+				} else {
+					var statsOptions = webpackOptions && webpackOptions.stats || {};
+
+					Object.keys(defaultStatsOptions).forEach(function (key) {
+					if (typeof statsOptions[key] === 'undefined') {
+						statsOptions[key] = defaultStatsOptions[key];
+					}
+					});
+
+					gutil.log(stats.toString(statsOptions));
+				}
 			}
-		}
 
-		return gulp.src('static/js/main.js')
-			.pipe(plumber({
-				errorHandler: notify.onError(function (err) {
-					return {title: 'Webpack', message: err.message};
+			return gulp.src(entry.entry)
+				.pipe(plumber({
+					errorHandler: notify.onError(function (err) {
+						return {title: 'Webpack', message: err.message};
+					})
+				}))
+				.pipe(named(function () { return entry.named; }))
+				.pipe(webpackStream( webpackOptions, null, done ))
+				.pipe(gulp.dest(entry.output))
+				.on('data', function () {
+					if (firstBuildReady && !callback.called) {
+						callback.called = true;
+						callback();
+					}
 				})
-			}))
-			.pipe(named(function () { return 'bundle'; }))
-			.pipe(webpackStream( webpackOptions, null, done ))
-			.pipe(gulp.dest('static/bundle/'))
-			.on('data', function () {
-				if (firstBuildReady && !callback.called) {
-					callback.called = true;
-					callback();
-				}
-			})
+		}
 	});
+
+	gulp.task('webpack', gulp.series(series));
 }
 
