@@ -32,30 +32,27 @@ function sassTask (gulp, options) {
             var folders = getFolders(entry.forEachFolderIn);
 
             var tasks = folders.map(function (folder) {
-                return gulp.src(path.join(entry.forEachFolderIn, folder, entry.input))
-                    .pipe(sass().on('error', sass.logError))
-                    .pipe(gulp.dest(path.join(entry.forEachFolderIn, folder, entry.output)))
+                return function () {
+                    return sassProcess(
+                        path.join(entry.forEachFolderIn, folder, entry.input),
+                        path.join(entry.forEachFolderIn, folder, entry.output)
+                    );
+                }
             });
 
-            return merge(tasks);
+            return gulp.series(tasks);
         }
 
-        return gulp.src(entry.input)
+        return function () {
+            return sassProcess(entry.input, entry.output);
+        }
+    });
+
+    function sassProcess (input, output) {
+        return gulp.src(input)
             .pipe(sass().on('error', sass.logError))
-            .pipe(gulp.dest(entry.output));
-    });
+            .pipe(gulp.dest(output));
+    }
 
-    gulp.task('sass', function (callback) {
-        var folders = getFolders('shortcode');
-
-        var tasks = folders.map(function (folder) {
-            return gulp.src(path.join('shortcode', folder, 'static/css/main.scss'))
-                .pipe(sass().on('error', sass.logError))
-                .pipe(gulp.dest('shortcode/' + folder + '/bundle'))
-        });
-
-        return merge(tasks);
-    });
-
-    //gulp.task('sass', gulp.series(series));
+    gulp.task('sass', gulp.series(series));
 }
