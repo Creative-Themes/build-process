@@ -1,6 +1,8 @@
-var webpackTask = require('./webpack-task');
-var glueTasks = require('./glue-tasks');
-var _ = require('lodash');
+const webpackTask = require('./webpack-task');
+const glueTasks = require('./glue-tasks');
+const sassTask = require('./sass-task');
+
+const _ = require('lodash');
 
 module.exports = {
     registerTasks: registerTasks
@@ -17,10 +19,22 @@ function registerTasks (gulp, options) {
          *    }
          *  ]
          */
-        entries: []
+        entries: [],
+
+        /**
+         * sassFiles: [
+         *   {
+         *     input: 'path/to/file.scss',
+         *     output: 'path/to/output.css'
+         *   }
+         * ]
+         */
+        sassFiles: []
     }, options);
 
     webpackTask.assign(gulp, options);
+    sassTask.assign(gulp, options);
+
     glueTasks.assign(gulp, options);
 }
 

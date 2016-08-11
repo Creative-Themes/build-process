@@ -7,8 +7,6 @@ var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var gulpIf = require('gulp-if');
 
-var sass = require('gulp-sass');
-
 var webpackOptions = require('./webpack.config.js');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
@@ -91,7 +89,7 @@ function webpackTask (gulp, options) {
 						callback.called = true;
 						callback();
 					}
-				})
+				});
 		}
 	});
 

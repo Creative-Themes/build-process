@@ -5,8 +5,12 @@ module.exports = {
 };
 
 function glueTasks (gulp, options) {
-    gulp.task('clean', function() {
-        return del(['./static/bundle']);
+    gulp.task('clean', () => {
+        return del(
+            options.entries.map((entry) => entry.output).concat(
+                options.sassFiles.map((sassFile) => sassFile.output)
+            )
+        );
     });
 
     gulp.task('build',
@@ -19,8 +23,12 @@ function glueTasks (gulp, options) {
     gulp.task('dev',
         gulp.series(
             'build',
+            'sass',
             function() {
-                // gulp.watch('./static/css/style.scss', gulp.series('sass'));
+                gulp.watch(
+                    options.sassFiles.map((sassFile) => sassFile.input),
+                    gulp.series('sass')
+                );
             }
         )
     );
