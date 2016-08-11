@@ -1,4 +1,5 @@
 var del = require('del');
+var path = require('path');
 
 module.exports = {
     assign: glueTasks
@@ -8,8 +9,22 @@ function glueTasks (gulp, options) {
     gulp.task('clean', () => {
         return del(
             options.entries.map((entry) => entry.output).concat(
-                options.sassFiles.map((sassFile) => sassFile.output)
-            )
+                options.sassFiles.map((sassFile) => {
+                    if (sassFile.forEachFolderIn) {
+                        return path.join(
+                            sassFile.forEachFolderIn,
+                            '*',
+                            sassFile.output,
+                            path.basename(sassFile.input, path.extname(sassFile.input)) + '.css'
+                        );
+                    }
+
+                    return path.join(
+                        sassFile.output,
+                        path.basename(sassFile.input, path.extname(sassFile.input)) + '.css'
+                    );
+                })
+            ).concat(options.toClean)
         );
     });
 

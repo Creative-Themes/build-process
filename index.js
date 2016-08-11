@@ -29,7 +29,9 @@ function registerTasks (gulp, options) {
          *   }
          * ]
          */
-        sassFiles: []
+        sassFiles: [],
+
+        toClean: []
     }, options);
 
     webpackTask.assign(gulp, options);
