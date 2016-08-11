@@ -20,7 +20,7 @@ function registerTasks (gulp, options) {
          *  ]
          */
         entries: [],
-        webpackIncludePaths: []
+        webpackIncludePaths: [],
 
         /**
          * sassFiles: [
@@ -31,7 +31,7 @@ function registerTasks (gulp, options) {
          * ]
          */
         sassFiles: [],
-        sassIncludePaths: []
+        sassIncludePaths: [],
 
         toClean: [],
 
