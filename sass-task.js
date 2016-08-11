@@ -8,6 +8,7 @@ const gulpIf = require('gulp-if');
 const sourcemaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
+const header = require('gulp-header');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -41,7 +42,8 @@ function sassTask (gulp, options) {
                 return function () {
                     return sassProcess(
                         path.join(entry.forEachFolderIn, folder, entry.input),
-                        path.join(entry.forEachFolderIn, folder, entry.output)
+                        path.join(entry.forEachFolderIn, folder, entry.output),
+                        entry
                     );
                 }
             });
@@ -50,11 +52,11 @@ function sassTask (gulp, options) {
         }
 
         return function () {
-            return sassProcess(entry.input, entry.output);
+            return sassProcess(entry.input, entry.output, entry);
         }
     });
 
-    function sassProcess (input, output) {
+    function sassProcess (input, output, entry) {
         return gulp.src(input)
             .pipe(plumber({
                 errorHandler: notify.onError(err => ({
@@ -73,6 +75,7 @@ function sassTask (gulp, options) {
                 )
             }).on('error', sass.logError))
             .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+            .pipe(gulpIf(entry.header, header(entry.header.template, entry.header.values)))
             .pipe(gulp.dest(output));
     }
 
