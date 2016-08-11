@@ -54,8 +54,20 @@ function sassTask (gulp, options) {
 
     function sassProcess (input, output) {
         return gulp.src(input)
+            .pipe(plumber({
+                errorHandler: notify.onError(err => ({
+                    title:   'Styles',
+                    message: err.message
+                }))
+            }))
             .pipe(gulpIf(isDevelopment, sourcemaps.init()))
-            .pipe(sass({outputStyle: isDevelopment ? 'nested' : 'compressed'}).on('error', sass.logError))
+            .pipe(sass({
+                outputStyle: isDevelopment ? 'nested' : 'compressed',
+                includePaths: [
+                    'bower_components',
+                    'node_modules'
+                ]
+            }).on('error', sass.logError))
             .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulp.dest(output));
     }

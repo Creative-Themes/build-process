@@ -112,9 +112,7 @@ const config = {
 	externals: {
 		jquery: 'window.jQuery',
 		'_': 'window._'
-	},
-
-	watch: isDevelopment
+	}
 }
 
 	return config;

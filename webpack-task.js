@@ -32,11 +32,25 @@ function webpackTask (gulp, options) {
 
 	gulp.task('webpack', (done) => {
 		const compiler = getCompiler(options);
+		var firstBuildDone = false;
 
-		compiler.run((err, stats) => {
-			handleWebpackOutput(err, stats);
-			done();
-		});
+		if (isDevelopment) {
+			compiler.watch({
+				aggregateTimeout: 301
+			}, (err, stats) => {
+				handleWebpackOutput(err, stats);
+
+				if (! firstBuildDone) {
+					firstBuildDone = true;
+					done();
+				}
+			});
+		} else {
+			compiler.run((err, stats) => {
+				handleWebpackOutput(err, stats);
+				done();
+			});
+		}
 	});
 
     gulp.task('webpack:watch', gulp.series('webpack', (done) => {

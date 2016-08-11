@@ -44,17 +44,31 @@ function glueTasks (gulp, options) {
     gulp.task('build',
         gulp.series(
             'clean',
-            'webpack'
+            'webpack',
+            'sass'
         )
     );
 
     gulp.task('dev',
         gulp.series(
             'build',
-            'sass',
             function() {
                 gulp.watch(
-                    options.sassFiles.map((sassFile) => sassFile.input),
+                    options.sassFiles.map((sassFile) => {
+                        if (sassFile.forEachFolderIn) {
+                            return path.join(
+                                sassFile.forEachFolderIn,
+                                '*',
+                                sassFile.output,
+                                path.basename(sassFile.input)
+                            );
+                        }
+
+                        return path.join(
+                            sassFile.output,
+                            path.basename(sassFile.input)
+                        );
+                    }),
                     gulp.series('sass')
                 );
             }
