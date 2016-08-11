@@ -92,7 +92,7 @@ const config = {
 		extensions: ['', '.js', '.jsx', '.css'],
 		modulesDirectories: [
 			'node_modules',
-            'bower_components'
+			'bower_components'
 		]
 	},
 
