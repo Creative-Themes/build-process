@@ -1,17 +1,52 @@
 var path = require("path");
 var webpack = require('webpack');
+var fs = require('fs');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
-module.exports = {
-	/*
-	entry: './static/js/main.js',
+function getFolders(dir) {
+	return fs.readdirSync(dir)
+		.filter(function(file) {
+			return fs.statSync(path.join(dir, file)).isDirectory();
+		});
+}
+
+module.exports = (options) => {
+	const webpackEntry = {
+
+	};
+
+	options.entries.map((entry) => {
+		if (entry.forEachFolderIn) {
+			var folders = getFolders(entry.forEachFolderIn);
+
+			folders.map((folder) => {
+				var entryKey = './' + path.join(
+					entry.forEachFolderIn,
+					folder,
+					entry.entry
+				);
+
+				var entryValue = path.join(
+					entry.forEachFolderIn,
+					folder,
+					entry.output
+				);
+
+				webpackEntry[entryValue] = entryKey;
+			});
+		} else {
+			webpackEntry[entry.output] = entry.entry;
+		}
+	});
+
+const config = {
+	entry: webpackEntry,
 
 	output: {
-		path: path.join(__dirname, 'static', 'bundle'),
-		filename: 'bundle.js'
+		path: './',
+		filename: '[name].js'
 	},
-   */
 
     devtool: isDevelopment ? 'source-map' : null,
 
@@ -66,7 +101,13 @@ module.exports = {
 		}),
 
 		new webpack.NoErrorsPlugin()
-	],
+	].concat(
+        isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		})
+    ),
 
 	externals: {
 		jquery: 'window.jQuery',
@@ -74,5 +115,8 @@ module.exports = {
 	},
 
 	watch: isDevelopment
+}
+
+	return config;
 };
 

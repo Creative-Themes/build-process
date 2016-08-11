@@ -8,7 +8,20 @@ module.exports = {
 function glueTasks (gulp, options) {
     gulp.task('clean', () => {
         return del(
-            options.entries.map((entry) => entry.output).concat(
+            options.entries.map((entry) => {
+                if (entry.forEachFolderIn) {
+                    return path.join(
+                        entry.forEachFolderIn,
+                        '*',
+                        entry.output + '.js'
+                    );
+                }
+
+                return path.join(
+                    entry.output + '.js'
+                );
+
+            }).concat(
                 options.sassFiles.map((sassFile) => {
                     if (sassFile.forEachFolderIn) {
                         return path.join(
