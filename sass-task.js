@@ -4,6 +4,10 @@ const rename = require('gulp-rename');
 const path = require('path');
 const fs = require('fs');
 const merge = require('merge-stream');
+const gulpIf = require('gulp-if');
+const sourcemaps = require('gulp-sourcemaps');
+
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
     assign: sassTask
@@ -50,7 +54,9 @@ function sassTask (gulp, options) {
 
     function sassProcess (input, output) {
         return gulp.src(input)
-            .pipe(sass().on('error', sass.logError))
+            .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+            .pipe(sass({outputStyle: isDevelopment ? 'nested' : 'compressed'}).on('error', sass.logError))
+            .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulp.dest(output));
     }
 
