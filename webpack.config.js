@@ -91,7 +91,8 @@ const config = {
 	resolve: {
 		extensions: ['', '.js', '.jsx', '.css'],
 		modulesDirectories: [
-			'node_modules'
+			'node_modules',
+            'bower_components'
 		]
 	},
 
