@@ -66,7 +66,9 @@ function sassTask (gulp, options) {
                 includePaths: [
                     'bower_components',
                     'node_modules'
-                ]
+                ].concat(
+                    options.sassIncludePaths
+                )
             }).on('error', sass.logError))
             .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulp.dest(output));

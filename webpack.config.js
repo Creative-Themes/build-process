@@ -93,7 +93,7 @@ const config = {
 		modulesDirectories: [
 			'node_modules',
 			'bower_components'
-		]
+		].concat(options.webpackIncludePaths)
 	},
 
 	plugins: [

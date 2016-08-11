@@ -20,6 +20,7 @@ function registerTasks (gulp, options) {
          *  ]
          */
         entries: [],
+        webpackIncludePaths: []
 
         /**
          * sassFiles: [
@@ -30,8 +31,11 @@ function registerTasks (gulp, options) {
          * ]
          */
         sassFiles: [],
+        sassIncludePaths: []
 
-        toClean: []
+        toClean: [],
+
+
     }, options);
 
     webpackTask.assign(gulp, options);
