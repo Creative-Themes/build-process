@@ -53,22 +53,22 @@ function glueTasks (gulp, options) {
         gulp.series(
             'build',
             function() {
-                gulp.watch(
-                    options.sassFiles.map((sassFile) => {
-                        if (sassFile.forEachFolderIn) {
-                            return path.join(
-                                sassFile.forEachFolderIn,
-                                '*',
-                                sassFile.output,
-                                path.basename(sassFile.input)
-                            );
-                        }
-
+                var toWatch = options.sassFiles.map((sassFile) => {
+                    if (sassFile.forEachFolderIn) {
                         return path.join(
-                            sassFile.output,
-                            path.basename(sassFile.input)
+                            sassFile.forEachFolderIn,
+                            '*',
+                            sassFile.input
                         );
-                    }),
+                    }
+
+                    return sassFile.input;
+                });
+
+                // console.log(toWatch);
+
+                gulp.watch(
+                    toWatch,
                     gulp.series('sass')
                 );
             }
