@@ -102,12 +102,13 @@ function sassTask (gulp, options) {
                 }
 
                 return sassFile.input;
-            });
-
-            // console.log(toWatch);
+            }).concat(
+                options.sassWatch
+            );
 
             browserSync.init({
-                proxy: options.proxyServer
+                logSnippet: false,
+                port: 9669
             });
 
             gulp.watch(options.watchFilesAndReload).on('change', browserSync.reload)
