@@ -78,11 +78,11 @@ function sassTask (gulp, options) {
                     options.sassIncludePaths
                 )
             }).on('error', sass.logError))
-            .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulpIf(entry.header, header(
                 (entry.header || {}).template,
                 (entry.header || {}).values
             )))
+            .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulp.dest(output))
             .pipe(gulpIf(isDevelopment, browserSync.stream()));
     }
