@@ -60,7 +60,7 @@ function sassTask (gulp, options) {
     });
 
     function sassProcess (input, output, entry) {
-        return gulp.src(input)
+        return gulp.src(input, {allowEmpty: true})
             .pipe(plumber({
                 errorHandler: notify.onError(err => ({
                     title:   'Styles',
