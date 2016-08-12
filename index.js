@@ -5,7 +5,8 @@ const sassTask = require('./sass-task');
 const _ = require('lodash');
 
 module.exports = {
-    registerTasks: registerTasks
+    registerTasks: registerTasks,
+    headerFor: headerFor
 };
 
 function registerTasks (gulp, options) {
@@ -46,3 +47,25 @@ function registerTasks (gulp, options) {
     glueTasks.assign(gulp, options);
 }
 
+function headerFor (specialText, data) {
+	var template = '/**\n';
+
+	if (specialText) {
+		template += ' * ' + specialText + '\n';
+	}
+
+	template += ' * <%= name %> - v<%= version %>\n' +
+				' * <%= homepage %>\n' +
+				' * Copyright (c) <%= year %>\n' +
+				' * Licensed GPLv2+\n' +
+				' */\n\n';
+	return {
+		template: template,
+		values: {
+			name: data.title,
+			version: data.version,
+			homepage: data.homepage,
+			year: (new Date()).getFullYear()
+		}
+	};
+}
