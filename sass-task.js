@@ -10,6 +10,8 @@ const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const header = require('gulp-header');
 
+const browserSync = require('browser-sync').create();
+
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
@@ -75,9 +77,43 @@ function sassTask (gulp, options) {
                 )
             }).on('error', sass.logError))
             .pipe(gulpIf(isDevelopment, sourcemaps.write()))
-            .pipe(gulpIf(entry.header, header(entry.header.template, entry.header.values)))
-            .pipe(gulp.dest(output));
+            .pipe(gulpIf(entry.header, header(
+                (entry.header || {}).template,
+                (entry.header || {}).values
+            )))
+            .pipe(gulp.dest(output))
+            .pipe(gulpIf(isDevelopment, browserSync.stream()));
     }
 
     gulp.task('sass', gulp.series(series));
+
+    gulp.task('sass:watch', gulp.series(
+        'sass',
+        function () {
+            var toWatch = options.sassFiles.map((sassFile) => {
+                if (sassFile.forEachFolderIn) {
+                    return path.join(
+                        sassFile.forEachFolderIn,
+                        '*',
+                        sassFile.input
+                    );
+                }
+
+                return sassFile.input;
+            });
+
+            // console.log(toWatch);
+
+            browserSync.init({
+                proxy: options.proxyServer
+            });
+
+            gulp.watch(options.watchFilesAndReload).on('change', browserSync.reload)
+
+            gulp.watch(
+                toWatch,
+                gulp.series('sass')
+            );
+        }
+    ))
 }

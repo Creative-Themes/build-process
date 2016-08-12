@@ -52,26 +52,7 @@ function glueTasks (gulp, options) {
     gulp.task('dev',
         gulp.series(
             'build',
-            function() {
-                var toWatch = options.sassFiles.map((sassFile) => {
-                    if (sassFile.forEachFolderIn) {
-                        return path.join(
-                            sassFile.forEachFolderIn,
-                            '*',
-                            sassFile.input
-                        );
-                    }
-
-                    return sassFile.input;
-                });
-
-                // console.log(toWatch);
-
-                gulp.watch(
-                    toWatch,
-                    gulp.series('sass')
-                );
-            }
+            'sass:watch'
         )
     );
 }
