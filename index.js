@@ -36,6 +36,7 @@ function registerTasks (gulp, options) {
         toClean: [],
 
         watchFilesAndReload: []
+        proxyServer: 'localhost:3000'
 
     }, options);
 
