@@ -29,6 +29,7 @@
     "del": "^2.2.1",
     "file-loader": "^0.8.5",
     "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-autoprefixer": "^3.1.0",
     "gulp-header": "^1.8.8",
     "gulp-if": "^2.0.1",
     "gulp-notify": "^2.2.0",
