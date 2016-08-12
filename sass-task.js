@@ -91,8 +91,11 @@ function sassTask (gulp, options) {
 
     gulp.task('sass:watch', gulp.series(
         'sass',
-        function () {
-            if (!isDevelopment) return true;
+        function (done) {
+            if (!isDevelopment) {
+                done();
+                return;
+            }
 
             var toWatch = options.sassFiles.map((sassFile) => {
                 if (sassFile.forEachFolderIn) {
