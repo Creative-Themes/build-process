@@ -1,7 +1,8 @@
 const gulp = require('gulp');
 const buildProcess = require('build-process');
+const extend = require('util')._extend;
 
-buildProcess.registerTasks(gulp, {
+var options = {
 	entries: [
 		{
 			entry: './single/js/main.js',
@@ -29,5 +30,14 @@ buildProcess.registerTasks(gulp, {
 		'static/*/bundle',
 		'single/bundle'
 	]
-});
+};
+
+try {
+    var specificOptions = require('./build-options.json');
+    specificOptions = extend(options, specificOptions);
+} catch (ex) {
+    specificOptions = options;
+}
+
+buildProcess.registerTasks(gulp, specificOptions);
 
