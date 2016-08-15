@@ -9,7 +9,8 @@ var options = {
 			entry: './single/js/main.js',
 			output: {
 				filename: 'bundle.[name].js',
-				path: './single/bundle'
+				path: './single/bundle',
+				jsonpFunction: 'ourFunction'
 			}
 		},
 
@@ -18,7 +19,8 @@ var options = {
 			output: {
 				path: './bundle/'
 			},
-			forEachFolderIn: './static'
+			forEachFolderIn: './static',
+			jsonpPrefix: 'yourPrefix'
 		}
 	],
 

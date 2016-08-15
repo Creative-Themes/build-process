@@ -1,7 +1,7 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
-/******/ 	var parentJsonpFunction = window["webpackJsonp"];
-/******/ 	window["webpackJsonp"] = function webpackJsonpCallback(chunkIds, moreModules) {
+/******/ 	var parentJsonpFunction = window["yourPrefix1"];
+/******/ 	window["yourPrefix1"] = function webpackJsonpCallback(chunkIds, moreModules) {
 /******/ 		// add "moreModules" to the modules object,
 /******/ 		// then flag all "chunkIds" as loaded and fire callback
 /******/ 		var moduleId, chunkId, i = 0, callbacks = [];
@@ -97,7 +97,7 @@
 
 	'use strict';
 	
-	__webpack_require__.e/* nsure */(1/* empty */, function (require) {
+	__webpack_require__.e/* nsure */(1, function (require) {
 	    var a = __webpack_require__(1);
 	});
 
