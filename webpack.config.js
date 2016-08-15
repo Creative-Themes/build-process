@@ -1,6 +1,7 @@
 var path = require("path");
 var webpack = require('webpack');
 var fs = require('fs');
+var extend = require('util')._extend;
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -12,109 +13,129 @@ function getFolders(dir) {
 }
 
 module.exports = (options) => {
-	const webpackEntry = {
-
-	};
+	const webpackMultipleConfigs = [];
 
 	options.entries.map((entry) => {
 		if (entry.forEachFolderIn) {
 			var folders = getFolders(entry.forEachFolderIn);
 
 			folders.map((folder) => {
-				var entryKey = './' + path.join(
+				var toPush = {};
+
+				toPush.context = path.join(
+					process.cwd(),
 					entry.forEachFolderIn,
-					folder,
-					entry.entry
+					folder
 				);
 
-				var entryValue = path.join(
-					entry.forEachFolderIn,
-					folder,
-					entry.output
-				);
+				toPush.entry = entry.entry;
 
-				webpackEntry[entryValue] = entryKey;
+				toPush.output = Object.assign({}, entry.output, {
+					path: './' + path.join(
+						entry.forEachFolderIn,
+						folder,
+						entry.output.path
+					),
+					filename: '[name].js'
+				});
+
+				webpackMultipleConfigs.push(toPush);
 			});
 		} else {
-			webpackEntry[entry.output] = entry.entry;
+			var toPush = {};
+
+			toPush['entry'] = entry.entry;
+			toPush['output'] = entry.output;
+
+			webpackMultipleConfigs.push(toPush);
 		}
 	});
 
-const config = {
-	entry: webpackEntry,
+	console.log(webpackMultipleConfigs);
 
-	output: {
-		path: './',
-		filename: '[name].js'
-	},
+	const commonConfig = {
+		/*
+		entry: webpackEntry,
 
-    devtool: isDevelopment ? 'source-map' : null,
+		output: {
+			path: './',
+			filename: '[name].js'
+		},
+		*/
 
-	module: {
-		loaders: [
-			{
-				test: /\.(js|jsx)$/,
-				loader: require.resolve('babel-loader'),
-				query: {
-					presets: [
-						require.resolve('babel-preset-es2015-loose')
-					],
-					plugins: [
-						require.resolve('babel-plugin-transform-es3-property-literals'),
-						require.resolve('babel-plugin-transform-es3-member-expression-literals')
-					]
+		devtool: isDevelopment ? 'source-map' : null,
+
+		module: {
+			loaders: [
+				{
+					test: /\.(js|jsx)$/,
+					loader: require.resolve('babel-loader'),
+					query: {
+						presets: [
+							require.resolve('babel-preset-es2015-loose')
+						],
+						plugins: [
+							require.resolve('babel-plugin-transform-es3-property-literals'),
+							require.resolve('babel-plugin-transform-es3-member-expression-literals')
+						]
+					}
+
+					// TODO: configure load paths here. May slow down builds!!!
+				},
+
+				{
+					test: /\.scss$/,
+					loaders: ["style", "css", "sass"]
+				},
+				{
+					test: /\.png$/,
+					loader: "url-loader?limit=100000"
+				},
+				{
+					test: /\.jpg$/,
+					loader: "file-loader"
+				},
+				{
+					test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+					loader: 'file-loader'
 				}
 
-				// TODO: configure load paths here. May slow down builds!!!
-			},
+			]
+		},
 
-			{
-				test: /\.scss$/,
-				loaders: ["style", "css", "sass"]
-			},
-			{
-				test: /\.png$/,
-				loader: "url-loader?limit=100000"
-			},
-			{
-				test: /\.jpg$/,
-				loader: "file-loader"
-			},
-			{
-				test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-				loader: 'file-loader'
-			}
+		resolve: {
+			extensions: ['', '.js', '.jsx', '.css'],
+			modulesDirectories: [
+				'node_modules',
+				'bower_components'
+			].concat(options.webpackIncludePaths)
+		},
 
-		]
-	},
+		plugins: [
+			new webpack.ProvidePlugin({
+				'$': 'jquery'
+			}),
 
-	resolve: {
-		extensions: ['', '.js', '.jsx', '.css'],
-		modulesDirectories: [
-			'node_modules',
-			'bower_components'
-		].concat(options.webpackIncludePaths)
-	},
+			new webpack.NoErrorsPlugin()
+		].concat(
+			isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
+				compress: {
+					warnings: false
+				}
+			})
+		),
 
-	plugins: [
-		new webpack.ProvidePlugin({
-			'$': 'jquery'
-		}),
+		externals: {
+			jquery: 'window.jQuery',
+			'_': 'window._'
+		}
+	};
 
-		new webpack.NoErrorsPlugin()
-	].concat(
-        isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
-			compress: {
-				warnings: false
-			}
-		})
-    ),
+	var config = webpackMultipleConfigs.map((singleConfig) => {
 
-	externals: {
-		jquery: 'window.jQuery',
-		'_': 'window._'
-	}
-}
+		return Object.assign({}, commonConfig, singleConfig);
+
+	});
 
 	return config;
 };

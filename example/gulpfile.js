@@ -1,17 +1,23 @@
 const gulp = require('gulp');
 const buildProcess = require('../index.js');
 const extend = require('util')._extend;
+const path = require('path');
 
 var options = {
 	entries: [
 		{
 			entry: './single/js/main.js',
-			output: 'single/bundle/bundle.main'
+			output: {
+				filename: 'bundle.[name].js',
+				path: './single/bundle'
+			}
 		},
 
 		{
 			entry: './js/main.js',
-			output: 'bundle/bundle.main',
+			output: {
+				path: './bundle/'
+			},
 			forEachFolderIn: './static'
 		}
 	],
