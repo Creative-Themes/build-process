@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const buildProcess = require('build-process');
+const buildProcess = require('../index.js');
 const extend = require('util')._extend;
 
 var options = {
