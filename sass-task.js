@@ -87,7 +87,10 @@ function sassTask (gulp, options) {
             .pipe(gulpIf(isDevelopment, browserSync.stream()));
     }
 
-    gulp.task('sass', gulp.series(series));
+    gulp.task(
+        'sass',
+        series.length > 0 ? gulp.series(series) : function (done) {done()}
+    );
 
     gulp.task('sass:watch', gulp.series(
         'sass',
