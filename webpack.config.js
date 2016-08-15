@@ -127,10 +127,10 @@ module.exports = (options) => {
 			})
 		),
 
-		externals: {
+		externals: Object.assign({
 			jquery: 'window.jQuery',
 			'_': 'window._'
-		}
+		}, options.webpackExternals)
 	};
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {

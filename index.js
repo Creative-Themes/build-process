@@ -22,6 +22,7 @@ function registerTasks (gulp, options) {
          */
         entries: [],
         webpackIncludePaths: [],
+        webpackExternals: {}
 
         /**
          * sassFiles: [
