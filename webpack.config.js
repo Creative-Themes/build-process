@@ -2,6 +2,7 @@ var path = require("path");
 var webpack = require('webpack');
 var fs = require('fs');
 var extend = require('util')._extend;
+var camelcase = require('camelcase');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -36,7 +37,10 @@ module.exports = (options) => {
 						folder,
 						entry.output.path
 					),
-					filename: '[name].js'
+					filename: '[name].js',
+					jsonpFunction: camelcase(
+						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
+					)
 				});
 
 				webpackMultipleConfigs.push(toPush);
