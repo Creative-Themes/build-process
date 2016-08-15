@@ -55,8 +55,6 @@ module.exports = (options) => {
 		}
 	});
 
-	console.log(webpackMultipleConfigs);
-
 	const commonConfig = {
 		/*
 		entry: webpackEntry,
