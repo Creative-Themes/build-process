@@ -43,7 +43,16 @@ module.exports = (options) => {
 					)
 				});
 
-				webpackMultipleConfigs.push(toPush);
+				if (fs.existsSync(
+					path.join(
+						entry.forEachFolderIn,
+						folder,
+						entry.entry, 
+					)
+				)) {
+					webpackMultipleConfigs.push(toPush);
+				}
+
 			});
 		} else {
 			var toPush = {};
