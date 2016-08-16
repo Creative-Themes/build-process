@@ -47,7 +47,7 @@ module.exports = (options) => {
 					path.join(
 						entry.forEachFolderIn,
 						folder,
-						entry.entry, 
+						entry.entry
 					)
 				)) {
 					webpackMultipleConfigs.push(toPush);
