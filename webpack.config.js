@@ -110,7 +110,9 @@ module.exports = (options) => {
 			modulesDirectories: [
 				'node_modules',
 				'bower_components'
-			].concat(options.webpackIncludePaths)
+			].concat(options.webpackIncludePaths),
+
+			aliases: options.webpackResolveAliases
 		},
 
 		plugins: [
