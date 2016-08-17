@@ -136,6 +136,8 @@ module.exports = (options) => {
 					warnings: false
 				}
 			})
+		).concat(
+			options.webpackPlugins
 		),
 
 		externals: Object.assign({
