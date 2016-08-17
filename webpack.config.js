@@ -129,7 +129,11 @@ module.exports = (options) => {
 				'$': 'jquery'
 			}),
 
-			new webpack.NoErrorsPlugin()
+			new webpack.NoErrorsPlugin(),
+
+			new webpack.ResolverPlugin([
+				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
+			], ["normal", "loader"])
 		].concat(
 			isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
 				compress: {
