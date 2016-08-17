@@ -98,6 +98,12 @@ module.exports = (options) => {
 					test: /\.scss$/,
 					loaders: ["style", "css", "sass"]
 				},
+
+				{
+					test: /\.css$/,
+					loaders: ["style", "css"]
+				},
+
 				{
 					test: /\.png$/,
 					loader: "url-loader?limit=100000"
