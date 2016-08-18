@@ -31,6 +31,11 @@ function webpackTask (gulp, options) {
 	}
 
 	gulp.task('webpack', (done) => {
+		if (webpackOptions(options).length === 0) {
+			done();
+			return;
+		}
+
 		const compiler = getCompiler(options);
 		var firstBuildDone = false;
 
