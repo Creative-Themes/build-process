@@ -92,6 +92,7 @@ module.exports = (options) => {
 					}
 
 					// TODO: configure load paths here. May slow down builds!!!
+					exclude: /(node_modules|bower_components)/
 				},
 
 				{
