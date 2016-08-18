@@ -11,10 +11,6 @@ const notify = require('gulp-notify');
 const header = require('gulp-header');
 const autoprefixer = require('gulp-autoprefixer');
 
-if (options.browserSyncEnabled) {
-    const browserSync = require('browser-sync').create();
-}
-
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
@@ -31,6 +27,10 @@ function sassTask (gulp, options) {
         };
     });
     */
+
+    if (options.browserSyncEnabled) {
+        const browserSync = require('browser-sync').create();
+    }
 
     function getFolders(dir) {
         return fs.readdirSync(dir)
