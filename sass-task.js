@@ -28,9 +28,7 @@ function sassTask (gulp, options) {
     });
     */
 
-    if (options.browserSyncEnabled) {
-        const browserSync = require('browser-sync').create();
-    }
+    const browserSync = require('browser-sync').create();
 
     function getFolders(dir) {
         return fs.readdirSync(dir)
