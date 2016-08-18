@@ -36,6 +36,7 @@ function registerTasks (gulp, options) {
          */
         sassFiles: [],
         sassIncludePaths: [],
+        browserSyncEnabled: false,
 
         toClean: [],
 

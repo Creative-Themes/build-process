@@ -11,7 +11,9 @@ const notify = require('gulp-notify');
 const header = require('gulp-header');
 const autoprefixer = require('gulp-autoprefixer');
 
-const browserSync = require('browser-sync').create();
+if (options.browserSyncEnabled) {
+    const browserSync = require('browser-sync').create();
+}
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -84,7 +86,7 @@ function sassTask (gulp, options) {
             )))
             .pipe(gulpIf(isDevelopment, sourcemaps.write()))
             .pipe(gulp.dest(output))
-            .pipe(gulpIf(isDevelopment, browserSync.stream()));
+            .pipe(gulpIf(isDevelopment && options.browserSyncEnabled, browserSync.stream()));
     }
 
     gulp.task(
@@ -114,12 +116,14 @@ function sassTask (gulp, options) {
                 options.sassWatch
             );
 
-            browserSync.init({
-                logSnippet: false,
-                port: 9669
-            });
+            if (options.browserSyncEnabled) {
+                browserSync.init({
+                    logSnippet: false,
+                    port: 9669
+                });
 
-            gulp.watch(options.watchFilesAndReload).on('change', browserSync.reload)
+                gulp.watch(options.watchFilesAndReload).on('change', browserSync.reload)
+            }
 
             gulp.watch(
                 toWatch,
