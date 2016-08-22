@@ -89,7 +89,7 @@ module.exports = (options) => {
 							require.resolve('babel-plugin-transform-es3-property-literals'),
 							require.resolve('babel-plugin-transform-es3-member-expression-literals')
 						]
-					}
+					},
 
 					// TODO: configure load paths here. May slow down builds!!!
 					exclude: /(node_modules|bower_components)/
