@@ -129,7 +129,7 @@ function sassTask (gulp, options) {
                 toWatch,
                 gulp.series('sass')
             ).on('unlink', function (filepath) {
-                delete cached.caches.styles[path.resolve(filepath)];
+                delete cached.caches.sass[path.resolve(filepath)];
             });
         }
     ))
