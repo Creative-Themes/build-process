@@ -123,6 +123,7 @@ module.exports = (options) => {
 
 		resolve: {
 			extensions: ['', '.js', '.jsx', '.css'],
+
 			modulesDirectories: [
 				'node_modules',
 				'bower_components'

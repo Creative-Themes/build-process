@@ -10,6 +10,7 @@ const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const header = require('gulp-header');
 const autoprefixer = require('gulp-autoprefixer');
+const cached = require('gulp-cached');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -67,8 +68,8 @@ function sassTask (gulp, options) {
                     message: err.message
                 }))
             }))
+            .pipe(cached('sass'))
             .pipe(gulpIf(isDevelopment, sourcemaps.init()))
-            .pipe(autoprefixer('last 2 version', '> 1%', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(sass({
                 outputStyle: isDevelopment ? 'nested' : 'compressed',
                 includePaths: [
@@ -78,6 +79,7 @@ function sassTask (gulp, options) {
                     options.sassIncludePaths
                 )
             }).on('error', sass.logError))
+            .pipe(autoprefixer('last 2 version', '> 1%', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
             .pipe(gulpIf(entry.header, header(
                 (entry.header || {}).template,
                 (entry.header || {}).values
@@ -126,7 +128,9 @@ function sassTask (gulp, options) {
             gulp.watch(
                 toWatch,
                 gulp.series('sass')
-            );
+            ).on('unlink', function (filepath) {
+                delete cached.caches.styles[path.resolve(filepath)];
+            });
         }
     ))
 }
