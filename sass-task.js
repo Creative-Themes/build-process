@@ -68,7 +68,7 @@ function sassTask (gulp, options) {
                     message: err.message
                 }))
             }))
-            .pipe(cached('sass'))
+            // .pipe(cached('sass'))
             .pipe(gulpIf(isDevelopment, sourcemaps.init()))
             .pipe(sass({
                 outputStyle: isDevelopment ? 'nested' : 'compressed',
