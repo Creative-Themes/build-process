@@ -84,7 +84,7 @@ function sassTask (gulp, options) {
                 (entry.header || {}).template,
                 (entry.header || {}).values
             )))
-            .pipe(gulpIf(isDevelopment, sourcemaps.write()))
+            .pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
             .pipe(gulp.dest(output))
             .pipe(gulpIf(isDevelopment && options.browserSyncEnabled, browserSync.stream()));
     }
