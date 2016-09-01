@@ -86,7 +86,7 @@ function sassTask (gulp, options) {
             )))
             .pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
             .pipe(gulp.dest(output))
-            .pipe(gulpIf(isDevelopment && options.browserSyncEnabled, browserSync.stream()));
+            .pipe(gulpIf(isDevelopment && options.browserSyncEnabled, browserSync.stream({match: '**/*.css'})));
     }
 
     gulp.task(
