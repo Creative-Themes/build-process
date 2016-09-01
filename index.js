@@ -36,7 +36,7 @@ function registerTasks (gulp, options) {
          */
         sassFiles: [],
         sassIncludePaths: [],
-        browserSyncEnabled: false,
+        browserSyncEnabled: true,
         browserSyncInitOptions: {
             logSnippet: false,
             port: 9669,
