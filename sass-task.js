@@ -117,10 +117,7 @@ function sassTask (gulp, options) {
             );
 
             if (options.browserSyncEnabled) {
-                browserSync.init({
-                    logSnippet: false,
-                    port: 9669
-                });
+                browserSync.init(options.browserSyncInitOptions);
 
                 gulp.watch(options.watchFilesAndReload).on('change', browserSync.reload)
             }
