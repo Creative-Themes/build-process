@@ -1,6 +1,7 @@
 const webpackTask = require('./webpack-task');
 const glueTasks = require('./glue-tasks');
 const sassTask = require('./sass-task');
+const bumpVersionTasks = require('./bump-version-task');
 
 const _ = require('lodash');
 
@@ -11,6 +12,9 @@ module.exports = {
 
 function registerTasks (gulp, options) {
     options = _.extend({
+        packageType: 'unyson_extension',
+        currentVersion: '0.0.1',
+
         /**
          * entries: [
          *   {
@@ -57,6 +61,8 @@ function registerTasks (gulp, options) {
     sassTask.assign(gulp, options);
 
     glueTasks.assign(gulp, options);
+
+    bumpVersionTasks.assign(gulp, options);
 }
 
 function headerFor (specialText, data) {
