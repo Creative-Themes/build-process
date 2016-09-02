@@ -37,7 +37,11 @@ function filesListForPackageType (type) {
         ];
     }
 
-    return [
-        './package.json', './style.css'
-    ];
+    if (type === 'unyson_extension') {
+        return [
+            './package.json', './manifest.php'
+        ];
+    }
+
+    return [];
 }
