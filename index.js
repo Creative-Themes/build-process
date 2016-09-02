@@ -53,7 +53,12 @@ function registerTasks (gulp, options) {
         toClean: [],
 
         watchFilesAndReload: [],
-        proxyServer: 'localhost:3000'
+        proxyServer: 'localhost:3000',
+
+        stripCodeStartComment: 'CT_REMOVE_FROM_PRODUCTION',
+        stripCodeEndComment: 'CT_REMOVE_FROM_PRODUCTION',
+
+        filesToStripCodeFrom: []
 
     }, options);
 

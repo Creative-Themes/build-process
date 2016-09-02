@@ -1,5 +1,9 @@
 var del = require('del');
 var path = require('path');
+var stripCode = require('gulp-strip-code');
+var gulpIf = require('gulp-if');
+
+const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
     assign: glueTasks
@@ -55,4 +59,13 @@ function glueTasks (gulp, options) {
             'sass:watch'
         )
     );
+
+    gulp.task('build:strip_code', function () {
+        return gulp.src(options.filesToStripCodeFrom, {allowEmpty: true})
+            .pipe(gulpIf(!isDevelopment, stripCode({
+                start_comment: options.stripCodeStartComment,
+                end_comment: options.stripCodeEndComment
+            })))
+            .pipe(gulp.dest('./'));
+    })
 }
