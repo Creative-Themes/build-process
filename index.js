@@ -56,7 +56,7 @@ function registerTasks (gulp, options) {
         proxyServer: 'localhost:3000',
 
         stripCodeStartComment: 'CT_REMOVE_FROM_PRODUCTION',
-        stripCodeEndComment: 'CT_REMOVE_FROM_PRODUCTION',
+        stripCodeEndComment: 'CT_END_REMOVE_FROM_PRODUCTION',
 
         filesToStripCodeFrom: []
 

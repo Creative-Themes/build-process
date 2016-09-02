@@ -60,12 +60,16 @@ function glueTasks (gulp, options) {
         )
     );
 
-    gulp.task('build:strip_code', function () {
-        return gulp.src(options.filesToStripCodeFrom, {allowEmpty: true})
-            .pipe(gulpIf(!isDevelopment, stripCode({
-                start_comment: options.stripCodeStartComment,
-                end_comment: options.stripCodeEndComment
-            })))
-            .pipe(gulp.dest('./'));
-    })
+    if (options.filesToStripCodeFrom.length > 0) {
+
+        gulp.task('build:strip_code', function () {
+            return gulp.src(options.filesToStripCodeFrom, {base: './', allowEmpty: true})
+                .pipe(gulpIf(!isDevelopment, stripCode({
+                    start_comment: options.stripCodeStartComment,
+                    end_comment: options.stripCodeEndComment
+                })))
+                .pipe(gulp.dest('./'));
+        })
+
+    }
 }
