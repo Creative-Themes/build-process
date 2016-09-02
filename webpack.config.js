@@ -76,7 +76,7 @@ module.exports = (options) => {
 
 		devtool: isDevelopment ? 'source-map' : null,
 
-		module: {
+		module: Object.assign({
 			loaders: [
 				{
 					test: /\.(js|jsx)$/,
@@ -119,7 +119,7 @@ module.exports = (options) => {
 				}
 
 			]
-		},
+		}, options.webpackAdditionalModules),
 
 		resolve: {
 			extensions: ['', '.js', '.jsx', '.css'],
