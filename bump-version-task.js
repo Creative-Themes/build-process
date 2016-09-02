@@ -18,7 +18,6 @@ function bumpVersionTask (gulp, options) {
             // increment version
             var newVer = semver.inc(options.currentVersion, releaseType);
 
-            return gulp.src(['./bower.json', './package.json', './style.css'])
             return gulp.src(filesListForPackageType(options.packageType))
                 .pipe(bump({
                     version: newVer
