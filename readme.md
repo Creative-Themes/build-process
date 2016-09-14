@@ -1,7 +1,8 @@
 ## Synopsis
 
 That's a set of configs and scripts built on top of `gulp` and `webpack`
-that help us deliver awesome WordPress themes and Unyson extensions.
+that help us deliver awesome WordPress themes and
+[Unyson](http://manual.unyson.io) extensions.
 
 ## Code Example
 
@@ -91,6 +92,43 @@ with the bumped one. Very convenient.
 * `gulp bump:patch` or `gulp bump`
 
 Uses [`node-semver`](https://github.com/npm/node-semver).
+
+### Other tasks
+
+* `gulp clean` - will clean all the files. Respects `options.toClean` also
+* `gulp build` - `gulp clean; gulp webpack; gulp sass`
+* `gulp dev` - `gulp build; gulp sass:watch`
+* `NODE_ENV=production gulp build` - reliable way of building assets for production
+
+### Stripe Code
+
+* `gulp build:strip_code` - Will stripe code that's between a pair of comments matched
+by regex. You have to specify a list of files to look into. Comments and list of
+files is configurable.
+
+### Options
+
+* `packageType` - unyson_extension | wordpress_theme
+* `currentVersion` - current package version used by `gulp bump`
+* `entries` - Multiple entries for [webpack-multi-compiler](https://github.com/webpack/webpack/tree/master/examples/multi-compiler). They have some syntactic sugar like
+  `forEachFolderIn`, which is kinda nice to have
+* `webpackIncludePaths`
+* `webpackExternals`
+* `webpackResolveAliases`
+* `webpackPlugins`
+* `webpackAdditionalModules`
+
+* `sassFiles` - array of objects that specify input and output for sass compiler
+* `sassIncludePaths`
+* `browserSyncEnabled`
+* `browserSyncInitOptions`
+* `watchFilesAndReload` - list of files for browser sync - will cause browser to reload when any of them is changed at the fs level
+
+* `toClean` - list of files for `gulp clean`
+
+* `stripCodeStartComment`
+* `stripCodeEndComment`
+* `filesToStripCodeFrom` - `gulp build:strip_code` stuff
 
 ## License
 
