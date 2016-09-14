@@ -61,6 +61,36 @@ need more details about the various config flags we have here.
 
 ## API Reference
 
+Every task here respects `NODE_ENV=production` in its own way. Minification,
+source maps, watching - all of this is present just in development.
+
+There are two types of packages:
+
+1. `wordpress_theme`
+2. `unyson_extension`
+
+### Webpack tasks
+
+* `gulp webpack` - one time build. Doesn't watch if you set `NODE_ENV=production`
+
+### SASS tasks
+
+* `gulp sass` - one time build
+* `gulp sass:watch` - `gulp sass` with watcher
+
+### Bump version
+
+Some tasks that will look at your package type and replace the current version
+with the bumped one. Very convenient.
+
+1. `wordpress_theme` - will look in: `bower.json`, `package.json`, `style.css`
+2. `unyson_extension` - will look in `package.json` and [`manifest.php`](http://manual.unyson.io/en/latest/manifest/extension.html#content)
+
+* `gulp bump:major`
+* `gulp bump:minor`
+* `gulp bump:patch` or `gulp bump`
+
+Uses [`node-semver`](https://github.com/npm/node-semver).
 
 ## License
 
