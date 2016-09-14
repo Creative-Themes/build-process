@@ -19,7 +19,6 @@ var options = {
 			entry: './static/js/main.js',
 			output: {
 				path: './static/bundle/',
-				jsonpFunction: 'ctHeaderBuilderJsonP'
 			}
 		}
 	],
