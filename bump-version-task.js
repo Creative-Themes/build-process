@@ -31,7 +31,7 @@ function bumpVersionTask (gulp, options) {
 
 function filesListForPackageType (options) {
     if (options.filesToBumpVersionInto) {
-        return filesToBumpVersionInto;
+        return options.filesToBumpVersionInto;
     }
 
     var type = options.packageType;
