@@ -18,7 +18,7 @@ function bumpVersionTask (gulp, options) {
             // increment version
             var newVer = semver.inc(options.currentVersion, releaseType);
 
-            return gulp.src(filesListForPackageType(options.packageType))
+            return gulp.src(filesListForPackageType(options))
                 .pipe(bump({
                     version: newVer
                 }))
@@ -29,7 +29,13 @@ function bumpVersionTask (gulp, options) {
 
 }
 
-function filesListForPackageType (type) {
+function filesListForPackageType (options) {
+    if (options.filesToBumpVersionInto) {
+        return filesToBumpVersionInto;
+    }
+
+    var type = options.packageType;
+
     if (type === 'wordpress_theme') {
         return [
             './bower.json', './package.json', './style.css'
