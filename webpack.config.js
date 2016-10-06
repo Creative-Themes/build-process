@@ -118,7 +118,7 @@ module.exports = (options) => {
 					loader: 'file-loader'
 				}
 
-			]
+			].concat(options.webpackAdditionalLoaders)
 		}, options.webpackAdditionalModules),
 
 		resolve: {
