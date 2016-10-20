@@ -41,6 +41,7 @@ function releaseTask (gulp, options) {
     );
 
     gulp.task('build_zips', gulp.series(
+        shell.task(['NODE_ENV=production gulp build']),
         'build:remove_tmp',
         'build:copy_files',
         'build:delete_files_from_build',
