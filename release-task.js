@@ -111,7 +111,7 @@ function getProductionZipsSeries (gulp, options) {
 function getCreateReleaseSeries (gulp, options) {
     let series = [];
 
-    if (options.packageRepo.user || options.packageRepo.repo) {
+    if (!(options.packageRepo.user || options.packageRepo.repo)) {
         console.error('provide correct user and repo in options.packageRepo');
         process.exit(1);
     }
@@ -133,7 +133,7 @@ function getCreateReleaseSeries (gulp, options) {
     if (options.packageType === 'wordpress_theme') {
 
         series.push(shell.task([
-            `github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-envato.zip`,
+            `github-release upload ${getAuthString()} --name ${version}-envato.zip --file build_tmp/${version}-envato.zip`,
         ]));
 
     }
@@ -141,8 +141,9 @@ function getCreateReleaseSeries (gulp, options) {
     return gulp.series(series);
 
     function getAuthString () {
-        return `--user ${repo} --repo ${repo} --tag ${version}`;
+        return `--user ${user} --repo ${repo} --tag ${version}`;
     }
 }
+
 
 
