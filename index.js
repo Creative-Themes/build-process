@@ -17,6 +17,14 @@ function registerTasks (gulp, options) {
         packageSlug: '',
 
         /**
+         * {
+         *   user: 'github_user',
+         *   repo: 'github_repo'
+         * }
+         */
+        packageRepo: {},
+
+        /**
          * [ './style.css', './package.json' ]
          */
         filesToBumpVersionInto: null,

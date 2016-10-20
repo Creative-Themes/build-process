@@ -93,6 +93,30 @@ with the bumped one. Very convenient.
 
 Uses [`node-semver`](https://github.com/npm/node-semver).
 
+### Create build
+
+There are some specific tasks for creating and publishing new releases of
+WordPress themes and Unyson extensions. This tasks will respect `options.packageType`
+option.
+
+The `build:create_release` tasks depends strongly on [github-release](https://github.com/aktau/github-release)
+package. You should go ahead and install it and make it available in your `$PATH`
+variable, otherwise you won't be able to benefit from this task. Also, 
+`GITHUB_TOKEN` should be exported by your shell login script (like `bashrc` or `zshrc`).
+
+```bash
+export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
+```
+
+* `gulp build:remove_tmp` - will remove `build_tmp` directory in your package
+* `gulp build:copy_files` - will copy files to your build dir, with respect of your .gitignore.
+* `gulp build:delete_files_from_build` - delete `options.filesToDeleteFromBuild`
+* `gulp build:prepare_production_zip`
+* `gulp build` - a combination of the four above
+* `gulp build:create_release`
+
+* `gulp build:publish` - a combination of `build` and `build:create_release`
+
 ### Other tasks
 
 * `gulp clean` - will clean all the files. Respects `options.toClean` also

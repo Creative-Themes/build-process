@@ -46,6 +46,16 @@ function releaseTask (gulp, options) {
         'build:delete_files_from_build',
         'build:prepare_production_zip'
     ));
+
+    gulp.task(
+        'build:create_release',
+        getCreateReleaseSeries(gulp, options)
+    );
+
+    gulp.task(
+        'build:publish',
+        gulp.series('build', 'build:create_release', 'build:remove_tmp')
+    );
 }
 
 function getProductionZipsSeries (gulp, options) {
@@ -96,6 +106,43 @@ function getProductionZipsSeries (gulp, options) {
     }
 
     return gulp.series(series);
+}
+
+function getCreateReleaseSeries (gulp, options) {
+    let series = [];
+
+    if (options.packageRepo.user || options.packageRepo.repo) {
+        console.error('provide correct user and repo in options.packageRepo');
+        process.exit(1);
+    }
+
+    let user = options.packageRepo.user;
+    let repo = options.packageRepo.repo;
+
+    /**
+     * Because options.currentVersion may be outdated at that point.
+     */
+    let version = JSON.parse(fs.readFileSync('./package.json')).version;
+
+    series.push(shell.task([
+        `github-release release ${getAuthString()}`,
+        `github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-production.zip`,
+    ]));
+
+
+    if (options.packageType === 'wordpress_theme') {
+
+        series.push(shell.task([
+            `github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-envato.zip`,
+        ]));
+
+    }
+
+    return gulp.series(series);
+
+    function getAuthString () {
+        return `--user ${repo} --repo ${repo} --tag ${version}`;
+    }
 }
 
 
