@@ -40,7 +40,7 @@ function releaseTask (gulp, options) {
         getProductionZipsSeries(gulp, options)
     );
 
-    gulp.task('build', gulp.series(
+    gulp.task('build_zips', gulp.series(
         'build:remove_tmp',
         'build:copy_files',
         'build:delete_files_from_build',
