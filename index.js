@@ -14,7 +14,7 @@ module.exports = {
 function registerTasks (gulp, options) {
     options = _.extend({
         packageType: 'unyson_extension',
-        packageSlug: null,
+        packageSlug: '',
 
         /**
          * [ './style.css', './package.json' ]

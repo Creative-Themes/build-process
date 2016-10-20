@@ -3,6 +3,7 @@ let gitignore = require('gulp-gitignore');
 let debug = require('gulp-debug');
 let fs = require('fs');
 let shell = require('gulp-shell');
+let zip = require('gulp-zip');
 
 module.exports = {
     assign: releaseTask
@@ -38,6 +39,13 @@ function releaseTask (gulp, options) {
         'build:prepare_production_zip',
         getProductionZipsSeries(gulp, options)
     );
+
+    gulp.task('build', gulp.series(
+        'build:remove_tmp',
+        'build:copy_files',
+        'build:delete_files_from_build',
+        'build:prepare_production_zip'
+    ));
 }
 
 function getProductionZipsSeries (gulp, options) {
@@ -72,6 +80,10 @@ function getProductionZipsSeries (gulp, options) {
             `cp -R ./psds ./build_tmp/envato_build/PSDs`
         ]));
 
+        if (gulp.task('build:before_envato_in_package')) {
+            series.push(gulp.series('build:before_envato_in_package'));
+        }
+
         series.push(() => {
 
             return gulp.src(`./build_tmp/envato_build/**/*`)
@@ -85,4 +97,5 @@ function getProductionZipsSeries (gulp, options) {
 
     return gulp.series(series);
 }
+
 
