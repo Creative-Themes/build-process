@@ -5,7 +5,7 @@ let fs = require('fs');
 let shell = require('gulp-shell');
 
 module.exports = {
-    assing: releaseTask
+    assign: releaseTask
 };
 
 function releaseTask (gulp, options) {
