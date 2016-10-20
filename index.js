@@ -2,6 +2,7 @@ const webpackTask = require('./webpack-task');
 const glueTasks = require('./glue-tasks');
 const sassTask = require('./sass-task');
 const bumpVersionTasks = require('./bump-version-task');
+const releaseTask = require('./release-task');
 
 const _ = require('lodash');
 
@@ -13,6 +14,7 @@ module.exports = {
 function registerTasks (gulp, options) {
     options = _.extend({
         packageType: 'unyson_extension',
+        packageSlug: null,
 
         /**
          * [ './style.css', './package.json' ]
@@ -20,6 +22,11 @@ function registerTasks (gulp, options) {
         filesToBumpVersionInto: null,
 
         currentVersion: '0.0.1',
+
+        filesToDeleteFromBuild: [
+            './build_tmp/build/bower_components/',
+            './build_tmp/build/node_modules/'
+        ],
 
         /**
          * entries: [
@@ -75,6 +82,7 @@ function registerTasks (gulp, options) {
     glueTasks.assign(gulp, options);
 
     bumpVersionTasks.assign(gulp, options);
+    releaseTask.assign(gulp, options);
 }
 
 function headerFor (specialText, data) {
