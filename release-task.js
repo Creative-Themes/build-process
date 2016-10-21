@@ -95,6 +95,13 @@ function getProductionZipsSeries (gulp, options) {
             series.push(gulp.series('build:before_envato_in_package'));
         }
 
+        series.push(shell.task([
+            `cd ./build_tmp/envato_build && zip -r ${slug}-parent.zip ${slug}-parent`,
+            `rm -rf ./build_tmp/envato_build/${slug}-parent`,
+            `cd ./build_tmp/envato_build && zip -r ${slug}-child.zip ${slug}-child`,
+            `rm -rf ./build_tmp/envato_build/${slug}-child`,
+        ]));
+
         series.push(() => {
 
             return gulp.src(`./build_tmp/envato_build/**/*`)
