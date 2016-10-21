@@ -40,12 +40,21 @@ function releaseTask (gulp, options) {
         getProductionZipsSeries(gulp, options)
     );
 
-    gulp.task('build_zips', gulp.series(
+    let build_zips_series = [
         shell.task(['NODE_ENV=production gulp build']),
         'build:remove_tmp',
-        'build:copy_files',
-        'build:delete_files_from_build',
-        'build:prepare_production_zip'
+        'build:copy_files'
+    ];
+
+    if (gulp.task('build:before_creating_zips')) {
+        build_zips_series.push('build:before_creating_zips');
+    }
+
+    build_zips_series.push('build:delete_files_from_build');
+    build_zips_series.push('build:prepare_production_zip');
+
+    gulp.task('build_zips', gulp.series(
+        build_zips_series
     ));
 
     gulp.task(
@@ -67,6 +76,7 @@ function getProductionZipsSeries (gulp, options) {
      * Because options.currentVersion may be outdated at that point.
      */
     let version = JSON.parse(fs.readFileSync('./package.json')).version;
+
 
     series.push(shell.task([`mv ./build_tmp/build ./build_tmp/${slug}`]));
 
