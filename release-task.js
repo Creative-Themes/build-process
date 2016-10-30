@@ -57,10 +57,15 @@ function releaseTask (gulp, options) {
         build_zips_series
     ));
 
-    gulp.task(
-        'build:create_release',
-        getCreateReleaseSeries(gulp, options)
-    );
+	if (!(options.packageRepo.user || options.packageRepo.repo)) {
+		gulp.task('build:create_release', gulp.series([]));
+	} else {
+		gulp.task(
+			'build:create_release',
+			getCreateReleaseSeries(gulp, options)
+		);
+	}
+
 
     gulp.task(
         'build:publish',

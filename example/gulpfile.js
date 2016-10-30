@@ -24,6 +24,9 @@ var options = {
 		}
 	],
 
+	packageRepo: {
+	},
+
 	sassFiles: [
 		{
 			input: 'static/css/main.scss',
