@@ -43,6 +43,10 @@ module.exports = (options) => {
 					)
 				});
 
+				if (entry.licenseHeader) {
+					toPush['ctTemporaryHeader'] = entry.licenseHeader;
+				}
+
 				if (fs.existsSync(
 					path.join(
 						entry.forEachFolderIn,
@@ -59,6 +63,10 @@ module.exports = (options) => {
 
 			toPush['entry'] = entry.entry;
 			toPush['output'] = entry.output;
+
+			if (entry.licenseHeader) {
+				toPush['ctTemporaryHeader'] = entry.licenseHeader;
+			}
 
 			webpackMultipleConfigs.push(toPush);
 		}
@@ -160,7 +168,19 @@ module.exports = (options) => {
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {
 
-		return Object.assign({}, commonConfig, singleConfig);
+		// console.log('DEBUG', singleConfig.entry);
+
+		let result = Object.assign({}, commonConfig, singleConfig);
+
+		if (result.ctTemporaryHeader) {
+			result.plugins = result.plugins.concat([
+				new webpack.BannerPlugin(result.ctTemporaryHeader, {
+					raw: true
+				})
+			]);
+		}
+
+		return result;
 
 	});
 

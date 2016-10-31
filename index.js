@@ -75,6 +75,7 @@ function registerTasks (gulp, options) {
               port: 9068
             }
         },
+        sassWatch: [],
 
         toClean: [],
 
@@ -98,6 +99,8 @@ function registerTasks (gulp, options) {
 }
 
 function headerFor (specialText, data) {
+	if (! data) { data = {}; }
+
 	var template = '/**\n';
 
 	if (specialText) {

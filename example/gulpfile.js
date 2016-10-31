@@ -2,6 +2,7 @@ const gulp = require('gulp');
 const buildProcess = require('../index.js');
 const extend = require('util')._extend;
 const path = require('path');
+const data = require('./package.json');
 
 var options = {
 	entries: [
@@ -11,7 +12,8 @@ var options = {
 				filename: 'bundle.[name].js',
 				path: './single/bundle',
 				jsonpFunction: 'ourFunction'
-			}
+			},
+			licenseHeader: "/* HELLO\nWORLD\nlicense */"
 		},
 
 		{
@@ -20,7 +22,8 @@ var options = {
 				path: './bundle/'
 			},
 			forEachFolderIn: './static',
-			jsonpPrefix: 'yourPrefix'
+			jsonpPrefix: 'yourPrefix',
+			licenseHeader: "/* HELLO\nWORLD\nlicense */"
 		}
 	],
 
@@ -31,7 +34,8 @@ var options = {
 		{
 			input: 'static/css/main.scss',
 			output: 'bundle/',
-			forEachFolderIn: 'shortcode/'
+			forEachFolderIn: 'shortcode/',
+			header: buildProcess.headerFor('Word Shortcode CSS', data)
 		}
 	],
 

@@ -66,11 +66,10 @@ function releaseTask (gulp, options) {
 		);
 	}
 
-
-    gulp.task(
-        'build:publish',
-        gulp.series('build_zips', 'build:create_release', 'build:remove_tmp')
-    );
+	gulp.task(
+		'build:publish',
+		gulp.series('build_zips', 'build:create_release', 'build:remove_tmp')
+	);
 }
 
 function getProductionZipsSeries (gulp, options) {
