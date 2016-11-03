@@ -1,7 +1,8 @@
 ## Synopsis
 
 That's a set of configs and scripts built on top of `gulp` and `webpack`
-that help us deliver awesome WordPress themes and
+that help us deliver awesome 
+[WordPress themes](http://creativethemes.com/) and
 [Unyson](http://manual.unyson.io) extensions.
 
 ## Code Example
@@ -96,8 +97,7 @@ Uses [`node-semver`](https://github.com/npm/node-semver).
 ### Create build
 
 There are some specific tasks for creating and publishing new releases of
-[WordPress themes](http://creativethemes.com/)
-and Unyson extensions. This tasks will respect `options.packageType`
+WordPress themes and Unyson extensions. This tasks will respect `options.packageType`
 option.
 
 The `build:create_release` tasks depends strongly on [github-release](https://github.com/aktau/github-release)
