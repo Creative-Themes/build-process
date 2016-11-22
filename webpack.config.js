@@ -149,7 +149,11 @@ module.exports = (options) => {
 
 			new webpack.ResolverPlugin([
 				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-			], ["normal", "loader"])
+			], ["normal", "loader"]),
+
+			new webpack.DefinePlugin({
+				PRODUCTION: ! isDevelopment
+			})
 		].concat(
 			isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
 				compress: {
