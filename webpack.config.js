@@ -96,7 +96,9 @@ module.exports = (options) => {
 						plugins: [
 							require.resolve('babel-plugin-transform-es3-property-literals'),
 							require.resolve('babel-plugin-transform-es3-member-expression-literals')
-						]
+						].concat(
+							options.babelAdditionalPlugins
+						)
 					},
 
 					// TODO: configure load paths here. May slow down builds!!!
