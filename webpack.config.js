@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var fs = require('fs');
 var extend = require('util')._extend;
 var camelcase = require('camelcase');
+var autoprefixer = require('autoprefixer');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -107,12 +108,22 @@ module.exports = (options) => {
 
 				{
 					test: /\.scss$/,
-					loaders: ["style", "css?sourceMap", "sass?sourceMap"]
+					loaders: [
+						"style",
+						"css?sourceMap",
+						'postcss',
+						"sass?sourceMap&sourceMapContents",
+					]
+
 				},
 
 				{
 					test: /\.css$/,
-					loaders: ["style", "css?sourceMap"]
+					loaders: [
+						"style",
+						"css?sourceMap",
+						"postcss",
+					]
 				},
 
 				{
@@ -169,7 +180,11 @@ module.exports = (options) => {
 		externals: Object.assign({
 			jquery: 'window.jQuery',
 			'_': 'window._'
-		}, options.webpackExternals)
+		}, options.webpackExternals),
+
+		postcss: [
+			autoprefixer({ browsers: ['last 2 versions'] })
+		]
 	};
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {

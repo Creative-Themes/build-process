@@ -1,5 +1,6 @@
-HELLO
+/* HELLO
 WORLD
+license */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// install a JSONP callback for chunk loading
 /******/ 	var parentJsonpFunction = window["yourPrefix1"];

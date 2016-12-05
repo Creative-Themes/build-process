@@ -1,5 +1,6 @@
-HELLO
+/* HELLO
 WORLD
+license */
 yourPrefix1([1],[
 /* 0 */,
 /* 1 */

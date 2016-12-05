@@ -1,5 +1,6 @@
-HELLO
+/* HELLO
 WORLD
+license */
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
