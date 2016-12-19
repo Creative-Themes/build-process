@@ -80,7 +80,7 @@ module.exports = (options) => {
 
 		// console.log('DEBUG', singleConfig.entry);
 
-		let result = Object.assign({}, getCommonConfig(singleConfig.context), singleConfig);
+		let result = Object.assign({}, getCommonConfig(singleConfig), singleConfig);
 
 		if (result.ctTemporaryHeader) {
             /*
@@ -101,7 +101,7 @@ module.exports = (options) => {
 	/**
 	 * Crazy hack for https://github.com/webpack/css-loader/issues/337
 	 */
-	function getCommonConfig (newContext) {
+	function getCommonConfig (singleConfig) {
 		const commonConfig = {
 			/*
 			entry: webpackEntry,
@@ -193,7 +193,8 @@ module.exports = (options) => {
 
 				new webpack.LoaderOptionsPlugin({
 					options: {
-						context: newContext,
+						context: singleConfig.context,
+						output: singleConfig.output,
 						postcss () {
 							return [
 								autoprefixer({ browsers: ['last 2 versions'] })
@@ -215,7 +216,9 @@ module.exports = (options) => {
 			externals: Object.assign({
 				jquery: 'window.jQuery',
 				'_': 'window._'
-			}, options.webpackExternals)
+			}, options.webpackExternals),
+
+
 		};
 
 		return commonConfig;
