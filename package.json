@@ -27,7 +27,7 @@
     "browser-sync": "^2.14.0",
     "browser-sync-client": "ssh://github.com/Creative-Themes/browser-sync-client.git",
     "camelcase": "^3.0.0",
-    "css-loader": "^0.23.1",
+    "css-loader": "^0.26.1",
     "del": "^2.2.1",
     "file-loader": "^0.8.5",
     "gulp": "github:gulpjs/gulp#4.0",

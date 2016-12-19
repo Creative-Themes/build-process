@@ -101,7 +101,7 @@ exports = module.exports = __webpack_require__(2)();
 
 
 // module
-exports.push([module.i, "body {\n  display: -ms-flexbox;\n  display: flex;\n}\n\n", "", {"version":3,"sources":["/./Users/andreiglingeanu/Projects/full/word/build-process/example/single/js/a.css"],"names":[],"mappings":"AAAA;EACE,qBAAc;EAAd,cAAc;CACf","file":"a.css","sourcesContent":["body {\n  display: flex;\n}\n\n"],"sourceRoot":"webpack://"}]);
+exports.push([module.i, "body {\n  display: -ms-flexbox;\n  display: flex;\n}\n\n", "", {"version":3,"sources":["/./single/js/a.css"],"names":[],"mappings":"AAAA;EACE,qBAAc;EAAd,cAAc;CACf","file":"a.css","sourcesContent":["body {\n  display: flex;\n}\n\n"],"sourceRoot":"webpack://"}]);
 
 // exports
 

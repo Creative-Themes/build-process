@@ -65,6 +65,8 @@ module.exports = (options) => {
 			toPush['entry'] = entry.entry;
 			toPush['output'] = entry.output;
 
+			toPush.context = process.cwd();
+
 			if (entry.licenseHeader) {
 				// toPush['ctTemporaryHeader'] = entry.licenseHeader;
 			}
@@ -73,129 +75,12 @@ module.exports = (options) => {
 		}
 	});
 
-	const commonConfig = {
-		/*
-		entry: webpackEntry,
-
-		output: {
-			path: './',
-			filename: '[name].js'
-		},
-		*/
-
-		devtool: isDevelopment ? 'source-map' : null,
-
-		module: Object.assign({
-			rules: [
-				{
-					test: /\.(js|jsx)$/,
-					loader: require.resolve('babel-loader'),
-					options: {
-						plugins: options.babelAdditionalPlugins
-					},
-
-					// TODO: configure load paths here. May slow down builds!!!
-					exclude: /(node_modules|bower_components)/
-				},
-
-				{
-					test: /\.scss$/,
-					loaders: [
-						"style-loader",
-						"css-loader?sourceMap",
-						{
-							loader: 'postcss-loader'
-						},
-						"sass-loader?sourceMap&sourceMapContents",
-					]
-
-				},
-
-				{
-					test: /\.css$/,
-					loaders: [
-						"style-loader",
-						"css-loader?sourceMap",
-						"postcss-loader",
-					]
-				},
-
-				{
-					test: /\.png$/,
-					loader: "url-loader?limit=100000"
-				},
-				{
-					test: /\.jpg$/,
-					loader: "file-loader"
-				},
-				{
-					test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-					loader: 'file-loader'
-				}
-
-			].concat(options.webpackAdditionalLoaders)
-		}, options.webpackAdditionalModules),
-
-		resolve: {
-			extensions: ['.js', '.jsx', '.css'],
-
-			modules: [
-				'node_modules',
-				'bower_components'
-			].concat(options.webpackIncludePaths),
-
-			alias: options.webpackResolveAliases
-		},
-
-		plugins: [
-			new webpack.ProvidePlugin({
-				'$': 'jquery'
-			}),
-
-			new webpack.NoErrorsPlugin(),
-
-            /*
-			new webpack.ResolverPlugin([
-				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-			], ["normal", "loader"]),
-           */
-
-			new webpack.DefinePlugin({
-				PRODUCTION: ! isDevelopment
-			}),
-
-			new webpack.LoaderOptionsPlugin({
-				options: {
-					context: '/',
-					postcss () {
-						return [
-							autoprefixer({ browsers: ['last 2 versions'] })
-						];
-					}
-				}
-			})
-
-		].concat(
-			isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
-				compress: {
-					warnings: false
-				}
-			})
-		).concat(
-			options.webpackPlugins
-		),
-
-		externals: Object.assign({
-			jquery: 'window.jQuery',
-			'_': 'window._'
-		}, options.webpackExternals)
-	};
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {
 
 		// console.log('DEBUG', singleConfig.entry);
 
-		let result = Object.assign({}, commonConfig, singleConfig);
+		let result = Object.assign({}, getCommonConfig(singleConfig.context), singleConfig);
 
 		if (result.ctTemporaryHeader) {
             /*
@@ -212,5 +97,128 @@ module.exports = (options) => {
 	});
 
 	return config;
+
+	/**
+	 * Crazy hack for https://github.com/webpack/css-loader/issues/337
+	 */
+	function getCommonConfig (newContext) {
+		const commonConfig = {
+			/*
+			entry: webpackEntry,
+
+			output: {
+				path: './',
+				filename: '[name].js'
+			},
+			*/
+
+			devtool: isDevelopment ? 'source-map' : null,
+
+			module: Object.assign({
+				rules: [
+					{
+						test: /\.(js|jsx)$/,
+						loader: require.resolve('babel-loader'),
+						options: {
+							plugins: options.babelAdditionalPlugins
+						},
+
+						// TODO: configure load paths here. May slow down builds!!!
+						exclude: /(node_modules|bower_components)/
+					},
+
+					{
+						test: /\.scss$/,
+						loaders: [
+							"style-loader",
+							"css-loader?sourceMap",
+							'postcss-loader',
+							"sass-loader?sourceMap&sourceMapContents",
+						]
+
+					},
+
+					{
+						test: /\.css$/,
+						loaders: [
+							"style-loader",
+							"css-loader?sourceMap",
+							"postcss-loader",
+						]
+					},
+
+					{
+						test: /\.png$/,
+						loader: "url-loader?limit=100000"
+					},
+					{
+						test: /\.jpg$/,
+						loader: "file-loader"
+					},
+					{
+						test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+						loader: 'file-loader'
+					}
+
+				].concat(options.webpackAdditionalLoaders)
+			}, options.webpackAdditionalModules),
+
+			resolve: {
+				extensions: ['.js', '.jsx', '.css'],
+
+				modules: [
+					'node_modules',
+					'bower_components'
+				].concat(options.webpackIncludePaths),
+
+				alias: options.webpackResolveAliases
+			},
+
+			plugins: [
+				new webpack.ProvidePlugin({
+					'$': 'jquery'
+				}),
+
+				new webpack.NoErrorsPlugin(),
+
+				/*
+				new webpack.ResolverPlugin([
+					new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
+				], ["normal", "loader"]),
+			*/
+
+				new webpack.DefinePlugin({
+					PRODUCTION: ! isDevelopment
+				}),
+
+				new webpack.LoaderOptionsPlugin({
+					options: {
+						context: newContext,
+						postcss () {
+							return [
+								autoprefixer({ browsers: ['last 2 versions'] })
+							];
+						}
+					}
+				})
+
+			].concat(
+				isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
+					compress: {
+						warnings: false
+					}
+				})
+			).concat(
+				options.webpackPlugins
+			),
+
+			externals: Object.assign({
+				jquery: 'window.jQuery',
+				'_': 'window._'
+			}, options.webpackExternals)
+		};
+
+		return commonConfig;
+	}
 };
 
