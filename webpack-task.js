@@ -1,4 +1,3 @@
-var webpackStream = require('webpack-stream');
 var webpack = require('webpack');
 var named = require('vinyl-named');
 var plumber = require('gulp-plumber');

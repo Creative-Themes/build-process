@@ -45,7 +45,7 @@ module.exports = (options) => {
 				});
 
 				if (entry.licenseHeader) {
-					toPush['ctTemporaryHeader'] = entry.licenseHeader;
+					// toPush['ctTemporaryHeader'] = entry.licenseHeader;
 				}
 
 				if (fs.existsSync(
@@ -66,7 +66,7 @@ module.exports = (options) => {
 			toPush['output'] = entry.output;
 
 			if (entry.licenseHeader) {
-				toPush['ctTemporaryHeader'] = entry.licenseHeader;
+				// toPush['ctTemporaryHeader'] = entry.licenseHeader;
 			}
 
 			webpackMultipleConfigs.push(toPush);
@@ -109,10 +109,10 @@ module.exports = (options) => {
 				{
 					test: /\.scss$/,
 					loaders: [
-						"style",
-						"css?sourceMap",
-						'postcss',
-						"sass?sourceMap&sourceMapContents",
+						"style-loader",
+						"css-loader?sourceMap",
+						'postcss-loader',
+						"sass-loader?sourceMap&sourceMapContents",
 					]
 
 				},
@@ -120,9 +120,9 @@ module.exports = (options) => {
 				{
 					test: /\.css$/,
 					loaders: [
-						"style",
-						"css?sourceMap",
-						"postcss",
+						"style-loader",
+						"css-loader?sourceMap",
+						"postcss-loader",
 					]
 				},
 
@@ -143,9 +143,9 @@ module.exports = (options) => {
 		}, options.webpackAdditionalModules),
 
 		resolve: {
-			extensions: ['', '.js', '.jsx', '.css'],
+			extensions: ['.js', '.jsx', '.css'],
 
-			modulesDirectories: [
+			modules: [
 				'node_modules',
 				'bower_components'
 			].concat(options.webpackIncludePaths),
@@ -160,9 +160,11 @@ module.exports = (options) => {
 
 			new webpack.NoErrorsPlugin(),
 
+            /*
 			new webpack.ResolverPlugin([
 				new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
 			], ["normal", "loader"]),
+           */
 
 			new webpack.DefinePlugin({
 				PRODUCTION: ! isDevelopment
@@ -182,9 +184,11 @@ module.exports = (options) => {
 			'_': 'window._'
 		}, options.webpackExternals),
 
+        /*
 		postcss: [
 			autoprefixer({ browsers: ['last 2 versions'] })
 		]
+        */
 	};
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {
@@ -194,11 +198,13 @@ module.exports = (options) => {
 		let result = Object.assign({}, commonConfig, singleConfig);
 
 		if (result.ctTemporaryHeader) {
+            /*
 			result.plugins = result.plugins.concat([
 				new webpack.BannerPlugin(result.ctTemporaryHeader, {
 					raw: true
 				})
 			]);
+            */
 		}
 
 		return result;
