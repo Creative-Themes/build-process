@@ -112,7 +112,7 @@ module.exports = (options) => {
 			},
 			*/
 
-			devtool: isDevelopment ? 'source-map' : null,
+			devtool: isDevelopment ? 'source-map' : false,
 
 			module: Object.assign({
 				rules: [
