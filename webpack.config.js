@@ -120,6 +120,9 @@ module.exports = (options) => {
 						test: /\.(js|jsx)$/,
 						loader: require.resolve('babel-loader'),
 						options: {
+                            presets: [
+								['es2015', { modules: false }]
+                            ],
 							plugins: options.babelAdditionalPlugins
 						},
 
