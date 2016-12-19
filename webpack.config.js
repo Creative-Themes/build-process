@@ -86,20 +86,12 @@ module.exports = (options) => {
 		devtool: isDevelopment ? 'source-map' : null,
 
 		module: Object.assign({
-			loaders: [
+			rules: [
 				{
 					test: /\.(js|jsx)$/,
 					loader: require.resolve('babel-loader'),
-					query: {
-						presets: [
-							require.resolve('babel-preset-es2015-loose')
-						],
-						plugins: [
-							require.resolve('babel-plugin-transform-es3-property-literals'),
-							require.resolve('babel-plugin-transform-es3-member-expression-literals')
-						].concat(
-							options.babelAdditionalPlugins
-						)
+					options: {
+						plugins: options.babelAdditionalPlugins
 					},
 
 					// TODO: configure load paths here. May slow down builds!!!
@@ -111,7 +103,9 @@ module.exports = (options) => {
 					loaders: [
 						"style-loader",
 						"css-loader?sourceMap",
-						'postcss-loader',
+						{
+							loader: 'postcss-loader'
+						},
 						"sass-loader?sourceMap&sourceMapContents",
 					]
 
@@ -168,7 +162,19 @@ module.exports = (options) => {
 
 			new webpack.DefinePlugin({
 				PRODUCTION: ! isDevelopment
+			}),
+
+			new webpack.LoaderOptionsPlugin({
+				options: {
+					context: '/',
+					postcss () {
+						return [
+							autoprefixer({ browsers: ['last 2 versions'] })
+						];
+					}
+				}
 			})
+
 		].concat(
 			isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
 				compress: {
@@ -182,13 +188,7 @@ module.exports = (options) => {
 		externals: Object.assign({
 			jquery: 'window.jQuery',
 			'_': 'window._'
-		}, options.webpackExternals),
-
-        /*
-		postcss: [
-			autoprefixer({ browsers: ['last 2 versions'] })
-		]
-        */
+		}, options.webpackExternals)
 	};
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {

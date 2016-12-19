@@ -143,9 +143,6 @@
 /* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
 __webpack_require__.e/* nsure */(0).then((function (require) {
     var a = __webpack_require__(0);
 }).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
