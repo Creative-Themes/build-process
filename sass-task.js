@@ -79,7 +79,7 @@ function sassTask (gulp, options) {
                     options.sassIncludePaths
                 )
             }).on('error', sass.logError))
-            .pipe(autoprefixer({browsers: ['last 2 versions']}))
+            .pipe(autoprefixer())
             .pipe(gulpIf(entry.header, header(
                 (entry.header || {}).template,
                 (entry.header || {}).values
