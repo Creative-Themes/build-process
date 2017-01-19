@@ -1,6 +1,6 @@
 {
   "name": "ct-build-process",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -54,7 +54,7 @@
     "style-loader": "^0.13.1",
     "svg-url-loader": "^1.0.3",
     "vinyl-named": "^1.1.0",
-    "webpack": "v2.2.0-rc.3"
+    "webpack": "v2.2.0"
   },
   "devDependencies": {}
 }
