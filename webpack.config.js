@@ -182,7 +182,7 @@ module.exports = (options) => {
 					'$': 'jquery'
 				}),
 
-				new webpack.NoErrorsPlugin(),
+				new webpack.NoEmitOnErrorsPlugin(),
 
 				/*
 				new webpack.ResolverPlugin([
