@@ -2,14 +2,8 @@
  * Word Shortcode CSS
  *  - v1.0.0
  * 
- * Copyright (c) 2016
+ * Copyright (c) 2017
  * Licensed GPLv2+
  */
 
-body div {
-  background: red; }
-
-body a {
-  color: yellow; }
-
-/*# sourceMappingURL=main.css.map */
+body div{background:red}body a{color:yellow}

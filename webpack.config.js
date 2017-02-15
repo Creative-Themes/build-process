@@ -7,6 +7,8 @@ var autoprefixer = require('autoprefixer');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
+var CompressionPlugin = require("compression-webpack-plugin");
+
 function getFolders(dir) {
 	return fs.readdirSync(dir)
 		.filter(function(file) {
@@ -120,9 +122,9 @@ module.exports = (options) => {
 						test: /\.(js|jsx)$/,
 						loader: require.resolve('babel-loader'),
 						options: {
-                            presets: [
+							presets: [
 								['es2015', { modules: false }]
-                            ],
+							],
 							plugins: options.babelAdditionalPlugins
 						},
 
@@ -207,11 +209,11 @@ module.exports = (options) => {
 				})
 
 			].concat(
-				isDevelopment ? [] : new webpack.optimize.UglifyJsPlugin({
+				isDevelopment ? [] : [ new webpack.optimize.UglifyJsPlugin({
 					compress: {
 						warnings: false
 					}
-				})
+				}), new CompressionPlugin() ]
 			).concat(
 				options.webpackPlugins
 			),
