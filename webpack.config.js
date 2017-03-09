@@ -125,7 +125,9 @@ module.exports = (options) => {
 							presets: [
 								['es2015', { modules: false }]
 							],
-							plugins: options.babelAdditionalPlugins
+							plugins: [
+								require.resolve('babel-plugin-transform-flow-strip-types')
+							].concat(options.babelAdditionalPlugins)
 						},
 
 						// TODO: configure load paths here. May slow down builds!!!
