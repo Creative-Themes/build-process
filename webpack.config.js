@@ -126,7 +126,7 @@ module.exports = (options) => {
 								['es2015', { modules: false }]
 							],
 							plugins: [
-								require.resolve('babel-plugin-transform-flow-strip-types')
+								require.resolve('babel-preset-flow-vue')
 							].concat(options.babelAdditionalPlugins)
 						},
 
