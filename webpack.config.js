@@ -126,7 +126,6 @@ module.exports = (options) => {
 								['es2015', { modules: false }]
 							],
 							plugins: [
-								require.resolve('babel-preset-flow-vue')
 							].concat(options.babelAdditionalPlugins)
 						},
 
