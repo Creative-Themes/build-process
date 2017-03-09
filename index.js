@@ -4,6 +4,10 @@ const sassTask = require('./sass-task');
 const bumpVersionTasks = require('./bump-version-task');
 const releaseTask = require('./release-task');
 
+if (! process.env.NODE_ENV) {
+	process.env.NODE_ENV = 'development';
+}
+
 const _ = require('lodash');
 
 module.exports = {
