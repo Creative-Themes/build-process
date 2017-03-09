@@ -196,6 +196,10 @@ module.exports = (options) => {
 					PRODUCTION: ! isDevelopment
 				}),
 
+				new webpack.EnvironmentPlugin([
+					"NODE_ENV"
+				]),
+
 				new webpack.LoaderOptionsPlugin({
 					options: {
 						context: singleConfig.context,
