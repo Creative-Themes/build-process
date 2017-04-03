@@ -81,7 +81,6 @@ function getProductionZipsSeries (gulp, options) {
      */
     let version = JSON.parse(fs.readFileSync('./package.json')).version;
 
-
     series.push(shell.task([`mv ./build_tmp/build ./build_tmp/${slug}`]));
 
     series.push(() => {

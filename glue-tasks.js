@@ -6,7 +6,7 @@ var gulpIf = require('gulp-if');
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
-    assign: glueTasks
+	assign: glueTasks
 };
 
 function glueTasks (gulp, options) {

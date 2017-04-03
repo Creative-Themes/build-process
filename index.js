@@ -1,5 +1,6 @@
 const webpackTask = require('./webpack-task');
 const glueTasks = require('./glue-tasks');
+const flowTasks = require('./flow-tasks');
 const sassTask = require('./sass-task');
 const bumpVersionTasks = require('./bump-version-task');
 const releaseTask = require('./release-task');
@@ -98,6 +99,7 @@ function registerTasks (gulp, options) {
     sassTask.assign(gulp, options);
 
     glueTasks.assign(gulp, options);
+    flowTasks.assign(gulp, options);
 
     bumpVersionTasks.assign(gulp, options);
     releaseTask.assign(gulp, options);
