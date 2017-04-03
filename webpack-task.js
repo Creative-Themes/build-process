@@ -9,6 +9,8 @@ var path = require('path');
 
 var webpackOptions = require('./webpack.config.js');
 
+var flowTasks = require('./flow-tasks.js');
+
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
 module.exports = {
@@ -46,12 +48,15 @@ function webpackTask (gulp, options) {
 
 				if (! firstBuildDone) {
 					firstBuildDone = true;
-					done();
+					flowTasks.softInstallAndRun(done);
+				} else {
+					flowTasks.softInstallAndRun();
 				}
 			});
 		} else {
 			compiler.run((err, stats) => {
 				handleWebpackOutput(err, stats);
+				flowTasks.softInstallAndRun();
 				done();
 			});
 		}
@@ -67,5 +72,6 @@ function webpackTask (gulp, options) {
 		});
 	}));
 }
+
 
 

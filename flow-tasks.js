@@ -2,30 +2,17 @@ let shell = require('gulp-shell');
 let shelljs = require('shelljs');
 let fs = require('fs');
 let path = require('path');
+var spawn = require('child_process').spawn;
+var bin = require('flow-bin');
 
 module.exports = {
-	assign: flowTasks
+	assign: flowTasks,
+	actuallyCopyFlowTypesToCwd,
+	updateFlowTyped, softInstallAndRun
 }
 
 function flowTasks (gulp, options) {
-	gulp.task('flow:status', function (done) {
-		// shelljs.exec('yarn run flow --color always');
-
-		var spawn = require('child_process').spawn;
-
-		var bin = require('flow-bin');
-
-		spawn(bin, {stdio: 'inherit'})
-			.on('exit', function () {
-				done();
-			});
-	});
-
-	/*
-    gulp.task('flow:status', fshell.task([
-		'yarn run flow --color always'
-	]));
-*/
+	gulp.task('flow:status', run);
 
 	/**
 	 * Soft install typings. Should abort in case they are already present
@@ -61,6 +48,29 @@ function flowTasks (gulp, options) {
 	});
 }
 
+function run (done) {
+	done = done || function () {}
+
+	spawn(bin, {stdio: 'inherit'})
+		.on('exit', function () {
+			done();
+		});
+}
+
+function softInstallAndRun (done) {
+	if (fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
+		shelljs.echo('.flowconfig is preset. Skipping...');
+		run(done);
+		return;
+	}
+
+	actuallyCopyFlowTypesToCwd();
+	shelljs.cp(path.join(process.cwd(), 'ct-flow-typed/flowconfig'), '.flowconfig');
+
+	updateFlowTyped();
+	run(done);
+}
+
 function actuallyCopyFlowTypesToCwd () {
 
 	if (fs.existsSync(path.join(process.cwd(), 'ct-flow-typed'))) {
@@ -91,4 +101,5 @@ function updateFlowTyped () {
 		shelljs.exec('flow-typed install');
 	}
 }
+
 
