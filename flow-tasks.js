@@ -47,7 +47,7 @@ function actuallyCopyFlowTypesToCwd () {
 		shelljs.echo('Error: we tried to install flow-typed for you but without success. Please install it by hand.');
 		shelljs.exit(1);
 	}
-	shelljs.exec('npm run flow-typed')
+	shelljs.exec('flow-typed')
 
 	shelljs.exec(
 		'git clone https://github.com/Creative-Themes/flow-typed.git ct-flow-typed'
