@@ -43,6 +43,14 @@ function actuallyCopyFlowTypesToCwd () {
 		shelljs.exec('npm install -g flow-typed');
 	}
 
+	if (fs.existsSync(path.join(process.cwd(), 'ct-flow-typed'))) {
+		shelljs.rm('-rf', path.join(process.cwd(), 'ct-flow-typed'));
+	}
+
+	shelljs.exec(
+		'git clone https://github.com/Creative-Themes/flow-typed.git ct-flow-typed'
+	);
+
 	if (! shelljs.which('flow-typed')) {
 		shelljs.echo('Error: we tried to install flow-typed for you but without success. Please install it by hand.');
 		shelljs.exit(1);
@@ -53,9 +61,5 @@ function actuallyCopyFlowTypesToCwd () {
 	} else {
 		shelljs.exec('flow-typed install');
 	}
-
-	shelljs.exec(
-		'git clone https://github.com/Creative-Themes/flow-typed.git ct-flow-typed'
-	);
 
 }
