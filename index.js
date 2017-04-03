@@ -37,12 +37,12 @@ function registerTasks (gulp, options) {
         currentVersion: '0.0.1',
 
         filesToDeleteFromBuild: [
-            './build_tmp/build/bower_components/',
-            './build_tmp/build/node_modules/',
-            './build_tmp/build/.git',
-            './build_tmp/build/.gitignore',
             './build_tmp/build/package.json',
             './build_tmp/build/gulpfile.js',
+            './build_tmp/build/bower_components/',
+            './build_tmp/build/node_modules/',
+            './build_tmp/build/{flow,flow-typed,ct-flow-typed}',
+            './build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
         ],
 
         /**

@@ -29,16 +29,23 @@ function releaseTask (gulp, options) {
 
     });
 
-    gulp.task('build:delete_files_from_build', () => {
+	gulp.task('build:delete_files_from_build', () => {
 
-        return del(options.filesToDeleteFromBuild);
+		return del([
+			'./build_tmp/build/package.json',
+			'./build_tmp/build/gulpfile.js',
+			'./build_tmp/build/bower_components/',
+			'./build_tmp/build/node_modules/',
+			'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
+			'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
+		].concat(options.filesToDeleteFromBuild));
 
-    });
+	});
 
-    gulp.task(
-        'build:prepare_production_zip',
-        getProductionZipsSeries(gulp, options)
-    );
+	gulp.task(
+		'build:prepare_production_zip',
+		getProductionZipsSeries(gulp, options)
+	);
 
     let build_zips_series = [
         shell.task(['NODE_ENV=production gulp build']),

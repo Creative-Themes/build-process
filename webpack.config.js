@@ -228,7 +228,8 @@ module.exports = (options) => {
 
 			externals: Object.assign({
 				jquery: 'window.jQuery',
-				'_': 'window._'
+				'_': 'window._',
+				'underscore': 'window._'
 			}, options.webpackExternals),
 		};
 
