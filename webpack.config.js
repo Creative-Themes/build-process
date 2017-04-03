@@ -126,6 +126,8 @@ module.exports = (options) => {
 								['es2015', { modules: false }]
 							],
 							plugins: [
+								require.resolve('babel-plugin-transform-object-rest-spread'),
+								require.resolve('babel-plugin-transform-flow-strip-types')
 							].concat(options.babelAdditionalPlugins)
 						},
 
@@ -185,6 +187,7 @@ module.exports = (options) => {
 					'$': 'jquery'
 				}),
 
+
 				new webpack.NoEmitOnErrorsPlugin(),
 
 				/*
@@ -227,8 +230,6 @@ module.exports = (options) => {
 				jquery: 'window.jQuery',
 				'_': 'window._'
 			}, options.webpackExternals),
-
-
 		};
 
 		return commonConfig;
