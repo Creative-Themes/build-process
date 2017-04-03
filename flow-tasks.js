@@ -23,7 +23,7 @@ function flowTasks (gulp, options) {
 		}
 
 		actuallyCopyFlowTypesToCwd();
-		shelljs.cp(path.json(process.cwd(), 'ct-flow-typed/flowconfig'), '.flowconfig');
+		shelljs.cp(path.join(process.cwd(), 'ct-flow-typed/flowconfig'), '.flowconfig');
 	});
 
     gulp.task('flow:force_update_typings', function (done) {
@@ -31,7 +31,7 @@ function flowTasks (gulp, options) {
 
 		if (! fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
 			shelljs.cp(
-				path.json(process.cwd(), 'ct-flow-typed/flowconfig'),
+				path.join(process.cwd(), 'ct-flow-typed/flowconfig'),
 				'.flowconfig'
 			);
 		}
