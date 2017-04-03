@@ -8,9 +8,24 @@ module.exports = {
 }
 
 function flowTasks (gulp, options) {
-    gulp.task('flow:status', shell.task([
-		'npm run flow'
+	gulp.task('flow:status', function (done) {
+		// shelljs.exec('yarn run flow --color always');
+
+		var spawn = require('child_process').spawn;
+
+		var bin = require('flow-bin');
+
+		spawn(bin, {stdio: 'inherit'})
+			.on('exit', function () {
+				done();
+			});
+	});
+
+	/*
+    gulp.task('flow:status', fshell.task([
+		'yarn run flow --color always'
 	]));
+*/
 
 	/**
 	 * Soft install typings. Should abort in case they are already present
