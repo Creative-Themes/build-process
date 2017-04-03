@@ -17,6 +17,7 @@ function flowTasks (gulp, options) {
 	 */
     gulp.task('flow:install_typings', function (done) {
 		if (fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
+			shelljs.echo('.flowconfig is preset. Skipping...');
 			done();
 			return;
 		}
@@ -38,6 +39,14 @@ function flowTasks (gulp, options) {
 }
 
 function actuallyCopyFlowTypesToCwd () {
+	if (! shelljs.which('flow-typed')) {
+		shelljs.exec('npm install -g flow-typed');
+	}
+
+	if (! shelljs.which('flow-typed')) {
+		shelljs.echo('Error: we tried to install flow-typed for you but without success. Please install it by hand.');
+		shelljs.exit(1);
+	}
 	shelljs.exec('npm run flow-typed')
 
 	shelljs.exec(
