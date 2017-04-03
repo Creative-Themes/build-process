@@ -4,6 +4,7 @@ let fs = require('fs');
 let path = require('path');
 var spawn = require('child_process').spawn;
 var bin = require('flow-bin');
+let flowVersion = require('flow-bin/package.json').version;
 
 module.exports = {
 	assign: flowTasks,
@@ -96,10 +97,11 @@ function updateFlowTyped () {
 	}
 
 	if (fs.existsSync(path.join(process.cwd(), 'flow-typed'))) {
-		shelljs.exec('flow-typed update');
+		shelljs.exec(`flow-typed update --flowVersion=${flowVersion}`);
 	} else {
-		shelljs.exec('flow-typed install');
+		shelljs.exec(`flow-typed install --flowVersion=${flowVersion}`);
 	}
 }
+
 
 
