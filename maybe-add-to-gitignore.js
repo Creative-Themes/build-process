@@ -22,7 +22,15 @@ function maybeAddToGitIgnore (listToAdd) {
 	});
 
 	function patternIsInGitIgnore (pattern) {
-		return patterns.indexOf(pattern) !== -1;
+		return patterns.map(removeExtraChars).indexOf(
+			removeExtraChars(pattern)
+		) !== -1;
+
+		function removeExtraChars (pattern) {
+			return pattern
+				.replace(/\//g, '')
+				.replace(/\*/g, '')
+		}
 	}
 }
 
@@ -34,4 +42,5 @@ function addToGitignore (pattern) {
 		`\n${pattern}`
 	);
 }
+
 
