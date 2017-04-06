@@ -1,8 +1,12 @@
-import path from 'path';
-import fs from 'fs';
-import gitignore from 'parse-gitignore';
+let path = require('path');
+let fs = require('fs');
+let gitignore = require('parse-gitignore');
 
-export function maybeAddToGitIgnore (listToAdd) {
+module.exports = {
+	maybeAddToGitIgnore
+}
+
+function maybeAddToGitIgnore (listToAdd) {
 	// gulp will automatically change cwd
 	let patterns = gitignore(
 		'.gitignore'
