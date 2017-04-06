@@ -206,6 +206,10 @@ array-unique@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.2.1.tgz#a1d97ccafcbc2625cc70fadceb36a50c58b01a53"
 
+array-unique@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/array-unique/-/array-unique-0.3.2.tgz#a894b75d4bc4f6cd679ef3244a9fd8f46ae2d428"
+
 arraybuffer.slice@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/arraybuffer.slice/-/arraybuffer.slice-0.0.6.tgz#f33b2159f0532a3f3107a272c0ccfbd1ad2979ca"
@@ -3921,6 +3925,13 @@ parse-gitignore@^0.2.0:
     ends-with "^0.2.0"
     is-glob "^2.0.0"
     starts-with "^1.0.0"
+
+parse-gitignore@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/parse-gitignore/-/parse-gitignore-0.4.0.tgz#abf702e4b900524fff7902b683862857b63f93fe"
+  dependencies:
+    array-unique "^0.3.2"
+    is-glob "^3.1.0"
 
 parse-glob@^3.0.4:
   version "3.0.4"

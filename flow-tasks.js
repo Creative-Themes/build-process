@@ -5,6 +5,7 @@ let path = require('path');
 var spawn = require('child_process').spawn;
 var bin = require('flow-bin');
 let flowVersion = require('flow-bin/package.json').version;
+let { maybeAddToGitIgnore } = require('./maybe-add-to-gitignore.js');
 
 module.exports = {
 	assign: flowTasks,
@@ -25,15 +26,17 @@ function flowTasks (gulp, options) {
 			return;
 		}
 
+		maybeAddFlowDirsToGitIgnore();
 		actuallyCopyFlowTypesToCwd();
 		shelljs.cp(path.join(process.cwd(), 'ct-flow-typed/flowconfig'), '.flowconfig');
 
 		updateFlowTyped();
 
-        done();
+		done();
 	});
 
     gulp.task('flow:force_update_typings', function (done) {
+        maybeAddFlowDirsToGitIgnore();
 		actuallyCopyFlowTypesToCwd();
 
 		if (! fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
@@ -81,8 +84,6 @@ function actuallyCopyFlowTypesToCwd () {
 	shelljs.exec(
 		'git clone https://github.com/Creative-Themes/flow-typed.git ct-flow-typed'
 	);
-
-
 }
 
 function updateFlowTyped () {
@@ -103,5 +104,10 @@ function updateFlowTyped () {
 	}
 }
 
-
+function maybeAddFlowDirsToGitIgnore () {
+	maybeAddToGitIgnore([
+		'ct-flow-typed/',
+		'flow-typed/'
+	]);
+}
 
