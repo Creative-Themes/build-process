@@ -6,6 +6,7 @@ var spawn = require('child_process').spawn;
 var bin = require('flow-bin');
 let flowVersion = require('flow-bin/package.json').version;
 let { maybeAddToGitIgnore } = require('./maybe-add-to-gitignore.js');
+let logger = require('gulplog');
 
 module.exports = {
 	assign: flowTasks,
@@ -62,8 +63,10 @@ function run (done) {
 }
 
 function softInstallAndRun (done) {
+	maybeAddFlowDirsToGitIgnore();
+
 	if (fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
-		shelljs.echo('.flowconfig is preset. Skipping...');
+		logged.info('.flowconfig is preset. Skipping...');
 		run(done);
 		return;
 	}
@@ -93,7 +96,7 @@ function updateFlowTyped () {
 
 
 	if (! shelljs.which('flow-typed')) {
-		shelljs.echo('Error: we tried to install flow-typed for you but without success. Please install it by hand.');
+		logger.error('We tried to install flow-typed for you buy without success. Please install it by hand.');
 		shelljs.exit(1);
 	}
 
@@ -110,4 +113,5 @@ function maybeAddFlowDirsToGitIgnore () {
 		'flow-typed/'
 	]);
 }
+
 
