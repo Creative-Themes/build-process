@@ -22,7 +22,7 @@ function flowTasks (gulp, options) {
 	 */
     gulp.task('flow:install_typings', function (done) {
 		if (fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
-			shelljs.echo('.flowconfig is preset. Skipping...');
+			logger.info('.flowconfig is preset. Skipping...');
 			done();
 			return;
 		}
@@ -30,6 +30,7 @@ function flowTasks (gulp, options) {
 		maybeAddFlowDirsToGitIgnore();
 		actuallyCopyFlowTypesToCwd();
 		shelljs.cp(path.join(process.cwd(), 'ct-flow-typed/flowconfig'), '.flowconfig');
+		logger.info('copy an actual .flowconfig');
 
 		updateFlowTyped();
 
@@ -66,7 +67,7 @@ function softInstallAndRun (done) {
 	maybeAddFlowDirsToGitIgnore();
 
 	if (fs.existsSync(path.join(process.cwd(), '.flowconfig'))) {
-		logged.info('.flowconfig is preset. Skipping...');
+		logger.info('.flowconfig is preset. Skipping...');
 		run(done);
 		return;
 	}
