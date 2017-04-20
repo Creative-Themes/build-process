@@ -10,7 +10,7 @@ var options = {
 			entry: './single/js/main.js',
 			output: {
 				filename: 'bundle.[name].js',
-				path: path.join(process.cwd(), './single/bundle'),
+				path: './single/bundle',
 				jsonpFunction: 'ourFunction'
 			},
 			licenseHeader: "/* HELLO\nWORLD\nlicense */"
