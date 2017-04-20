@@ -35,7 +35,8 @@ module.exports = (options) => {
 				toPush.entry = entry.entry;
 
 				toPush.output = Object.assign({}, entry.output, {
-					path: './' + path.join(
+					path: path.join(
+						process.cwd(),
 						entry.forEachFolderIn,
 						folder,
 						entry.output.path

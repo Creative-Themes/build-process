@@ -2,7 +2,7 @@ const webpackTask = require('./tasks/webpack/webpack-task');
 const flowTasks = require('./tasks/webpack/flow-tasks');
 
 const glueTasks = require('./tasks/glue-tasks');
-const sassTask = require('./sass-task');
+const sassTask = require('./tasks/sass-task');
 const bumpVersionTasks = require('./tasks/bump-version-task');
 const releaseTask = require('./tasks/release-task');
 

@@ -65,7 +65,9 @@ function releaseTask (gulp, options) {
     ));
 
 	if (!(options.packageRepo.user || options.packageRepo.repo)) {
-		gulp.task('build:create_release', gulp.series([]));
+		gulp.task('build:create_release', function (done) {
+			done();
+		});
 	} else {
 		gulp.task(
 			'build:create_release',
