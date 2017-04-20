@@ -4427,6 +4427,10 @@ process@^0.11.0:
   version "0.11.9"
   resolved "https://registry.yarnpkg.com/process/-/process-0.11.9.tgz#7bd5ad21aa6253e7da8682264f1e11d11c0318c1"
 
+promise-polyfill@6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-6.0.2.tgz#d9c86d3dc4dc2df9016e88946defd69b49b41162"
+
 prr@~0.0.0:
   version "0.0.0"
   resolved "https://registry.yarnpkg.com/prr/-/prr-0.0.0.tgz#1a84b85908325501411853d0081ee3fa86e2926a"
@@ -5176,7 +5180,7 @@ strip-indent@^1.0.1:
   dependencies:
     get-stdin "^4.0.1"
 
-strip-json-comments@~2.0.1:
+strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
@@ -5583,7 +5587,7 @@ watchpack@^1.3.1:
     chokidar "^1.4.3"
     graceful-fs "^4.1.2"
 
-webpack-sources@^0.1.0:
+webpack-sources@^0.1.0, webpack-sources@^0.1.2:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.1.5.tgz#aa1f3abf0f0d74db7111c40e500b84f966640750"
   dependencies:
@@ -5596,6 +5600,15 @@ webpack-sources@^0.2.3:
   dependencies:
     source-list-map "^1.1.1"
     source-map "~0.5.3"
+
+webpack2-polyfill-plugin@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/webpack2-polyfill-plugin/-/webpack2-polyfill-plugin-0.0.2.tgz#0716bfecdc2e8adc6c580bf4e3017effcc775768"
+  dependencies:
+    object-assign "^4.1.0"
+    promise-polyfill "6.0.2"
+    strip-json-comments "^2.0.1"
+    webpack-sources "^0.1.2"
 
 webpack@v2.4.1:
   version "2.4.1"

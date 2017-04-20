@@ -4,6 +4,7 @@ var fs = require('fs');
 var extend = require('util')._extend;
 var camelcase = require('camelcase');
 var autoprefixer = require('autoprefixer');
+var Webpack2Polyfill = require("webpack2-polyfill-plugin");
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -197,7 +198,7 @@ module.exports = (options) => {
 				new webpack.ProvidePlugin({
 					'$': 'jquery'
 				}),
-
+				new Webpack2Polyfill(),
 
 				new webpack.NoEmitOnErrorsPlugin(),
 
