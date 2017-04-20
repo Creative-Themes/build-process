@@ -128,7 +128,8 @@ module.exports = (options) => {
 							],
 							plugins: [
 								require.resolve('babel-plugin-transform-object-rest-spread'),
-								require.resolve('babel-plugin-transform-flow-strip-types')
+								require.resolve('babel-plugin-transform-flow-strip-types'),
+								require.resolve('babel-plugin-syntax-dynamic-import')
 							].concat(options.babelAdditionalPlugins)
 						},
 

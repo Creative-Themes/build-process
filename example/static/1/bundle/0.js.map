@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","file":"0.js","sourceRoot":""}
+{"version":3,"sources":["webpack:///./js/a.js"],"names":["a"],"mappings":";;;;AAAA,IAAIA,IAAI,CAAR,C","file":"0.js","sourcesContent":["let a = 2;\n\n\n\n// WEBPACK FOOTER //\n// ./js/a.js"],"sourceRoot":""}

@@ -1,3 +1,7 @@
-require.ensure([], function (require) {
-    var a = require('./a.js');
-})
+function handler () {
+	import('./a.js').then(() => doStuff())
+}
+
+function doStuff () {
+	
+}

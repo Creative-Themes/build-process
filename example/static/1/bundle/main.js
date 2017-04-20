@@ -152,9 +152,13 @@
 /* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__.e/* require.ensure */(0).then((function (require) {
-    var a = __webpack_require__(0);
-}).bind(null, __webpack_require__)).catch(__webpack_require__.oe);
+function handler() {
+	__webpack_require__.e/* import() */(0).then(__webpack_require__.bind(null, 0)).then(function () {
+		return doStuff();
+	});
+}
+
+function doStuff() {}
 
 /***/ })
 /******/ ]);
