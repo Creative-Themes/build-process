@@ -198,7 +198,12 @@ module.exports = (options) => {
 				new webpack.ProvidePlugin({
 					'$': 'jquery'
 				}),
-				new Webpack2Polyfill(),
+				new Webpack2Polyfill({
+					"Promise":                 true,
+					"Function.prototype.bind": false,
+					"Object.keys":             false,
+					"Object.defineProperty":   false
+				}),
 
 				new webpack.NoEmitOnErrorsPlugin(),
 
