@@ -1,9 +1,10 @@
-const webpackTask = require('./webpack-task');
-const glueTasks = require('./glue-tasks');
-const flowTasks = require('./flow-tasks');
+const webpackTask = require('./tasks/webpack/webpack-task');
+const flowTasks = require('./tasks/webpack/flow-tasks');
+
+const glueTasks = require('./tasks/glue-tasks');
 const sassTask = require('./sass-task');
-const bumpVersionTasks = require('./bump-version-task');
-const releaseTask = require('./release-task');
+const bumpVersionTasks = require('./tasks/bump-version-task');
+const releaseTask = require('./tasks/release-task');
 
 if (! process.env.NODE_ENV) {
 	process.env.NODE_ENV = 'development';
