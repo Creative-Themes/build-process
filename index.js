@@ -1,5 +1,4 @@
 const webpackTask = require('./tasks/webpack/webpack-task');
-const flowTasks = require('./tasks/webpack/flow-tasks');
 
 const glueTasks = require('./tasks/glue-tasks');
 const sassTask = require('./tasks/sass-task');
@@ -84,6 +83,11 @@ function registerTasks (gulp, options) {
         },
         sassWatch: [],
 
+		/**
+		 * Enable flow type checking
+		 */
+		flowTypingsEnabled: false,
+
         toClean: [],
 
         watchFilesAndReload: [],
@@ -100,7 +104,11 @@ function registerTasks (gulp, options) {
     sassTask.assign(gulp, options);
 
     glueTasks.assign(gulp, options);
-    flowTasks.assign(gulp, options);
+
+	if (options.flowTypingsEnabled) {
+		const flowTasks = require('./tasks/webpack/flow-tasks');
+		flowTasks.assign(gulp, options);
+	}
 
     bumpVersionTasks.assign(gulp, options);
     releaseTask.assign(gulp, options);

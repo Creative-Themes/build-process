@@ -48,15 +48,22 @@ function webpackTask (gulp, options) {
 
 				if (! firstBuildDone) {
 					firstBuildDone = true;
-					flowTasks.softInstallAndRun(done);
+
+					if (options.flowTypingsEnabled) {
+						flowTasks.softInstallAndRun(done);
+					}
 				} else {
-					flowTasks.softInstallAndRun();
+					if (options.flowTypingsEnabled) {
+						flowTasks.softInstallAndRun();
+					}
 				}
 			});
 		} else {
 			compiler.run((err, stats) => {
 				handleWebpackOutput(err, stats);
-				flowTasks.softInstallAndRun();
+				if (options.flowTypingsEnabled) {
+					flowTasks.softInstallAndRun();
+				}
 				done();
 			});
 		}
