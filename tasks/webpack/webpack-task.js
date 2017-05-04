@@ -51,6 +51,8 @@ function webpackTask (gulp, options) {
 
 					if (options.flowTypingsEnabled) {
 						flowTasks.softInstallAndRun(done);
+					} else {
+						done();
 					}
 				} else {
 					if (options.flowTypingsEnabled) {
