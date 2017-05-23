@@ -9,8 +9,9 @@ const sourcemaps = require('gulp-sourcemaps');
 const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const header = require('gulp-header');
-const autoprefixer = require('gulp-autoprefixer');
 const cached = require('gulp-cached');
+
+var autoprefixer = require('autoprefixer');
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
@@ -79,7 +80,10 @@ function sassTask (gulp, options) {
                     options.sassIncludePaths
                 )
             }).on('error', sass.logError))
-            .pipe(autoprefixer())
+            .pipe(postcss([
+              require('postcss-easing-gradients'),
+              autoprefixer({ browsers: ['last 2 versions'] })
+            ]))
             .pipe(gulpIf(entry.header, header(
                 (entry.header || {}).template,
                 (entry.header || {}).values

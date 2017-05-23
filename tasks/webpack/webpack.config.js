@@ -227,6 +227,7 @@ module.exports = (options) => {
 						output: singleConfig.output,
 						postcss () {
 							return [
+								require('postcss-easing-gradients'),
 								autoprefixer({ browsers: ['last 2 versions'] })
 							];
 						}
