@@ -169,7 +169,11 @@ module.exports = (options) => {
 
 					{
 						test: /\.png$/,
-						loader: "url-loader?limit=100000"
+						loader: "file-loader"
+					},
+					{
+						test: /\.gif/,
+						loader: "file-loader"
 					},
 					{
 						test: /\.jpg$/,
