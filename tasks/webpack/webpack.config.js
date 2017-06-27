@@ -135,13 +135,13 @@ module.exports = options => {
 								presets: [['es2015', { modules: false }]],
 								plugins: [
 									require.resolve(
-										'babel-plugin-transform-object-rest-spread',
+										'babel-plugin-transform-object-rest-spread'
 									),
 									require.resolve(
-										'babel-plugin-transform-flow-strip-types',
+										'babel-plugin-transform-flow-strip-types'
 									),
 									require.resolve(
-										'babel-plugin-syntax-dynamic-import',
+										'babel-plugin-syntax-dynamic-import'
 									),
 									require.resolve('babel-plugin-syntax-jsx'),
 								].concat(options.babelAdditionalPlugins),
@@ -249,7 +249,7 @@ module.exports = options => {
 									},
 								}),
 								new CompressionPlugin(),
-							],
+							]
 				)
 				.concat(options.webpackPlugins),
 
