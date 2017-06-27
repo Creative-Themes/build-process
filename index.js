@@ -5,117 +5,121 @@ const sassTask = require('./tasks/sass-task');
 const bumpVersionTasks = require('./tasks/bump-version-task');
 const releaseTask = require('./tasks/release-task');
 
-if (! process.env.NODE_ENV) {
+if (!process.env.NODE_ENV) {
 	process.env.NODE_ENV = 'development';
 }
 
 const _ = require('lodash');
 
 module.exports = {
-    registerTasks: registerTasks,
-    headerFor: headerFor
+	registerTasks: registerTasks,
+	headerFor: headerFor,
 };
 
-function registerTasks (gulp, options) {
-    options = _.extend({
-        packageType: 'unyson_extension',
-        packageSlug: '',
+function registerTasks(gulp, options) {
+	options = _.extend(
+		{
+			packageType: 'unyson_extension',
+			packageSlug: '',
 
-        /**
-         * {
-         *   user: 'github_user',
-         *   repo: 'github_repo'
-         * }
-         */
-        packageRepo: {},
+			/**
+			 * {
+			 *   user: 'github_user',
+			 *   repo: 'github_repo'
+			 * }
+			 */
+			packageRepo: {},
 
-        /**
-         * [ './style.css', './package.json' ]
-         */
-        filesToBumpVersionInto: null,
+			/**
+			 * [ './style.css', './package.json' ]
+			 */
+			filesToBumpVersionInto: null,
 
-        currentVersion: '0.0.1',
+			currentVersion: '0.0.1',
 
-        filesToDeleteFromBuild: [
-            './build_tmp/build/package.json',
-            './build_tmp/build/gulpfile.js',
-            './build_tmp/build/bower_components/',
-            './build_tmp/build/node_modules/',
-            './build_tmp/build/{flow,flow-typed,ct-flow-typed}',
-            './build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
-        ],
+			filesToDeleteFromBuild: [
+				'./build_tmp/build/package.json',
+				'./build_tmp/build/gulpfile.js',
+				'./build_tmp/build/bower_components/',
+				'./build_tmp/build/node_modules/',
+				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
+				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
+			],
 
-        /**
-         * entries: [
-         *   {
-         *      entry: 'static/js/main.js',
-         *      named: 'bundle',
-         *      output: 'static/bundle/'
-         *    }
-         *  ]
-         */
-        entries: [],
-        webpackIncludePaths: [],
-        webpackExternals: {},
-        webpackResolveAliases: {},
-        webpackPlugins: [],
-        webpackAdditionalModules: {},
-        webpackAdditionalLoaders: [],
-        babelAdditionalPlugins: [],
+			/**
+			 * entries: [
+			 *   {
+			 *      entry: 'static/js/main.js',
+			 *      named: 'bundle',
+			 *      output: 'static/bundle/'
+			 *    }
+			 *  ]
+			 */
+			entries: [],
+			webpackIncludePaths: [],
+			webpackExternals: {},
+			webpackResolveAliases: {},
+			webpackPlugins: [],
+			webpackAdditionalModules: {},
+			webpackAdditionalLoaders: [],
+			babelAdditionalPlugins: [],
 
-        /**
-         * sassFiles: [
-         *   {
-         *     input: 'path/to/file.scss',
-         *     output: 'path/to/output.css'
-         *   }
-         * ]
-         */
-        sassFiles: [],
-        sassIncludePaths: [],
-        browserSyncEnabled: true,
-        browserSyncInitOptions: {
-            logSnippet: false,
-            port: 9669,
-            ui: {
-              port: 9068
-            }
-        },
-        sassWatch: [],
+			/**
+			 * sassFiles: [
+			 *   {
+			 *     input: 'path/to/file.scss',
+			 *     output: 'path/to/output.css'
+			 *   }
+			 * ]
+			 */
+			sassFiles: [],
+			sassIncludePaths: [],
+			browserSyncEnabled: true,
+			browserSyncInitOptions: {
+				logSnippet: false,
+				port: 9669,
+				ui: {
+					port: 9068,
+				},
+			},
+			sassWatch: [],
 
-		/**
-		 * Enable flow type checking
-		 */
-		flowTypingsEnabled: false,
+			/**
+			 * Enable flow type checking
+			 */
+			flowTypingsEnabled: false,
 
-        toClean: [],
+			toClean: [],
 
-        watchFilesAndReload: [],
-        proxyServer: 'localhost:3000',
+			watchFilesAndReload: [],
+			proxyServer: 'localhost:3000',
 
-        stripCodeStartComment: 'CT_REMOVE_FROM_PRODUCTION',
-        stripCodeEndComment: 'CT_END_REMOVE_FROM_PRODUCTION',
+			stripCodeStartComment: 'CT_REMOVE_FROM_PRODUCTION',
+			stripCodeEndComment: 'CT_END_REMOVE_FROM_PRODUCTION',
 
-        filesToStripCodeFrom: []
+			filesToStripCodeFrom: [],
+		},
+		options,
+	);
 
-    }, options);
+	webpackTask.assign(gulp, options);
+	sassTask.assign(gulp, options);
 
-    webpackTask.assign(gulp, options);
-    sassTask.assign(gulp, options);
-
-    glueTasks.assign(gulp, options);
+	glueTasks.assign(gulp, options);
 
 	if (options.flowTypingsEnabled) {
 		const flowTasks = require('./tasks/webpack/flow-tasks');
 		flowTasks.assign(gulp, options);
 	}
 
-    bumpVersionTasks.assign(gulp, options);
-    releaseTask.assign(gulp, options);
+	bumpVersionTasks.assign(gulp, options);
+	releaseTask.assign(gulp, options);
 }
 
-function headerFor (specialText, data) {
-	if (! data) { data = {}; }
+function headerFor(specialText, data) {
+	if (!data) {
+		data = {};
+	}
 
 	var template = '/**\n';
 
@@ -123,18 +127,20 @@ function headerFor (specialText, data) {
 		template += ' * ' + specialText + '\n';
 	}
 
-	template += ' * <%= name %> - v<%= version %>\n' +
-				' * <%= homepage %>\n' +
-				' * Copyright (c) <%= year %>\n' +
-				' * Licensed GPLv2+\n' +
-				' */\n\n';
+	template +=
+		' * <%= name %> - v<%= version %>\n' +
+		' * <%= homepage %>\n' +
+		' * Copyright (c) <%= year %>\n' +
+		' * Licensed GPLv2+\n' +
+		' */\n\n';
+
 	return {
 		template: template,
 		values: {
 			name: data.title,
 			version: data.version,
 			homepage: data.homepage,
-			year: (new Date()).getFullYear()
-		}
+			year: new Date().getFullYear(),
+		},
 	};
 }
