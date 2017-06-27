@@ -99,7 +99,7 @@ function registerTasks(gulp, options) {
 
 			filesToStripCodeFrom: [],
 		},
-		options,
+		options
 	);
 
 	webpackTask.assign(gulp, options);

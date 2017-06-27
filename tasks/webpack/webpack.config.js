@@ -30,7 +30,7 @@ module.exports = options => {
 				toPush.context = path.join(
 					process.cwd(),
 					entry.forEachFolderIn,
-					folder,
+					folder
 				);
 
 				toPush.entry = entry.entry;
@@ -40,12 +40,12 @@ module.exports = options => {
 						process.cwd(),
 						entry.forEachFolderIn,
 						folder,
-						entry.output.path,
+						entry.output.path
 					),
 					filename: '[name].js',
 					jsonpFunction: camelcase(
-						(entry.jsonpPrefix || 'webpack-jsonp-') + folder,
-					),
+						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
+					)
 				});
 
 				if (entry.licenseHeader) {
@@ -54,7 +54,7 @@ module.exports = options => {
 
 				if (
 					fs.existsSync(
-						path.join(entry.forEachFolderIn, folder, entry.entry),
+						path.join(entry.forEachFolderIn, folder, entry.entry)
 					)
 				) {
 					webpackMultipleConfigs.push(toPush);
@@ -70,7 +70,7 @@ module.exports = options => {
 				if (!path.isAbsolute(toPush['output']['path'])) {
 					toPush['output']['path'] = path.join(
 						process.cwd(),
-						toPush['output']['path'],
+						toPush['output']['path']
 					);
 				}
 			}
@@ -91,7 +91,7 @@ module.exports = options => {
 		let result = Object.assign(
 			{},
 			getCommonConfig(singleConfig),
-			singleConfig,
+			singleConfig
 		);
 
 		if (result.ctTemporaryHeader) {
@@ -188,14 +188,14 @@ module.exports = options => {
 						},
 					].concat(options.webpackAdditionalLoaders),
 				},
-				options.webpackAdditionalModules,
+				options.webpackAdditionalModules
 			),
 
 			resolve: {
 				extensions: ['.js', '.jsx', '.css'],
 
 				modules: ['node_modules', 'bower_components'].concat(
-					options.webpackIncludePaths,
+					options.webpackIncludePaths
 				),
 
 				alias: options.webpackResolveAliases,
@@ -203,7 +203,7 @@ module.exports = options => {
 
 			plugins: [
 				new webpack.ProvidePlugin({
-					$: 'jquery',
+					$: 'jquery'
 				}),
 				new Webpack2Polyfill({
 					Promise: true,
@@ -259,7 +259,7 @@ module.exports = options => {
 					_: 'window._',
 					underscore: 'window._',
 				},
-				options.webpackExternals,
+				options.webpackExternals
 			),
 		};
 
