@@ -143,7 +143,9 @@ module.exports = options => {
 									require.resolve(
 										'babel-plugin-syntax-dynamic-import'
 									),
-									require.resolve('babel-plugin-syntax-jsx'),
+									require.resolve(
+										'babel-plugin-transform-vue-jsx'
+									),
 								].concat(options.babelAdditionalPlugins),
 							},
 
