@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Creative-Themes/build-process#readme",
   "dependencies": {
     "babel-core": "^6.10.4",
+    "babel-helper-vue-jsx-merge-props": "^2.0.2",
     "babel-loader": "^6.4.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
@@ -71,6 +72,6 @@
     "webpack2-polyfill-plugin": "^0.0.2"
   },
   "devDependencies": {
-    "prettier": "^1.4.4"
+    "prettier": "^1.5.2"
   }
 }
