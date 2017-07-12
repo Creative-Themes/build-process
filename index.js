@@ -63,6 +63,7 @@ function registerTasks(gulp, options) {
 			webpackAdditionalModules: {},
 			webpackAdditionalLoaders: [],
 			babelAdditionalPlugins: [],
+			webpackOutputStats: false,
 
 			/**
 			 * sassFiles: [

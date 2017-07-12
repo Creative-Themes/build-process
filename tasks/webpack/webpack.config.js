@@ -45,7 +45,7 @@ module.exports = options => {
 					filename: '[name].js',
 					jsonpFunction: camelcase(
 						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
-					)
+					),
 				});
 
 				if (entry.licenseHeader) {
@@ -205,7 +205,7 @@ module.exports = options => {
 
 			plugins: [
 				new webpack.ProvidePlugin({
-					$: 'jquery'
+					$: 'jquery',
 				}),
 				new Webpack2Polyfill({
 					Promise: true,
@@ -252,6 +252,15 @@ module.exports = options => {
 								}),
 								new CompressionPlugin(),
 							]
+				)
+				.concat(
+					options.webpackOutputStats
+						? [
+							new StatsPlugin('stats.json', {
+								chunkModules: true,
+							}),
+						]
+						: []
 				)
 				.concat(options.webpackPlugins),
 
