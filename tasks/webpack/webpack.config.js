@@ -132,7 +132,11 @@ module.exports = options => {
 							test: /\.(js|jsx)$/,
 							loader: require.resolve('babel-loader'),
 							options: {
-								presets: [['es2015', { modules: false }]],
+								presets: [['env', {
+									targets: {
+										browsers: 'defaults'
+									}
+								}]],
 								plugins: [
 									require.resolve(
 										'babel-plugin-transform-object-rest-spread'
