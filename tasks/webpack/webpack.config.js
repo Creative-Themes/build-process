@@ -132,11 +132,16 @@ module.exports = options => {
 							test: /\.(js|jsx)$/,
 							loader: require.resolve('babel-loader'),
 							options: {
-								presets: [['env', {
-									targets: {
-										browsers: 'defaults'
-									}
-								}]],
+								presets: [
+									[
+										'env',
+										{
+											targets: {
+												browsers: 'defaults',
+											},
+										},
+									],
+								],
 								plugins: [
 									require.resolve(
 										'babel-plugin-transform-object-rest-spread'
@@ -150,6 +155,14 @@ module.exports = options => {
 									require.resolve(
 										'babel-plugin-transform-vue-jsx'
 									),
+									[
+										require.resolve(
+											'babel-plugin-transform-runtime'
+										),
+										{
+											polyfill: true,
+										},
+									],
 								].concat(options.babelAdditionalPlugins),
 							},
 
@@ -260,10 +273,10 @@ module.exports = options => {
 				.concat(
 					options.webpackOutputStats
 						? [
-							new StatsPlugin('stats.json', {
-								chunkModules: true,
-							}),
-						]
+								new StatsPlugin('stats.json', {
+									chunkModules: true,
+								}),
+							]
 						: []
 				)
 				.concat(options.webpackPlugins),
