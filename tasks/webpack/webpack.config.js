@@ -136,6 +136,7 @@ module.exports = options => {
 									[
 										'env',
 										{
+											modules: false,
 											targets: {
 												browsers: 'defaults',
 											},
