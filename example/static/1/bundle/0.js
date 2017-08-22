@@ -1,5 +1,6 @@
 yourPrefix1([0],[
-/* 0 */
+/* 0 */,
+/* 1 */
 /***/ (function(module, exports) {
 
 var a = 2;

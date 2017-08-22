@@ -114,15 +114,6 @@ module.exports = options => {
 	 */
 	function getCommonConfig(singleConfig) {
 		const commonConfig = {
-			/*
-			entry: webpackEntry,
-
-			output: {
-				path: './',
-				filename: '[name].js'
-			},
-			*/
-
 			devtool: isDevelopment ? 'source-map' : false,
 
 			module: Object.assign(
@@ -156,14 +147,6 @@ module.exports = options => {
 									require.resolve(
 										'babel-plugin-transform-vue-jsx'
 									),
-									[
-										require.resolve(
-											'babel-plugin-transform-runtime'
-										),
-										{
-											polyfill: true,
-										},
-									],
 								].concat(options.babelAdditionalPlugins),
 							},
 
@@ -225,6 +208,7 @@ module.exports = options => {
 				new webpack.ProvidePlugin({
 					$: 'jquery',
 				}),
+
 				new Webpack2Polyfill({
 					Promise: true,
 					'Function.prototype.bind': false,
