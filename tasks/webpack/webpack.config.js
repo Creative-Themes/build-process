@@ -205,10 +205,6 @@ module.exports = options => {
 			},
 
 			plugins: [
-				new webpack.ProvidePlugin({
-					$: 'jquery',
-				}),
-
 				new Webpack2Polyfill({
 					Promise: true,
 					'Function.prototype.bind': false,
