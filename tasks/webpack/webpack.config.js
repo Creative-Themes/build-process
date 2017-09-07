@@ -156,6 +156,14 @@ module.exports = options => {
 
 						{
 							test: /\.scss$/,
+							enforce: 'pre',
+							loaders: [
+								'import-glob-loader'
+							],
+						},
+
+						{
+							test: /\.scss$/,
 							loaders: [
 								'style-loader',
 								'css-loader?sourceMap',

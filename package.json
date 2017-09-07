@@ -1,6 +1,6 @@
 {
   "name": "ct-build-process",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -35,6 +35,7 @@
     "file-loader": "^0.8.5",
     "flow-bin": "^0.49.1",
     "flow-typed": "^2.0.0",
+    "git": "github.com:Aintaer/import-glob-loader.git",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-bump": "^2.4.0",
@@ -48,6 +49,7 @@
     "gulp-postcss": "^7.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
+    "gulp-sass-glob": "^1.0.8",
     "gulp-shell": "^0.5.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-strip-code": "^0.1.4",

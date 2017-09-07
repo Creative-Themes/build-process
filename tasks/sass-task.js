@@ -10,6 +10,7 @@ const plumber = require('gulp-plumber');
 const notify = require('gulp-notify');
 const header = require('gulp-header');
 const cached = require('gulp-cached');
+const sassGlob = require('gulp-sass-glob');
 
 const postcss = require('gulp-postcss');
 
@@ -73,6 +74,7 @@ function sassTask (gulp, options) {
             }))
             // .pipe(cached('sass'))
             .pipe(gulpIf(isDevelopment, sourcemaps.init()))
+            .pipe(sassGlob())
             .pipe(sass({
                 outputStyle: isDevelopment ? 'nested' : 'compressed',
                 includePaths: [
