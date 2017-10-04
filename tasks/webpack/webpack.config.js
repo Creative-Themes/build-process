@@ -5,6 +5,7 @@ var extend = require('util')._extend;
 var camelcase = require('camelcase');
 var autoprefixer = require('autoprefixer');
 var Webpack2Polyfill = require('webpack2-polyfill-plugin');
+var StatsPlugin = require('stats-webpack-plugin');
 
 const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development';
