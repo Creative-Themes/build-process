@@ -63,6 +63,10 @@ function registerTasks(gulp, options) {
 			webpackAdditionalModules: {},
 			webpackAdditionalLoaders: [],
 			babelAdditionalPlugins: [],
+
+			// vue | react
+			babelJsxPlugin: 'vue',
+			babelJsxReactPragma: 'React.createElement',
 			webpackOutputStats: false,
 
 			/**

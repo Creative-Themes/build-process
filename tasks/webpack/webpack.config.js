@@ -1,40 +1,40 @@
-var path = require('path');
-var webpack = require('webpack');
-var fs = require('fs');
-var extend = require('util')._extend;
-var camelcase = require('camelcase');
-var autoprefixer = require('autoprefixer');
-var Webpack2Polyfill = require('webpack2-polyfill-plugin');
-var StatsPlugin = require('stats-webpack-plugin');
+var path = require('path')
+var webpack = require('webpack')
+var fs = require('fs')
+var extend = require('util')._extend
+var camelcase = require('camelcase')
+var autoprefixer = require('autoprefixer')
+var Webpack2Polyfill = require('webpack2-polyfill-plugin')
+var StatsPlugin = require('stats-webpack-plugin')
 
 const isDevelopment =
-	!process.env.NODE_ENV || process.env.NODE_ENV == 'development';
+	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
 
-var CompressionPlugin = require('compression-webpack-plugin');
+var CompressionPlugin = require('compression-webpack-plugin')
 
 function getFolders(dir) {
 	return fs.readdirSync(dir).filter(function(file) {
-		return fs.statSync(path.join(dir, file)).isDirectory();
-	});
+		return fs.statSync(path.join(dir, file)).isDirectory()
+	})
 }
 
 module.exports = options => {
-	const webpackMultipleConfigs = [];
+	const webpackMultipleConfigs = []
 
 	options.entries.map(entry => {
 		if (entry.forEachFolderIn) {
-			var folders = getFolders(entry.forEachFolderIn);
+			var folders = getFolders(entry.forEachFolderIn)
 
 			folders.map(folder => {
-				var toPush = {};
+				var toPush = {}
 
 				toPush.context = path.join(
 					process.cwd(),
 					entry.forEachFolderIn,
 					folder
-				);
+				)
 
-				toPush.entry = entry.entry;
+				toPush.entry = entry.entry
 
 				toPush.output = Object.assign({}, entry.output, {
 					path: path.join(
@@ -47,7 +47,7 @@ module.exports = options => {
 					jsonpFunction: camelcase(
 						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
 					),
-				});
+				})
 
 				if (entry.licenseHeader) {
 					// toPush['ctTemporaryHeader'] = entry.licenseHeader;
@@ -58,33 +58,33 @@ module.exports = options => {
 						path.join(entry.forEachFolderIn, folder, entry.entry)
 					)
 				) {
-					webpackMultipleConfigs.push(toPush);
+					webpackMultipleConfigs.push(toPush)
 				}
-			});
+			})
 		} else {
-			var toPush = {};
+			var toPush = {}
 
-			toPush['entry'] = entry.entry;
-			toPush['output'] = entry.output;
+			toPush['entry'] = entry.entry
+			toPush['output'] = entry.output
 
 			if (toPush['output']['path']) {
 				if (!path.isAbsolute(toPush['output']['path'])) {
 					toPush['output']['path'] = path.join(
 						process.cwd(),
 						toPush['output']['path']
-					);
+					)
 				}
 			}
 
-			toPush.context = process.cwd();
+			toPush.context = process.cwd()
 
 			if (entry.licenseHeader) {
 				// toPush['ctTemporaryHeader'] = entry.licenseHeader;
 			}
 
-			webpackMultipleConfigs.push(toPush);
+			webpackMultipleConfigs.push(toPush)
 		}
-	});
+	})
 
 	var config = webpackMultipleConfigs.map(singleConfig => {
 		// console.log('DEBUG', singleConfig.entry);
@@ -93,7 +93,7 @@ module.exports = options => {
 			{},
 			getCommonConfig(singleConfig),
 			singleConfig
-		);
+		)
 
 		if (result.ctTemporaryHeader) {
 			/*
@@ -105,10 +105,10 @@ module.exports = options => {
             */
 		}
 
-		return result;
-	});
+		return result
+	})
 
-	return config;
+	return config
 
 	/**
 	 * Crazy hack for https://github.com/webpack/css-loader/issues/337
@@ -145,10 +145,23 @@ module.exports = options => {
 									require.resolve(
 										'babel-plugin-syntax-dynamic-import'
 									),
-									require.resolve(
-										'babel-plugin-transform-vue-jsx'
-									),
-								].concat(options.babelAdditionalPlugins),
+								]
+									.concat(
+										options.babelJsxPlugin === 'vue'
+											? require.resolve(
+													'babel-plugin-transform-vue-jsx'
+												)
+											: [
+													[
+														'transform-react-jsx',
+														{
+															pragma:
+																options.babelJsxReactPragma,
+														},
+													],
+												]
+									)
+									.concat(options.babelAdditionalPlugins),
 							},
 
 							// TODO: configure load paths here. May slow down builds!!!
@@ -158,9 +171,7 @@ module.exports = options => {
 						{
 							test: /\.scss$/,
 							enforce: 'pre',
-							loaders: [
-								'import-glob-loader'
-							],
+							loaders: ['import-glob-loader'],
 						},
 
 						{
@@ -242,8 +253,8 @@ module.exports = options => {
 						postcss() {
 							return [
 								require('postcss-easing-gradients'),
-								autoprefixer({ browsers: ['last 2 versions'] }),
-							];
+								autoprefixer({browsers: ['last 2 versions']}),
+							]
 						},
 					},
 				}),
@@ -279,8 +290,8 @@ module.exports = options => {
 				},
 				options.webpackExternals
 			),
-		};
+		}
 
-		return commonConfig;
+		return commonConfig
 	}
-};
+}

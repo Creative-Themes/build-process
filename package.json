@@ -1,6 +1,6 @@
 {
   "name": "ct-build-process",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -24,6 +24,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-plugin-transform-vue-jsx": "^3.4.3",
     "babel-preset-env": "^1.6.0",
     "browser-sync": "^2.14.0",
