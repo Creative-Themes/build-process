@@ -1,6 +1,6 @@
 {
   "name": "ct-build-process",
-  "version": "4.0.5",
+  "version": "4.0.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "dependencies": {
     "babel-core": "^6.10.4",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
-    "babel-loader": "^6.4.1",
+    "babel-loader": "^7.1.2",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
@@ -61,12 +61,12 @@
     "import-glob-loader": "^1.1.0",
     "lodash": "^4.14.2",
     "merge-stream": "^1.0.0",
-    "node-sass": "^3.8.0",
+    "node-sass": "^4.5.1",
     "parse-gitignore": "^0.4.0",
     "postcss-easing-gradients": "^1.2.3",
     "postcss-loader": "^1.2.1",
     "prettier": "^1.5.2",
-    "sass-loader": "^3.2.1",
+    "sass-loader": "^6.0.6",
     "shelljs": "^0.7.7",
     "stats-webpack-plugin": "^0.6.1",
     "style-loader": "^0.13.1",
