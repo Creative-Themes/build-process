@@ -1,46 +1,41 @@
-let path = require('path');
-let fs = require('fs');
-let gitignore = require('parse-gitignore');
-let logger = require('gulplog');
+let path = require('path')
+let fs = require('fs')
+let gitignore = require('parse-gitignore')
+let logger = require('gulplog')
 
 module.exports = {
-	maybeAddToGitIgnore
+	maybeAddToGitIgnore,
 }
 
-function maybeAddToGitIgnore (listToAdd) {
+function maybeAddToGitIgnore(listToAdd) {
 	// gulp will automatically change cwd
-	let patterns = gitignore(
-		'.gitignore'
-	);
+	let patterns = gitignore('.gitignore')
 
-	listToAdd.map((patternToAdd) => {
-		if (! patternIsInGitIgnore(patternToAdd)) {
-			addToGitignore(patternToAdd);
+	listToAdd.map(patternToAdd => {
+		if (!patternIsInGitIgnore(patternToAdd)) {
+			addToGitignore(patternToAdd)
 		} else {
-			logger.debug(`Skipping ${patternToAdd}, already present in .gitignore`);
+			logger.debug(
+				`Skipping ${patternToAdd}, already present in .gitignore`
+			)
 		}
-	});
+	})
 
-	function patternIsInGitIgnore (pattern) {
-		return patterns.map(removeExtraChars).indexOf(
-			removeExtraChars(pattern)
-		) !== -1;
+	function patternIsInGitIgnore(pattern) {
+		return (
+			patterns
+				.map(removeExtraChars)
+				.indexOf(removeExtraChars(pattern)) !== -1
+		)
 
-		function removeExtraChars (pattern) {
-			return pattern
-				.replace(/\//g, '')
-				.replace(/\*/g, '')
+		function removeExtraChars(pattern) {
+			return pattern.replace(/\//g, '').replace(/\*/g, '')
 		}
 	}
 }
 
-function addToGitignore (pattern) {
-	logger.info(`Adding ${pattern} to .gitignore`);
+function addToGitignore(pattern) {
+	logger.info(`Adding ${pattern} to .gitignore`)
 
-	fs.appendFileSync(
-		path.join(process.cwd(), '.gitignore'),
-		`\n${pattern}`
-	);
+	fs.appendFileSync(path.join(process.cwd(), '.gitignore'), `\n${pattern}`)
 }
-
-

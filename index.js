@@ -1,20 +1,20 @@
-const webpackTask = require('./tasks/webpack/webpack-task');
+const webpackTask = require('./tasks/webpack/webpack-task')
 
-const glueTasks = require('./tasks/glue-tasks');
-const sassTask = require('./tasks/sass-task');
-const bumpVersionTasks = require('./tasks/bump-version-task');
-const releaseTask = require('./tasks/release-task');
+const glueTasks = require('./tasks/glue-tasks')
+const sassTask = require('./tasks/sass-task')
+const bumpVersionTasks = require('./tasks/bump-version-task')
+const releaseTask = require('./tasks/release-task')
 
 if (!process.env.NODE_ENV) {
-	process.env.NODE_ENV = 'development';
+	process.env.NODE_ENV = 'development'
 }
 
-const _ = require('lodash');
+const _ = require('lodash')
 
 module.exports = {
 	registerTasks: registerTasks,
 	headerFor: headerFor,
-};
+}
 
 function registerTasks(gulp, options) {
 	options = _.extend(
@@ -105,31 +105,31 @@ function registerTasks(gulp, options) {
 			filesToStripCodeFrom: [],
 		},
 		options
-	);
+	)
 
-	webpackTask.assign(gulp, options);
-	sassTask.assign(gulp, options);
+	webpackTask.assign(gulp, options)
+	sassTask.assign(gulp, options)
 
-	glueTasks.assign(gulp, options);
+	glueTasks.assign(gulp, options)
 
 	if (options.flowTypingsEnabled) {
-		const flowTasks = require('./tasks/webpack/flow-tasks');
-		flowTasks.assign(gulp, options);
+		const flowTasks = require('./tasks/webpack/flow-tasks')
+		flowTasks.assign(gulp, options)
 	}
 
-	bumpVersionTasks.assign(gulp, options);
-	releaseTask.assign(gulp, options);
+	bumpVersionTasks.assign(gulp, options)
+	releaseTask.assign(gulp, options)
 }
 
 function headerFor(specialText, data) {
 	if (!data) {
-		data = {};
+		data = {}
 	}
 
-	var template = '/**\n';
+	var template = '/**\n'
 
 	if (specialText) {
-		template += ' * ' + specialText + '\n';
+		template += ' * ' + specialText + '\n'
 	}
 
 	template +=
@@ -137,7 +137,7 @@ function headerFor(specialText, data) {
 		' * <%= homepage %>\n' +
 		' * Copyright (c) <%= year %>\n' +
 		' * Licensed GPLv2+\n' +
-		' */\n\n';
+		' */\n\n'
 
 	return {
 		template: template,
@@ -147,5 +147,5 @@ function headerFor(specialText, data) {
 			homepage: data.homepage,
 			year: new Date().getFullYear(),
 		},
-	};
+	}
 }
