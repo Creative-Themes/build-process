@@ -124,6 +124,7 @@ export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 * `gulp build` - `gulp clean; gulp webpack; gulp sass`
 * `gulp dev` - `gulp build; gulp sass:watch`
 * `NODE_ENV=production gulp build` - reliable way of building assets for production
+* `NODE_ENV_GETTEXT=true gulp build` - build & extract I18N strings
 
 ### Stripe Code
 

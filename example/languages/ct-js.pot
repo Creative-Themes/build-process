@@ -1,0 +1,16 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-wp-i18n\n"
+
+#: static/2/js/main.js:2
+msgid "123"
+msgstr ""
+
+#: static/1/js/main.js:6
+msgid "hello"
+msgstr ""
+
+#: static/2/js/main.js:1
+msgid "asd"
+msgstr ""

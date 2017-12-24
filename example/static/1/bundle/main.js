@@ -403,7 +403,9 @@ function handler() {
 	});
 }
 
-function doStuff() {}
+function doStuff() {
+	__('hello');
+}
 
 /***/ })
 /******/ ]);

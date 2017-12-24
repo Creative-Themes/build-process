@@ -8,6 +8,8 @@
   },
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "devDependencies": {},
+  "dependencies": {
+    "fs-extra": "^5.0.0"
   }
 }

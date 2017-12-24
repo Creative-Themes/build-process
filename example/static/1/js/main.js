@@ -3,5 +3,5 @@ function handler () {
 }
 
 function doStuff () {
-	
+	__('hello')
 }
