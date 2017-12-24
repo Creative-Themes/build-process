@@ -49,16 +49,17 @@ function glueTasks(gulp, options) {
 						)
 					})
 				)
-				.concat(
-					['languages']
-				)
+				.concat(['languages'])
 				.concat(options.toClean)
 		)
 	})
 
 	gulp.task('build', gulp.series('clean', 'webpack', 'sass'))
 
-	gulp.task('dev', gulp.series('build', 'sass:watch'))
+	gulp.task(
+		'dev',
+		gulp.series('clean', 'webpack:watch', 'sass', 'sass:watch')
+	)
 
 	if (options.filesToStripCodeFrom.length > 0) {
 		gulp.task('build:strip_code', function() {

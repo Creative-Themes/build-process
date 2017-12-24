@@ -41,56 +41,47 @@ function webpackTask(gulp, options) {
 			return
 		}
 
+		getCompiler(options).run((err, stats) => {
+			handleWebpackOutput(err, stats)
+
+			if (options.flowTypingsEnabled) {
+				flowTasks.softInstallAndRun()
+			}
+
+			done()
+		})
+	})
+
+	gulp.task('webpack:watch', done => {
+		if (webpackOptions(options).length === 0) {
+			done()
+			return
+		}
+
 		const compiler = getCompiler(options)
 		var firstBuildDone = false
 
-		if (isDevelopment) {
-			compiler.watch(
-				{
-					aggregateTimeout: 301,
-				},
-				(err, stats) => {
-					handleWebpackOutput(err, stats)
+		compiler.watch(
+			{
+				aggregateTimeout: 301,
+			},
+			(err, stats) => {
+				handleWebpackOutput(err, stats)
 
-					if (!firstBuildDone) {
-						firstBuildDone = true
+				if (!firstBuildDone) {
+					firstBuildDone = true
 
-						if (options.flowTypingsEnabled) {
-							flowTasks.softInstallAndRun(done)
-						} else {
-							done()
-						}
+					if (options.flowTypingsEnabled) {
+						flowTasks.softInstallAndRun(done)
 					} else {
-						if (options.flowTypingsEnabled) {
-							flowTasks.softInstallAndRun()
-						}
+						done()
+					}
+				} else {
+					if (options.flowTypingsEnabled) {
+						flowTasks.softInstallAndRun()
 					}
 				}
-			)
-		} else {
-			compiler.run((err, stats) => {
-				handleWebpackOutput(err, stats)
-				if (options.flowTypingsEnabled) {
-					flowTasks.softInstallAndRun()
-				}
-				done()
-			})
-		}
+			}
+		)
 	})
-
-	gulp.task(
-		'webpack:watch',
-		gulp.series('webpack', done => {
-			const compiler = getCompiler(options)
-
-			compiler.watch(
-				{
-					aggregateTimeout: 300,
-				},
-				(err, stats) => {
-					handleWebpackOutput(err, stats)
-				}
-			)
-		})
-	)
 }
