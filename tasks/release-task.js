@@ -37,6 +37,7 @@ function releaseTask(gulp, options) {
 				'./build_tmp/build/node_modules/',
 				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
 				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
+				'./build_tmp/build/languages',
 			].concat(options.filesToDeleteFromBuild)
 		)
 	})

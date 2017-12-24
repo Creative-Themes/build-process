@@ -2,6 +2,7 @@ var del = require('del')
 var path = require('path')
 var stripCode = require('gulp-strip-code')
 var gulpIf = require('gulp-if')
+var wpPot = require('gulp-wp-pot')
 
 const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
@@ -47,6 +48,9 @@ function glueTasks(gulp, options) {
 							) + '.css'
 						)
 					})
+				)
+				.concat(
+					['languages']
 				)
 				.concat(options.toClean)
 		)
