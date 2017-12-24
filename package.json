@@ -56,6 +56,7 @@
 		"gulp-strip-code": "^0.1.4",
 		"gulp-uglify": "^2.0.0",
 		"gulp-util": "^3.0.7",
+		"gulp-wp-pot": "^2.0.6",
 		"gulp-zip": "^3.2.0",
 		"gulplog": "^1.0.0",
 		"import-glob-loader": "^1.1.0",

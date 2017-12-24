@@ -30,6 +30,8 @@ function registerTasks(gulp, options) {
 			 */
 			packageRepo: {},
 
+			packageI18nSlug: 'ct',
+
 			/**
 			 * [ './style.css', './package.json' ]
 			 */
