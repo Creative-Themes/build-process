@@ -1,6 +1,6 @@
 {
 	"name": "ct-build-process",
-	"version": "4.1.1",
+	"version": "4.1.2",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -52,7 +52,7 @@
 		"gulp-sass": "^3.1.0",
 		"gulp-sass-glob": "^1.0.8",
 		"gulp-shell": "^0.5.2",
-		"gulp-sourcemaps": "^1.6.0",
+		"gulp-sourcemaps": "^2.6.3",
 		"gulp-strip-code": "^0.1.4",
 		"gulp-uglify": "^2.0.0",
 		"gulp-util": "^3.0.7",
