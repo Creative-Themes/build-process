@@ -20,6 +20,20 @@ function getFolders(dir) {
 	})
 }
 
+const getPostcssloader = () => ({
+	loader: 'postcss-loader',
+	options: {
+		ident: 'postcss',
+		sourceMap: true,
+		plugins: loader => [
+			require('postcss-easing-gradients'),
+			autoprefixer({
+				browsers: ['last 2 versions'],
+			}),
+		],
+	},
+})
+
 module.exports = options => {
 	const webpackMultipleConfigs = []
 
@@ -33,7 +47,7 @@ module.exports = options => {
 				toPush.context = path.join(
 					process.cwd(),
 					entry.forEachFolderIn,
-					folder
+					folder,
 				)
 
 				toPush.entry = entry.entry
@@ -43,11 +57,11 @@ module.exports = options => {
 						process.cwd(),
 						entry.forEachFolderIn,
 						folder,
-						entry.output.path
+						entry.output.path,
 					),
 					filename: '[name].js',
 					jsonpFunction: camelcase(
-						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
+						(entry.jsonpPrefix || 'webpack-jsonp-') + folder,
 					),
 				})
 
@@ -57,7 +71,7 @@ module.exports = options => {
 
 				if (
 					fs.existsSync(
-						path.join(entry.forEachFolderIn, folder, entry.entry)
+						path.join(entry.forEachFolderIn, folder, entry.entry),
 					)
 				) {
 					webpackMultipleConfigs.push(toPush)
@@ -73,7 +87,7 @@ module.exports = options => {
 				if (!path.isAbsolute(toPush['output']['path'])) {
 					toPush['output']['path'] = path.join(
 						process.cwd(),
-						toPush['output']['path']
+						toPush['output']['path'],
 					)
 				}
 			}
@@ -94,7 +108,7 @@ module.exports = options => {
 		let result = Object.assign(
 			{},
 			getCommonConfig(singleConfig),
-			singleConfig
+			singleConfig,
 		)
 
 		if (result.ctTemporaryHeader) {
@@ -140,19 +154,19 @@ module.exports = options => {
 								],
 								plugins: [
 									require.resolve(
-										'babel-plugin-transform-object-rest-spread'
+										'babel-plugin-transform-object-rest-spread',
 									),
 									require.resolve(
-										'babel-plugin-transform-flow-strip-types'
+										'babel-plugin-transform-flow-strip-types',
 									),
 									require.resolve(
-										'babel-plugin-syntax-dynamic-import'
+										'babel-plugin-syntax-dynamic-import',
 									),
 								]
 									.concat(
 										options.babelJsxPlugin === 'vue'
 											? require.resolve(
-													'babel-plugin-transform-vue-jsx'
+													'babel-plugin-transform-vue-jsx',
 												)
 											: [
 													[
@@ -162,16 +176,16 @@ module.exports = options => {
 																options.babelJsxReactPragma,
 														},
 													],
-												]
+												],
 									)
 									.concat(
 										isGettextMode
 											? [
 													require.resolve(
-														'../../lib/i18n-babel-plugin.js'
+														'../../lib/i18n-babel-plugin.js',
 													),
 												]
-											: []
+											: [],
 									)
 									.concat(options.babelAdditionalPlugins),
 							},
@@ -191,7 +205,7 @@ module.exports = options => {
 							loaders: [
 								'style-loader',
 								'css-loader?sourceMap',
-								'postcss-loader',
+								getPostcssloader(),
 								'sass-loader?sourceMap&sourceMapContents',
 							],
 						},
@@ -201,7 +215,7 @@ module.exports = options => {
 							loaders: [
 								'style-loader',
 								'css-loader?sourceMap',
-								'postcss-loader',
+								getPostcssloader(),
 							],
 						},
 
@@ -223,14 +237,14 @@ module.exports = options => {
 						},
 					].concat(options.webpackAdditionalLoaders),
 				},
-				options.webpackAdditionalModules
+				options.webpackAdditionalModules,
 			),
 
 			resolve: {
 				extensions: ['.js', '.jsx', '.css'],
 
 				modules: ['node_modules', 'bower_components'].concat(
-					options.webpackIncludePaths
+					options.webpackIncludePaths,
 				),
 
 				alias: options.webpackResolveAliases,
@@ -257,19 +271,6 @@ module.exports = options => {
 				}),
 
 				new webpack.EnvironmentPlugin(['NODE_ENV']),
-
-				new webpack.LoaderOptionsPlugin({
-					options: {
-						context: singleConfig.context,
-						output: singleConfig.output,
-						postcss() {
-							return [
-								require('postcss-easing-gradients'),
-								autoprefixer({browsers: ['last 2 versions']}),
-							]
-						},
-					},
-				}),
 			]
 				.concat(
 					isDevelopment
@@ -281,7 +282,7 @@ module.exports = options => {
 									},
 								}),
 								new CompressionPlugin(),
-							]
+							],
 				)
 				.concat(
 					options.webpackOutputStats
@@ -290,7 +291,7 @@ module.exports = options => {
 									chunkModules: true,
 								}),
 							]
-						: []
+						: [],
 				)
 				.concat(options.webpackPlugins),
 
@@ -300,7 +301,7 @@ module.exports = options => {
 					_: 'window._',
 					underscore: 'window._',
 				},
-				options.webpackExternals
+				options.webpackExternals,
 			),
 		}
 
