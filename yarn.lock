@@ -567,7 +567,7 @@ babel-helper-replace-supers@^6.24.1:
     babel-traverse "^6.24.1"
     babel-types "^6.24.1"
 
-babel-helper-vue-jsx-merge-props@^2.0.2:
+babel-helper-vue-jsx-merge-props@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
 
@@ -5787,7 +5787,7 @@ prettier@^1.10.2:
   version "1.11.0"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.11.0.tgz#c024f70cab158c993f50fc0c25ffe738cb8b0f85"
 
-"prettier@github:prettier/prettier#ee148bfdeda373445ac9b67338cbae3df10a6576":
+prettier@prettier/prettier#ee148bfdeda373445ac9b67338cbae3df10a6576:
   version "1.9.2"
   resolved "https://codeload.github.com/prettier/prettier/tar.gz/ee148bfdeda373445ac9b67338cbae3df10a6576"
   dependencies:
@@ -5862,10 +5862,6 @@ process@^0.11.10:
 promise-inflight@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/promise-inflight/-/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
-
-promise-polyfill@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/promise-polyfill/-/promise-polyfill-6.0.2.tgz#d9c86d3dc4dc2df9016e88946defd69b49b41162"
 
 prr@~1.0.1:
   version "1.0.1"
@@ -6954,7 +6950,7 @@ strip-indent@^1.0.1:
   dependencies:
     get-stdin "^4.0.1"
 
-strip-json-comments@^2.0.1, strip-json-comments@~2.0.1:
+strip-json-comments@~2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
 
@@ -7607,7 +7603,7 @@ watchpack@^1.4.0:
     chokidar "^1.7.0"
     graceful-fs "^4.1.2"
 
-webpack-sources@^0.1.0, webpack-sources@^0.1.2:
+webpack-sources@^0.1.0:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-0.1.5.tgz#aa1f3abf0f0d74db7111c40e500b84f966640750"
   dependencies:
@@ -7620,15 +7616,6 @@ webpack-sources@^1.0.1, webpack-sources@^1.1.0:
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
-
-webpack2-polyfill-plugin@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/webpack2-polyfill-plugin/-/webpack2-polyfill-plugin-0.0.2.tgz#0716bfecdc2e8adc6c580bf4e3017effcc775768"
-  dependencies:
-    object-assign "^4.1.0"
-    promise-polyfill "6.0.2"
-    strip-json-comments "^2.0.1"
-    webpack-sources "^0.1.2"
 
 webpack@^4.0.1:
   version "4.0.1"
