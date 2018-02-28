@@ -167,7 +167,7 @@ module.exports = options => {
 										options.babelJsxPlugin === 'vue'
 											? require.resolve(
 													'babel-plugin-transform-vue-jsx',
-												)
+											  )
 											: [
 													[
 														'transform-react-jsx',
@@ -176,7 +176,7 @@ module.exports = options => {
 																options.babelJsxReactPragma,
 														},
 													],
-												],
+											  ],
 									)
 									.concat(
 										isGettextMode
@@ -184,7 +184,7 @@ module.exports = options => {
 													require.resolve(
 														'../../lib/i18n-babel-plugin.js',
 													),
-												]
+											  ]
 											: [],
 									)
 									.concat(options.babelAdditionalPlugins),
@@ -251,20 +251,7 @@ module.exports = options => {
 			},
 
 			plugins: [
-				new Webpack2Polyfill({
-					Promise: true,
-					'Function.prototype.bind': false,
-					'Object.keys': false,
-					'Object.defineProperty': false,
-				}),
-
 				new webpack.NoEmitOnErrorsPlugin(),
-
-				/*
-				new webpack.ResolverPlugin([
-					new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin("bower.json", ["main"])
-				], ["normal", "loader"]),
-			*/
 
 				new webpack.DefinePlugin({
 					PRODUCTION: !isDevelopment,
@@ -282,7 +269,7 @@ module.exports = options => {
 									},
 								}),
 								new CompressionPlugin(),
-							],
+						  ],
 				)
 				.concat(
 					options.webpackOutputStats
@@ -290,7 +277,7 @@ module.exports = options => {
 								new StatsPlugin('stats.json', {
 									chunkModules: true,
 								}),
-							]
+						  ]
 						: [],
 				)
 				.concat(options.webpackPlugins),
