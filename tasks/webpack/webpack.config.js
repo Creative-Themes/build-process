@@ -191,6 +191,31 @@ module.exports = options => {
 
 							// TODO: configure load paths here. May slow down builds!!!
 							exclude: /(node_modules|bower_components)/,
+
+							exclude: function(modulePath) {
+								let isNodeModule = /node_modules/.test(
+									modulePath,
+								)
+
+								let isAModuleThatShouldBeCompiled = false
+
+								options.modulesToCompileWithBabel.map(
+									module => {
+										if (
+											new RegExp(
+												`node_modules\/${module}`,
+											).test(modulePath)
+										) {
+											isAModuleThatShouldBeCompiled = true
+										}
+									},
+								)
+
+								return (
+									/node_modules/.test(modulePath) &&
+									!isAModuleThatShouldBeCompiled
+								)
+							},
 						},
 
 						{

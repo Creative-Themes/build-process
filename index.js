@@ -65,6 +65,7 @@ function registerTasks(gulp, options) {
 			webpackAdditionalModules: {},
 			webpackAdditionalLoaders: [],
 			babelAdditionalPlugins: [],
+			modulesToCompileWithBabel: [],
 
 			// vue | react
 			babelJsxPlugin: 'vue',
@@ -106,7 +107,7 @@ function registerTasks(gulp, options) {
 
 			filesToStripCodeFrom: [],
 		},
-		options
+		options,
 	)
 
 	webpackTask.assign(gulp, options)
