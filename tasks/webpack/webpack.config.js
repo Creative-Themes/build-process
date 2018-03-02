@@ -283,18 +283,7 @@ module.exports = options => {
 
 				new webpack.EnvironmentPlugin(['NODE_ENV']),
 			]
-				.concat(
-					isDevelopment
-						? []
-						: [
-								new webpack.optimize.UglifyJsPlugin({
-									compress: {
-										warnings: false,
-									},
-								}),
-								new CompressionPlugin(),
-						  ],
-				)
+				.concat(isDevelopment ? [] : [new CompressionPlugin()])
 				.concat(
 					options.webpackOutputStats
 						? [
