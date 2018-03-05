@@ -131,7 +131,6 @@ module.exports = options => {
 	function getCommonConfig(singleConfig) {
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
-			devtool: isDevelopment ? 'source-map' : false,
 
 			module: Object.assign(
 				{
