@@ -11,6 +11,7 @@ const notify = require('gulp-notify')
 const header = require('gulp-header')
 const cached = require('gulp-cached')
 const sassGlob = require('gulp-sass-glob')
+const _ = require('lodash')
 
 const postcss = require('gulp-postcss')
 
@@ -51,7 +52,7 @@ function sassTask(gulp, options) {
 					return sassProcess(
 						path.join(entry.forEachFolderIn, folder, entry.input),
 						path.join(entry.forEachFolderIn, folder, entry.output),
-						entry
+						entry,
 					)
 				}
 			})
@@ -74,7 +75,7 @@ function sassTask(gulp, options) {
 							title: 'Styles',
 							message: err.message,
 						})),
-					})
+					}),
 				)
 				// .pipe(cached('sass'))
 				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
@@ -86,30 +87,30 @@ function sassTask(gulp, options) {
 							'bower_components',
 							'node_modules',
 						].concat(options.sassIncludePaths),
-					}).on('error', sass.logError)
+					}).on('error', sass.logError),
 				)
 				.pipe(
 					postcss([
 						require('postcss-easing-gradients'),
 						autoprefixer({browsers: ['last 2 versions']}),
-					])
+					]),
 				)
 				.pipe(
 					gulpIf(
 						entry.header,
 						header(
 							(entry.header || {}).template,
-							(entry.header || {}).values
-						)
-					)
+							(entry.header || {}).values,
+						),
+					),
 				)
 				.pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
 				.pipe(gulp.dest(output))
 				.pipe(
 					gulpIf(
 						isDevelopment && options.browserSyncEnabled,
-						browserSync.stream({match: '**/*.css'})
-					)
+						browserSync.stream({match: '**/*.css'}),
+					),
 				)
 		)
 	}
@@ -120,7 +121,7 @@ function sassTask(gulp, options) {
 			? gulp.series(series)
 			: function(done) {
 					done()
-				}
+			  },
 	)
 
 	gulp.task(
@@ -137,7 +138,7 @@ function sassTask(gulp, options) {
 						return path.join(
 							sassFile.forEachFolderIn,
 							'*',
-							sassFile.input
+							sassFile.input,
 						)
 					}
 
@@ -146,7 +147,14 @@ function sassTask(gulp, options) {
 				.concat(options.sassWatch)
 
 			if (options.browserSyncEnabled) {
-				browserSync.init(options.browserSyncInitOptions)
+				browserSync.init(
+					_.extend(
+						{
+							ghostMode: false,
+						},
+						options.browserSyncInitOptions,
+					),
+				)
 
 				gulp
 					.watch(options.watchFilesAndReload)
@@ -154,6 +162,6 @@ function sassTask(gulp, options) {
 			}
 
 			gulp.watch(toWatch, gulp.series('sass'))
-		})
+		}),
 	)
 }
