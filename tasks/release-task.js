@@ -105,8 +105,8 @@ function getProductionZipsSeries(gulp, options) {
 					slug
 				}-parent`,
 				`cp -R ./child-theme ./build_tmp/envato_build/${slug}-child`,
-				`cp -R ./docs ./build_tmp/envato_build/Documentation`,
-				`cp -R ./psds ./build_tmp/envato_build/PSDs`,
+				`[ -d ./docs ] && cp -R ./docs ./build_tmp/envato_build/Documentation`,
+				`[ -d ./psds ] && cp -R ./psds ./build_tmp/envato_build/PSDs`,
 			])
 		)
 
