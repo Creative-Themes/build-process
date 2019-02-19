@@ -6,7 +6,7 @@ let shell = require('gulp-shell')
 let zip = require('gulp-zip')
 
 module.exports = {
-	assign: releaseTask,
+	assign: releaseTask
 }
 
 function releaseTask(gulp, options) {
@@ -21,9 +21,9 @@ function releaseTask(gulp, options) {
 				'!node_modules/**',
 				'!**/node_modules/**',
 				'!bower_components/**',
-				'!vendor/**',
+				'!vendor/**'
 			])
-			.pipe(debug({title: 'copy_to_build:'}))
+			.pipe(debug({ title: 'copy_to_build:' }))
 			.pipe(gitignore())
 			.pipe(gulp.dest('build_tmp/build'))
 	})
@@ -37,7 +37,7 @@ function releaseTask(gulp, options) {
 				'./build_tmp/build/node_modules/',
 				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
 				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
-				'./build_tmp/build/languages',
+				'./build_tmp/build/languages'
 			].concat(options.filesToDeleteFromBuild)
 		)
 	})
@@ -50,7 +50,7 @@ function releaseTask(gulp, options) {
 	let build_zips_series = [
 		shell.task(['NODE_ENV=production gulp build']),
 		'build:remove_tmp',
-		'build:copy_files',
+		'build:copy_files'
 	]
 
 	if (gulp.task('build:before_creating_zips')) {
@@ -89,8 +89,8 @@ function getProductionZipsSeries(gulp, options) {
 
 	series.push(() => {
 		return gulp
-			.src(`./build_tmp/${slug}/**/*`, {base: './build_tmp'})
-			.pipe(debug({title: 'zip_files:'}))
+			.src(`./build_tmp/${slug}/**/*`, { base: './build_tmp' })
+			.pipe(debug({ title: 'zip_files:' }))
 			.pipe(zip(`${version}-production.zip`))
 			.pipe(gulp.dest('./build_tmp'))
 	})
@@ -101,12 +101,10 @@ function getProductionZipsSeries(gulp, options) {
 		series.push(
 			shell.task([
 				'mkdir -p ./build_tmp/envato_build',
-				`cp -R ./build_tmp/build ./build_tmp/envato_build/${
-					slug
-				}-parent`,
-				`cp -R ./child-theme ./build_tmp/envato_build/${slug}-child`,
-				`[ -d ./docs ] && cp -R ./docs ./build_tmp/envato_build/Documentation`,
-				`[ -d ./psds ] && cp -R ./psds ./build_tmp/envato_build/PSDs`,
+				`cp -R ./build_tmp/build ./build_tmp/envato_build/${slug}-parent`,
+				`cp -R ./child-theme ./build_tmp/envato_build/${slug}-child`
+				// `[ -d ./docs ] && cp -R ./docs ./build_tmp/envato_build/Documentation`,
+				// `[ -d ./psds ] && cp -R ./psds ./build_tmp/envato_build/PSDs`,
 			])
 		)
 
@@ -116,21 +114,17 @@ function getProductionZipsSeries(gulp, options) {
 
 		series.push(
 			shell.task([
-				`cd ./build_tmp/envato_build && zip -r ${slug}-parent.zip ${
-					slug
-				}-parent`,
+				`cd ./build_tmp/envato_build && zip -r ${slug}-parent.zip ${slug}-parent`,
 				`rm -rf ./build_tmp/envato_build/${slug}-parent`,
-				`cd ./build_tmp/envato_build && zip -r ${slug}-child.zip ${
-					slug
-				}-child`,
-				`rm -rf ./build_tmp/envato_build/${slug}-child`,
+				`cd ./build_tmp/envato_build && zip -r ${slug}-child.zip ${slug}-child`,
+				`rm -rf ./build_tmp/envato_build/${slug}-child`
 			])
 		)
 
 		series.push(() => {
 			return gulp
 				.src(`./build_tmp/envato_build/**/*`)
-				.pipe(debug({title: 'zip_files:'}))
+				.pipe(debug({ title: 'zip_files:' }))
 				.pipe(zip(`${version}-envato.zip`))
 				.pipe(gulp.dest('./build_tmp'))
 		})
@@ -158,18 +152,14 @@ function getCreateReleaseSeries(gulp, options) {
 	series.push(
 		shell.task([
 			`github-release release ${getAuthString()}`,
-			`github-release upload ${getAuthString()} --name ${
-				version
-			}-production.zip --file build_tmp/${version}-production.zip`,
+			`github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-production.zip`
 		])
 	)
 
 	if (options.packageType === 'wordpress_theme') {
 		series.push(
 			shell.task([
-				`github-release upload ${getAuthString()} --name ${
-					version
-				}-envato.zip --file build_tmp/${version}-envato.zip`,
+				`github-release upload ${getAuthString()} --name ${version}-envato.zip --file build_tmp/${version}-envato.zip`
 			])
 		)
 	}
