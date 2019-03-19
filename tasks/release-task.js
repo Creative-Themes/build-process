@@ -15,17 +15,19 @@ function releaseTask(gulp, options) {
 	})
 
 	gulp.task('build:copy_files', () => {
-		return gulp
-			.src([
-				'./**/*',
-				'!node_modules/**',
-				'!**/node_modules/**',
-				'!bower_components/**',
-				'!vendor/**'
-			])
-			.pipe(debug({ title: 'copy_to_build:' }))
-			.pipe(gitignore())
-			.pipe(gulp.dest('build_tmp/build'))
+		return (
+			gulp
+				.src([
+					'./**/*',
+					'!node_modules/**',
+					'!**/node_modules/**',
+					'!bower_components/**',
+					'!vendor/**'
+				])
+				.pipe(debug({ title: 'copy_to_build:' }))
+				// .pipe(gitignore())
+				.pipe(gulp.dest('build_tmp/build'))
+		)
 	})
 
 	gulp.task('build:delete_files_from_build', () => {
