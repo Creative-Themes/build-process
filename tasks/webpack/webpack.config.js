@@ -27,10 +27,10 @@ const getPostcssloader = () => ({
 		plugins: loader => [
 			require('postcss-easing-gradients'),
 			autoprefixer({
-				browsers: ['last 2 versions'],
-			}),
-		],
-	},
+				browsers: ['last 2 versions']
+			})
+		]
+	}
 })
 
 module.exports = options => {
@@ -46,7 +46,7 @@ module.exports = options => {
 				toPush.context = path.join(
 					process.cwd(),
 					entry.forEachFolderIn,
-					folder,
+					folder
 				)
 
 				toPush.entry = entry.entry
@@ -56,12 +56,12 @@ module.exports = options => {
 						process.cwd(),
 						entry.forEachFolderIn,
 						folder,
-						entry.output.path,
+						entry.output.path
 					),
 					filename: '[name].js',
 					jsonpFunction: camelcase(
-						(entry.jsonpPrefix || 'webpack-jsonp-') + folder,
-					),
+						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
+					)
 				})
 
 				if (entry.licenseHeader) {
@@ -70,7 +70,7 @@ module.exports = options => {
 
 				if (
 					fs.existsSync(
-						path.join(entry.forEachFolderIn, folder, entry.entry),
+						path.join(entry.forEachFolderIn, folder, entry.entry)
 					)
 				) {
 					webpackMultipleConfigs.push(toPush)
@@ -86,7 +86,7 @@ module.exports = options => {
 				if (!path.isAbsolute(toPush['output']['path'])) {
 					toPush['output']['path'] = path.join(
 						process.cwd(),
-						toPush['output']['path'],
+						toPush['output']['path']
 					)
 				}
 			}
@@ -107,7 +107,7 @@ module.exports = options => {
 		let result = Object.assign(
 			{},
 			getCommonConfig(singleConfig),
-			singleConfig,
+			singleConfig
 		)
 
 		if (result.ctTemporaryHeader) {
@@ -145,47 +145,47 @@ module.exports = options => {
 										{
 											modules: false,
 											targets: {
-												browsers: 'defaults',
-											},
-										},
-									],
+												browsers: 'defaults'
+											}
+										}
+									]
 								],
 								plugins: [
 									require.resolve(
-										'babel-plugin-transform-object-rest-spread',
+										'babel-plugin-transform-object-rest-spread'
 									),
 									require.resolve(
-										'babel-plugin-transform-flow-strip-types',
+										'babel-plugin-transform-flow-strip-types'
 									),
 									require.resolve(
-										'babel-plugin-syntax-dynamic-import',
-									),
+										'babel-plugin-syntax-dynamic-import'
+									)
 								]
 									.concat(
 										options.babelJsxPlugin === 'vue'
 											? require.resolve(
-													'babel-plugin-transform-vue-jsx',
+													'babel-plugin-transform-vue-jsx'
 											  )
 											: [
 													[
 														'transform-react-jsx',
 														{
 															pragma:
-																options.babelJsxReactPragma,
-														},
-													],
-											  ],
+																options.babelJsxReactPragma
+														}
+													]
+											  ]
 									)
 									.concat(
 										isGettextMode
 											? [
 													require.resolve(
-														'../../lib/i18n-babel-plugin.js',
-													),
+														'../../lib/i18n-babel-plugin.js'
+													)
 											  ]
-											: [],
+											: []
 									)
-									.concat(options.babelAdditionalPlugins),
+									.concat(options.babelAdditionalPlugins)
 							},
 
 							// TODO: configure load paths here. May slow down builds!!!
@@ -193,7 +193,7 @@ module.exports = options => {
 
 							exclude: function(modulePath) {
 								let isNodeModule = /node_modules/.test(
-									modulePath,
+									modulePath
 								)
 
 								let isAModuleThatShouldBeCompiled = false
@@ -202,25 +202,25 @@ module.exports = options => {
 									module => {
 										if (
 											new RegExp(
-												`node_modules\/${module}`,
+												`node_modules\/${module}`
 											).test(modulePath)
 										) {
 											isAModuleThatShouldBeCompiled = true
 										}
-									},
+									}
 								)
 
 								return (
 									/node_modules/.test(modulePath) &&
 									!isAModuleThatShouldBeCompiled
 								)
-							},
+							}
 						},
 
 						{
 							test: /\.scss$/,
 							enforce: 'pre',
-							loaders: ['import-glob-loader'],
+							loaders: ['import-glob-loader']
 						},
 
 						{
@@ -229,8 +229,8 @@ module.exports = options => {
 								'style-loader',
 								'css-loader?sourceMap',
 								getPostcssloader(),
-								'sass-loader?sourceMap&sourceMapContents',
-							],
+								'sass-loader?sourceMap&sourceMapContents'
+							]
 						},
 
 						{
@@ -238,59 +238,63 @@ module.exports = options => {
 							loaders: [
 								'style-loader',
 								'css-loader?sourceMap',
-								getPostcssloader(),
-							],
+								getPostcssloader()
+							]
 						},
 
 						{
 							test: /\.png$/,
-							loader: 'file-loader',
+							loader: 'file-loader'
 						},
 						{
 							test: /\.gif/,
-							loader: 'file-loader',
+							loader: 'file-loader'
 						},
 						{
 							test: /\.jpg$/,
-							loader: 'file-loader',
+							loader: 'file-loader'
 						},
 						{
 							test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-							loader: 'file-loader',
-						},
-					].concat(options.webpackAdditionalLoaders),
+							loader: 'file-loader'
+						}
+					].concat(options.webpackAdditionalLoaders)
 				},
-				options.webpackAdditionalModules,
+				options.webpackAdditionalModules
 			),
 
 			resolve: {
 				extensions: ['.js', '.jsx', '.css'],
 
 				modules: ['node_modules', 'bower_components'].concat(
-					options.webpackIncludePaths,
+					options.webpackIncludePaths
 				),
 
-				alias: options.webpackResolveAliases,
+				alias: options.webpackResolveAliases
 			},
 
 			plugins: [
 				new webpack.NoEmitOnErrorsPlugin(),
 
 				new webpack.DefinePlugin({
-					PRODUCTION: !isDevelopment,
+					PRODUCTION: !isDevelopment
 				}),
 
-				new webpack.EnvironmentPlugin(['NODE_ENV']),
+				new webpack.EnvironmentPlugin(['NODE_ENV'])
 			]
-				.concat(isDevelopment ? [] : [new CompressionPlugin()])
+				.concat(
+					isDevelopment || !options.webpackEnableCompression
+						? []
+						: [new CompressionPlugin()]
+				)
 				.concat(
 					options.webpackOutputStats
 						? [
 								new StatsPlugin('stats.json', {
-									chunkModules: true,
-								}),
+									chunkModules: true
+								})
 						  ]
-						: [],
+						: []
 				)
 				.concat(options.webpackPlugins),
 
@@ -298,10 +302,10 @@ module.exports = options => {
 				{
 					jquery: 'window.jQuery',
 					_: 'window._',
-					underscore: 'window._',
+					underscore: 'window._'
 				},
-				options.webpackExternals,
-			),
+				options.webpackExternals
+			)
 		}
 
 		return commonConfig

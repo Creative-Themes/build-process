@@ -13,7 +13,7 @@ const _ = require('lodash')
 
 module.exports = {
 	registerTasks: registerTasks,
-	headerFor: headerFor,
+	headerFor: headerFor
 }
 
 function registerTasks(gulp, options) {
@@ -45,7 +45,7 @@ function registerTasks(gulp, options) {
 				'./build_tmp/build/bower_components/',
 				'./build_tmp/build/node_modules/',
 				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
-				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
+				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}'
 			],
 
 			/**
@@ -64,6 +64,7 @@ function registerTasks(gulp, options) {
 			webpackPlugins: [],
 			webpackAdditionalModules: {},
 			webpackAdditionalLoaders: [],
+			webpackEnableCompression: true,
 			babelAdditionalPlugins: [],
 			modulesToCompileWithBabel: [],
 
@@ -87,8 +88,8 @@ function registerTasks(gulp, options) {
 				logSnippet: false,
 				port: 9669,
 				ui: {
-					port: 9068,
-				},
+					port: 9068
+				}
 			},
 			sassWatch: [],
 
@@ -105,9 +106,9 @@ function registerTasks(gulp, options) {
 			stripCodeStartComment: 'CT_REMOVE_FROM_PRODUCTION',
 			stripCodeEndComment: 'CT_END_REMOVE_FROM_PRODUCTION',
 
-			filesToStripCodeFrom: [],
+			filesToStripCodeFrom: []
 		},
-		options,
+		options
 	)
 
 	webpackTask.assign(gulp, options)
@@ -148,7 +149,7 @@ function headerFor(specialText, data) {
 			name: data.title,
 			version: data.version,
 			homepage: data.homepage,
-			year: new Date().getFullYear(),
-		},
+			year: new Date().getFullYear()
+		}
 	}
 }
