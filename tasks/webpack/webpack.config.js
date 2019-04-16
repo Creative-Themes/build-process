@@ -82,6 +82,10 @@ module.exports = options => {
 			toPush['entry'] = entry.entry
 			toPush['output'] = entry.output
 
+			if (entry.externals) {
+				toPush['externals'] = entry.externals
+			}
+
 			if (toPush['output']['path']) {
 				if (!path.isAbsolute(toPush['output']['path'])) {
 					toPush['output']['path'] = path.join(
