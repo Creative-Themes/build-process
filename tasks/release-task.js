@@ -31,17 +31,7 @@ function releaseTask(gulp, options) {
 	})
 
 	gulp.task('build:delete_files_from_build', () => {
-		return del(
-			[
-				'./build_tmp/build/package.json',
-				'./build_tmp/build/gulpfile.js',
-				'./build_tmp/build/bower_components/',
-				'./build_tmp/build/node_modules/',
-				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
-				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
-				'./build_tmp/build/languages'
-			].concat(options.filesToDeleteFromBuild)
-		)
+		return del(options.filesToDeleteFromBuild || [])
 	})
 
 	gulp.task(
