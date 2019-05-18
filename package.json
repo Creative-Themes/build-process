@@ -1,6 +1,6 @@
 {
 	"name": "ct-build-process",
-	"version": "5.1.0",
+	"version": "5.1.1",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -17,6 +17,12 @@
 	},
 	"homepage": "https://github.com/Creative-Themes/build-process#readme",
 	"dependencies": {
+		"@babel/core": "^7.4.4",
+		"@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/plugin-transform-react-jsx": "^7.3.0",
+		"@babel/preset-env": "^7.4.4",
+		"@babel/preset-flow": "^7.0.0",
 		"@prettier/php": "^0.0.0-development",
 		"babel-core": "^6.10.4",
 		"babel-helper-vue-jsx-merge-props": "^2.0.3",
@@ -75,8 +81,6 @@
 		"svg-url-loader": "^1.0.3",
 		"url-loader": "^0.5.7",
 		"vinyl-named": "^1.1.0",
-		"webpack": "^4.0.1",
-		"@babel/core": "^7.4.4",
-		"@babel/preset-env": "^7.4.4"
+		"webpack": "^4.0.1"
 	}
 }

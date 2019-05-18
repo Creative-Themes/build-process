@@ -143,16 +143,16 @@ module.exports = options => {
 							test: /\.(js|jsx)$/,
 							loader: require.resolve('babel-loader'),
 							options: {
-								presets: ['@babel/preset-env'],
+								presets: [
+									'@babel/preset-env',
+									'@babel/preset-flow'
+								],
 								plugins: [
 									require.resolve(
-										'babel-plugin-transform-object-rest-spread'
+										'@babel/plugin-proposal-object-rest-spread'
 									),
 									require.resolve(
-										'babel-plugin-transform-flow-strip-types'
-									),
-									require.resolve(
-										'babel-plugin-syntax-dynamic-import'
+										'@babel/plugin-syntax-dynamic-import'
 									)
 								]
 									.concat(
@@ -162,7 +162,7 @@ module.exports = options => {
 											  )
 											: [
 													[
-														'transform-react-jsx',
+														'@babel/plugin-transform-react-jsx',
 														{
 															pragma:
 																options.babelJsxReactPragma
