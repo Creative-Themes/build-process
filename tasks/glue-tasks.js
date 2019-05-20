@@ -49,7 +49,6 @@ function glueTasks(gulp, options) {
 						)
 					})
 				)
-				.concat(['languages'])
 				.concat(options.toClean)
 		)
 	})
