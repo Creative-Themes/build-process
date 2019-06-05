@@ -6034,9 +6034,9 @@ marked-terminal@^2.0.0:
     node-emoji "^1.4.1"
 
 marked@^0.3.12:
-  version "0.3.17"
-  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.17.tgz#607f06668b3c6b1246b28f13da76116ac1aa2d2b"
-  integrity sha512-+AKbNsjZl6jFfLPwHhWmGTqE009wTKn3RTmn9K8oUKHrX/abPJjtcRtXpYB/FFrwPJRUA86LX/de3T0knkPCmQ==
+  version "0.3.19"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
+  integrity sha512-ea2eGWOqNxPcXv8dyERdSr/6FmzvWwzjMxpfGB/sbMccXoct+xY+YukPD+QTUZwyvK7BZwcr4m21WBOW41pAkg==
 
 "match-stream@>= 0.0.2 < 1":
   version "0.0.2"
