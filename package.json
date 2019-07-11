@@ -23,7 +23,6 @@
 		"@babel/plugin-transform-react-jsx": "^7.3.0",
 		"@babel/preset-env": "^7.5.4",
 		"@babel/preset-flow": "^7.0.0",
-		"@prettier/php": "^0.0.0-development",
 		"babel-loader": "^8.0.6",
 		"browser-sync": "^2.14.0",
 		"browser-sync-client": "ssh://github.com/Creative-Themes/browser-sync-client.git",
