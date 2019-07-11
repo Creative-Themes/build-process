@@ -1,9 +1,7 @@
 const sass = require('gulp-sass')
-const named = require('vinyl-named')
 const rename = require('gulp-rename')
 const path = require('path')
 const fs = require('fs')
-const merge = require('merge-stream')
 const gulpIf = require('gulp-if')
 const sourcemaps = require('gulp-sourcemaps')
 const plumber = require('gulp-plumber')
@@ -21,7 +19,7 @@ const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
 
 module.exports = {
-	assign: sassTask,
+	assign: sassTask
 }
 
 function sassTask(gulp, options) {
@@ -52,7 +50,7 @@ function sassTask(gulp, options) {
 					return sassProcess(
 						path.join(entry.forEachFolderIn, folder, entry.input),
 						path.join(entry.forEachFolderIn, folder, entry.output),
-						entry,
+						entry
 					)
 				}
 			})
@@ -68,14 +66,14 @@ function sassTask(gulp, options) {
 	function sassProcess(input, output, entry) {
 		return (
 			gulp
-				.src(input, {allowEmpty: true})
+				.src(input, { allowEmpty: true })
 				.pipe(
 					plumber({
 						errorHandler: notify.onError(err => ({
 							title: 'Styles',
-							message: err.message,
-						})),
-					}),
+							message: err.message
+						}))
+					})
 				)
 				// .pipe(cached('sass'))
 				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
@@ -85,32 +83,33 @@ function sassTask(gulp, options) {
 						outputStyle: isDevelopment ? 'nested' : 'compressed',
 						includePaths: [
 							'bower_components',
-							'node_modules',
-						].concat(options.sassIncludePaths),
-					}).on('error', sass.logError),
+							'node_modules'
+						].concat(options.sassIncludePaths)
+					}).on('error', sass.logError)
 				)
 				.pipe(
 					postcss([
-						require('postcss-easing-gradients'),
-						autoprefixer({browsers: ['last 2 versions']}),
-					]),
+						autoprefixer({
+							overrideBrowserslist: ['last 2 versions']
+						})
+					])
 				)
 				.pipe(
 					gulpIf(
 						entry.header,
 						header(
 							(entry.header || {}).template,
-							(entry.header || {}).values,
-						),
-					),
+							(entry.header || {}).values
+						)
+					)
 				)
 				.pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
 				.pipe(gulp.dest(output))
 				.pipe(
 					gulpIf(
 						isDevelopment && options.browserSyncEnabled,
-						browserSync.stream({match: '**/*.css'}),
-					),
+						browserSync.stream({ match: '**/*.css' })
+					)
 				)
 		)
 	}
@@ -121,7 +120,7 @@ function sassTask(gulp, options) {
 			? gulp.series(series)
 			: function(done) {
 					done()
-			  },
+			  }
 	)
 
 	gulp.task(
@@ -138,7 +137,7 @@ function sassTask(gulp, options) {
 						return path.join(
 							sassFile.forEachFolderIn,
 							'*',
-							sassFile.input,
+							sassFile.input
 						)
 					}
 
@@ -150,18 +149,19 @@ function sassTask(gulp, options) {
 				browserSync.init(
 					_.extend(
 						{
-							ghostMode: false,
+							ghostMode: false
 						},
-						options.browserSyncInitOptions,
-					),
+						options.browserSyncInitOptions
+					)
 				)
 
-				gulp
-					.watch(options.watchFilesAndReload)
-					.on('change', browserSync.reload)
+				gulp.watch(options.watchFilesAndReload).on(
+					'change',
+					browserSync.reload
+				)
 			}
 
 			gulp.watch(toWatch, gulp.series('sass'))
-		}),
+		})
 	)
 }

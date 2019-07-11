@@ -25,9 +25,8 @@ const getPostcssloader = () => ({
 		ident: 'postcss',
 		sourceMap: true,
 		plugins: loader => [
-			require('postcss-easing-gradients'),
 			autoprefixer({
-				browsers: ['last 2 versions']
+				overrideBrowserslist: ['last 2 versions']
 			})
 		]
 	}

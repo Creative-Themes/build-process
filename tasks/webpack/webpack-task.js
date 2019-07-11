@@ -1,5 +1,4 @@
 var webpack = require('webpack')
-var named = require('vinyl-named')
 var plumber = require('gulp-plumber')
 var notify = require('gulp-notify')
 var gutil = require('gulp-util')
