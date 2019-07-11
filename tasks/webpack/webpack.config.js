@@ -156,9 +156,7 @@ module.exports = options => {
 								]
 									.concat(
 										options.babelJsxPlugin === 'vue'
-											? require.resolve(
-													'babel-plugin-transform-vue-jsx'
-											  )
+											? []
 											: [
 													[
 														'@babel/plugin-transform-react-jsx',
