@@ -90,6 +90,7 @@ function getProductionZipsSeries(gulp, options) {
 	series.push(shell.task([`mv ./build_tmp/${slug} ./build_tmp/build`]))
 
 	if (options.packageType === 'wordpress_theme') {
+		/*
 		series.push(
 			shell.task([
 				'mkdir -p ./build_tmp/envato_build',
@@ -104,22 +105,15 @@ function getProductionZipsSeries(gulp, options) {
 			series.push(gulp.series('build:before_envato_in_package'))
 		}
 
-		series.push(
-			shell.task([
-				`cd ./build_tmp/envato_build && zip -r ${slug}-parent.zip ${slug}-parent`,
-				`rm -rf ./build_tmp/envato_build/${slug}-parent`,
-				`cd ./build_tmp/envato_build && zip -r ${slug}-child.zip ${slug}-child`,
-				`rm -rf ./build_tmp/envato_build/${slug}-child`
-			])
-		)
-
-		series.push(() => {
-			return gulp
-				.src(`./build_tmp/envato_build/**/*`)
-				.pipe(debug({ title: 'zip_files:' }))
-				.pipe(zip(`${version}-envato.zip`))
-				.pipe(gulp.dest('./build_tmp'))
-		})
+		series.push(shell.task([]))
+		*/
+		// series.push(() => {
+		// 	return gulp
+		// 		.src(`./build_tmp/envato_build/**/*`)
+		// 		.pipe(debug({ title: 'zip_files:' }))
+		// 		.pipe(zip(`${version}-envato.zip`))
+		// 		.pipe(gulp.dest('./build_tmp'))
+		// })
 	}
 
 	return gulp.series(series)
@@ -149,11 +143,13 @@ function getCreateReleaseSeries(gulp, options) {
 	)
 
 	if (options.packageType === 'wordpress_theme') {
+		/*
 		series.push(
 			shell.task([
 				`github-release upload ${getAuthString()} --name ${version}-envato.zip --file build_tmp/${version}-envato.zip`
 			])
 		)
+		*/
 	}
 
 	return gulp.series(series)
