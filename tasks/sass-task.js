@@ -95,6 +95,13 @@ function sassTask(gulp, options) {
 					])
 				)
 				.pipe(
+					rename({
+						basename:
+							entry.filename ||
+							path.basename(entry.input, '.scss')
+					})
+				)
+				.pipe(
 					gulpIf(
 						entry.header,
 						header(
