@@ -149,6 +149,9 @@ module.exports = options => {
 										'@babel/plugin-proposal-object-rest-spread'
 									),
 									require.resolve(
+										'@babel/plugin-proposal-class-properties'
+									),
+									require.resolve(
 										'@babel/plugin-syntax-dynamic-import'
 									)
 								]
