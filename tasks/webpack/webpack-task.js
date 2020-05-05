@@ -1,31 +1,30 @@
 var webpack = require('webpack')
 var plumber = require('gulp-plumber')
 var notify = require('gulp-notify')
-var gutil = require('gulp-util')
-var uglify = require('gulp-uglify')
 var gulpIf = require('gulp-if')
 var path = require('path')
 
-var webpackOptions = require('./webpack.config.js')
+const PluginError = require('plugin-error')
+const fancyLog = require('fancy-log')
 
-var flowTasks = require('./flow-tasks.js')
+var webpackOptions = require('./webpack.config.js')
 
 const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
 
 module.exports = {
-	assign: webpackTask,
+	assign: webpackTask
 }
 
 function webpackTask(gulp, options) {
 	const handleWebpackOutput = (err, stats) => {
-		if (err) throw new gutil.PluginError('webpack', err)
+		if (err) throw new PluginError('webpack', err)
 
-		gutil.log(
+		fancyLog(
 			'[webpack]',
 			stats.toString({
 				colors: true,
-				chunks: false,
+				chunks: false
 			})
 		)
 	}
@@ -43,10 +42,6 @@ function webpackTask(gulp, options) {
 		getCompiler(options).run((err, stats) => {
 			handleWebpackOutput(err, stats)
 
-			if (options.flowTypingsEnabled) {
-				flowTasks.softInstallAndRun()
-			}
-
 			done()
 		})
 	})
@@ -62,23 +57,14 @@ function webpackTask(gulp, options) {
 
 		compiler.watch(
 			{
-				aggregateTimeout: 301,
+				aggregateTimeout: 301
 			},
 			(err, stats) => {
 				handleWebpackOutput(err, stats)
 
 				if (!firstBuildDone) {
 					firstBuildDone = true
-
-					if (options.flowTypingsEnabled) {
-						flowTasks.softInstallAndRun(done)
-					} else {
-						done()
-					}
-				} else {
-					if (options.flowTypingsEnabled) {
-						flowTasks.softInstallAndRun()
-					}
+					done()
 				}
 			}
 		)

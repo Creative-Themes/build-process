@@ -134,6 +134,7 @@ module.exports = options => {
 	function getCommonConfig(singleConfig) {
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
+			// devtool: 'none',
 
 			module: Object.assign(
 				{
@@ -142,10 +143,7 @@ module.exports = options => {
 							test: /\.(js|jsx)$/,
 							loader: require.resolve('babel-loader'),
 							options: {
-								presets: [
-									'@babel/preset-env',
-									'@babel/preset-flow'
-								],
+								presets: ['@babel/preset-env'],
 								plugins: [
 									require.resolve(
 										'@babel/plugin-proposal-object-rest-spread'
