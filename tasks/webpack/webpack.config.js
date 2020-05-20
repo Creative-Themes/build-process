@@ -81,6 +81,10 @@ module.exports = options => {
 			toPush['entry'] = entry.entry
 			toPush['output'] = entry.output
 
+			if (entry.optimization) {
+				toPush['optimization'] = entry.optimization
+			}
+
 			if (entry.externals) {
 				toPush['externals'] = entry.externals
 			}
