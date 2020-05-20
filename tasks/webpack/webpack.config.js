@@ -14,7 +14,7 @@ const isGettextMode = !!process.env.NODE_ENV_GETTEXT
 var CompressionPlugin = require('compression-webpack-plugin')
 
 function getFolders(dir) {
-	return fs.readdirSync(dir).filter(function(file) {
+	return fs.readdirSync(dir).filter(function (file) {
 		return fs.statSync(path.join(dir, file)).isDirectory()
 	})
 }
@@ -109,6 +109,7 @@ module.exports = options => {
 
 		let result = Object.assign(
 			{},
+			options.commonWebpackFields,
 			getCommonConfig(singleConfig),
 			singleConfig
 		)
@@ -183,7 +184,7 @@ module.exports = options => {
 							// TODO: configure load paths here. May slow down builds!!!
 							exclude: /(node_modules|bower_components)/,
 
-							exclude: function(modulePath) {
+							exclude: function (modulePath) {
 								let isNodeModule = /node_modules/.test(
 									modulePath
 								)

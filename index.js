@@ -67,6 +67,7 @@ function registerTasks(gulp, options) {
 			webpackEnableCompression: true,
 			babelAdditionalPlugins: [],
 			modulesToCompileWithBabel: [],
+			commonWebpackFields: {},
 
 			// vue | react
 			babelJsxPlugin: 'vue',
