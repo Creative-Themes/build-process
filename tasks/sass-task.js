@@ -36,17 +36,17 @@ function sassTask(gulp, options) {
 	const browserSync = require('browser-sync').create()
 
 	function getFolders(dir) {
-		return fs.readdirSync(dir).filter(function(file) {
+		return fs.readdirSync(dir).filter(function (file) {
 			return fs.statSync(path.join(dir, file)).isDirectory()
 		})
 	}
 
-	var series = options.sassFiles.map(function(entry) {
+	var series = options.sassFiles.map(function (entry) {
 		if (entry.forEachFolderIn) {
 			var folders = getFolders(entry.forEachFolderIn)
 
-			var tasks = folders.map(function(folder) {
-				return function() {
+			var tasks = folders.map(function (folder) {
+				return function () {
 					return sassProcess(
 						path.join(entry.forEachFolderIn, folder, entry.input),
 						path.join(entry.forEachFolderIn, folder, entry.output),
@@ -58,7 +58,7 @@ function sassTask(gulp, options) {
 			return gulp.series(tasks)
 		}
 
-		return function() {
+		return function () {
 			return sassProcess(entry.input, entry.output, entry)
 		}
 	})
@@ -87,13 +87,7 @@ function sassTask(gulp, options) {
 						].concat(options.sassIncludePaths)
 					}).on('error', sass.logError)
 				)
-				.pipe(
-					postcss([
-						autoprefixer({
-							overrideBrowserslist: ['last 2 versions']
-						})
-					])
-				)
+				.pipe(postcss([autoprefixer()]))
 				.pipe(
 					rename({
 						basename:
@@ -125,14 +119,14 @@ function sassTask(gulp, options) {
 		'sass',
 		series.length > 0
 			? gulp.series(series)
-			: function(done) {
+			: function (done) {
 					done()
 			  }
 	)
 
 	gulp.task(
 		'sass:watch',
-		gulp.series('sass', function(done) {
+		gulp.series('sass', function (done) {
 			if (!isDevelopment) {
 				done()
 				return
