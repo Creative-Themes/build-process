@@ -24,22 +24,22 @@ const getPostcssloader = () => ({
 	options: {
 		ident: 'postcss',
 		sourceMap: true,
-		plugins: loader => [
+		plugins: (loader) => [
 			autoprefixer({
-				overrideBrowserslist: ['last 2 versions']
-			})
-		]
-	}
+				overrideBrowserslist: ['last 2 versions'],
+			}),
+		],
+	},
 })
 
-module.exports = options => {
+module.exports = (options) => {
 	const webpackMultipleConfigs = []
 
-	options.entries.map(entry => {
+	options.entries.map((entry) => {
 		if (entry.forEachFolderIn) {
 			var folders = getFolders(entry.forEachFolderIn)
 
-			folders.map(folder => {
+			folders.map((folder) => {
 				var toPush = {}
 
 				toPush.context = path.join(
@@ -60,7 +60,7 @@ module.exports = options => {
 					filename: '[name].js',
 					jsonpFunction: camelcase(
 						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
-					)
+					),
 				})
 
 				if (entry.licenseHeader) {
@@ -108,7 +108,7 @@ module.exports = options => {
 		}
 	})
 
-	var config = webpackMultipleConfigs.map(singleConfig => {
+	var config = webpackMultipleConfigs.map((singleConfig) => {
 		// console.log('DEBUG', singleConfig.entry);
 
 		let result = Object.assign(
@@ -139,7 +139,12 @@ module.exports = options => {
 	function getCommonConfig(singleConfig) {
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
-			// devtool: 'none',
+
+			...(options.webpackDevtool
+				? {
+						devtool: options.webpackDevtool,
+				  }
+				: {}),
 
 			module: Object.assign(
 				{
@@ -158,7 +163,7 @@ module.exports = options => {
 									),
 									require.resolve(
 										'@babel/plugin-syntax-dynamic-import'
-									)
+									),
 								]
 									.concat(
 										options.babelJsxPlugin === 'vue'
@@ -168,9 +173,9 @@ module.exports = options => {
 														'@babel/plugin-transform-react-jsx',
 														{
 															pragma:
-																options.babelJsxReactPragma
-														}
-													]
+																options.babelJsxReactPragma,
+														},
+													],
 											  ]
 									)
 									.concat(
@@ -178,11 +183,11 @@ module.exports = options => {
 											? [
 													require.resolve(
 														'../../lib/i18n-babel-plugin.js'
-													)
+													),
 											  ]
 											: []
 									)
-									.concat(options.babelAdditionalPlugins)
+									.concat(options.babelAdditionalPlugins),
 							},
 
 							// TODO: configure load paths here. May slow down builds!!!
@@ -196,7 +201,7 @@ module.exports = options => {
 								let isAModuleThatShouldBeCompiled = false
 
 								options.modulesToCompileWithBabel.map(
-									module => {
+									(module) => {
 										if (
 											new RegExp(
 												`node_modules\/${module}`
@@ -211,13 +216,13 @@ module.exports = options => {
 									/node_modules/.test(modulePath) &&
 									!isAModuleThatShouldBeCompiled
 								)
-							}
+							},
 						},
 
 						{
 							test: /\.scss$/,
 							enforce: 'pre',
-							loaders: ['import-glob-loader']
+							loaders: ['import-glob-loader'],
 						},
 
 						{
@@ -226,8 +231,8 @@ module.exports = options => {
 								'style-loader',
 								'css-loader?sourceMap',
 								getPostcssloader(),
-								'sass-loader?sourceMap&sourceMapContents'
-							]
+								'sass-loader?sourceMap&sourceMapContents',
+							],
 						},
 
 						{
@@ -235,27 +240,27 @@ module.exports = options => {
 							loaders: [
 								'style-loader',
 								'css-loader?sourceMap',
-								getPostcssloader()
-							]
+								getPostcssloader(),
+							],
 						},
 
 						{
 							test: /\.png$/,
-							loader: 'file-loader'
+							loader: 'file-loader',
 						},
 						{
 							test: /\.gif/,
-							loader: 'file-loader'
+							loader: 'file-loader',
 						},
 						{
 							test: /\.jpg$/,
-							loader: 'file-loader'
+							loader: 'file-loader',
 						},
 						{
 							test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-							loader: 'file-loader'
-						}
-					].concat(options.webpackAdditionalLoaders)
+							loader: 'file-loader',
+						},
+					].concat(options.webpackAdditionalLoaders),
 				},
 				options.webpackAdditionalModules
 			),
@@ -267,17 +272,17 @@ module.exports = options => {
 					options.webpackIncludePaths
 				),
 
-				alias: options.webpackResolveAliases
+				alias: options.webpackResolveAliases,
 			},
 
 			plugins: [
 				new webpack.NoEmitOnErrorsPlugin(),
 
 				new webpack.DefinePlugin({
-					PRODUCTION: !isDevelopment
+					PRODUCTION: !isDevelopment,
 				}),
 
-				new webpack.EnvironmentPlugin(['NODE_ENV'])
+				new webpack.EnvironmentPlugin(['NODE_ENV']),
 			]
 				.concat(
 					isDevelopment || !options.webpackEnableCompression
@@ -288,8 +293,8 @@ module.exports = options => {
 					options.webpackOutputStats
 						? [
 								new StatsPlugin('stats.json', {
-									chunkModules: true
-								})
+									chunkModules: true,
+								}),
 						  ]
 						: []
 				)
@@ -299,10 +304,10 @@ module.exports = options => {
 				{
 					jquery: 'window.jQuery',
 					_: 'window._',
-					underscore: 'window._'
+					underscore: 'window._',
 				},
 				options.webpackExternals
-			)
+			),
 		}
 
 		return commonConfig
