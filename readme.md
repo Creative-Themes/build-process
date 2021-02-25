@@ -1,19 +1,18 @@
 ## Synopsis
 
 That's a set of configs and scripts built on top of `gulp` and `webpack`
-that help us deliver awesome 
-[WordPress themes](http://creativethemes.com/) and
-[Unyson](http://manual.unyson.io) extensions.
+that help us deliver the awesome
+[Blocksy](http://creativethemes.com/blocksy) theme.
 
 ## Code Example
 
 Example `gulpfile.js`
 
 ```javascript
-const gulp = require('gulp');
-const buildProcess = require('ct-build-process');
+const gulp = require('gulp')
+const buildProcess = require('ct-build-process')
 
-const data = require('./package.json');
+const data = require('./package.json')
 
 var options = {
 	entries: [
@@ -21,30 +20,26 @@ var options = {
 			entry: './static/js/main.js',
 			output: {
 				path: './static/bundle/',
-			}
-		}
+			},
+		},
 	],
 
 	sassFiles: [
 		{
 			input: 'static/sass/style.scss',
 			output: 'static/bundle',
-			header: buildProcess.headerFor(false, data)
-		}
+			header: buildProcess.headerFor(false, data),
+		},
 	],
 
 	browserSyncEnabled: true,
 
-	sassWatch: [
-		'assets/*/sass/**/*.scss'
-	],
+	sassWatch: ['assets/*/sass/**/*.scss'],
 
-	toClean: [
-		'static/bundle/'
-	]
-};
+	toClean: ['static/bundle/'],
+}
 
-buildProcess.registerTasks(gulp, options);
+buildProcess.registerTasks(gulp, options)
 ```
 
 ## Motivation
@@ -73,12 +68,12 @@ There are two types of packages:
 
 ### Webpack tasks
 
-* `gulp webpack` - one time build. Doesn't watch if you set `NODE_ENV=production`
+-   `gulp webpack` - one time build. Doesn't watch if you set `NODE_ENV=production`
 
 ### SASS tasks
 
-* `gulp sass` - one time build
-* `gulp sass:watch` - `gulp sass` with watcher
+-   `gulp sass` - one time build
+-   `gulp sass:watch` - `gulp sass` with watcher
 
 ### Bump version
 
@@ -88,9 +83,9 @@ with the bumped one. Very convenient.
 1. `wordpress_theme` - will look in: `bower.json`, `package.json`, `style.css`
 2. `unyson_extension` - will look in `package.json` and [`manifest.php`](http://manual.unyson.io/en/latest/manifest/extension.html#content)
 
-* `gulp bump:major`
-* `gulp bump:minor`
-* `gulp bump:patch` or `gulp bump`
+-   `gulp bump:major`
+-   `gulp bump:minor`
+-   `gulp bump:patch` or `gulp bump`
 
 Uses [`node-semver`](https://github.com/npm/node-semver).
 
@@ -102,59 +97,59 @@ option.
 
 The `build:create_release` tasks depends strongly on [github-release](https://github.com/aktau/github-release)
 package. You should go ahead and install it and make it available in your `$PATH`
-variable, otherwise you won't be able to benefit from this task. Also, 
+variable, otherwise you won't be able to benefit from this task. Also,
 `GITHUB_TOKEN` should be exported by your shell login script (like `bashrc` or `zshrc`).
 
 ```bash
 export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 ```
 
-* `gulp build:remove_tmp` - will remove `build_tmp` directory in your package
-* `gulp build:copy_files` - will copy files to your build dir, with respect of your .gitignore.
-* `gulp build:delete_files_from_build` - delete `options.filesToDeleteFromBuild`
-* `gulp build:prepare_production_zip`
-* `gulp build` - a combination of the four above
-* `gulp build:create_release`
+-   `gulp build:remove_tmp` - will remove `build_tmp` directory in your package
+-   `gulp build:copy_files` - will copy files to your build dir, with respect of your .gitignore.
+-   `gulp build:delete_files_from_build` - delete `options.filesToDeleteFromBuild`
+-   `gulp build:prepare_production_zip`
+-   `gulp build` - a combination of the four above
+-   `gulp build:create_release`
 
-* `gulp build:publish` - a combination of `build` and `build:create_release`
+-   `gulp build:publish` - a combination of `build` and `build:create_release`
 
 ### Other tasks
 
-* `gulp clean` - will clean all the files. Respects `options.toClean` also
-* `gulp build` - `gulp clean; gulp webpack; gulp sass`
-* `gulp dev` - `gulp build; gulp sass:watch`
-* `NODE_ENV=production gulp build` - reliable way of building assets for production
-* `NODE_ENV_GETTEXT=true gulp build` - build & extract I18N strings
+-   `gulp clean` - will clean all the files. Respects `options.toClean` also
+-   `gulp build` - `gulp clean; gulp webpack; gulp sass`
+-   `gulp dev` - `gulp build; gulp sass:watch`
+-   `NODE_ENV=production gulp build` - reliable way of building assets for production
+-   `NODE_ENV_GETTEXT=true gulp build` - build & extract I18N strings
 
 ### Stripe Code
 
-* `gulp build:strip_code` - Will stripe code that's between a pair of comments matched
-by regex. You have to specify a list of files to look into. Comments and list of
-files is configurable.
+-   `gulp build:strip_code` - Will stripe code that's between a pair of comments matched
+    by regex. You have to specify a list of files to look into. Comments and list of
+    files is configurable.
 
 ### Options
 
-* `packageType` - unyson_extension | wordpress_theme
-* `currentVersion` - current package version used by `gulp bump`
-* `entries` - Multiple entries for [webpack-multi-compiler](https://github.com/webpack/webpack/tree/master/examples/multi-compiler). They have some syntactic sugar like
-  `forEachFolderIn`, which is kinda nice to have
-* `webpackIncludePaths`
-* `webpackExternals`
-* `webpackResolveAliases`
-* `webpackPlugins`
-* `webpackAdditionalModules`
+-   `packageType` - unyson_extension | wordpress_theme
+-   `currentVersion` - current package version used by `gulp bump`
+-   `entries` - Multiple entries for [webpack-multi-compiler](https://github.com/webpack/webpack/tree/master/examples/multi-compiler). They have some syntactic sugar like
+    `forEachFolderIn`, which is kinda nice to have
+-   `webpackIncludePaths`
+-   `webpackExternals`
+-   `webpackResolveAliases`
+-   `webpackPlugins`
+-   `webpackAdditionalModules`
 
-* `sassFiles` - array of objects that specify input and output for sass compiler
-* `sassIncludePaths`
-* `browserSyncEnabled`
-* `browserSyncInitOptions`
-* `watchFilesAndReload` - list of files for browser sync - will cause browser to reload when any of them is changed at the fs level
+-   `sassFiles` - array of objects that specify input and output for sass compiler
+-   `sassIncludePaths`
+-   `browserSyncEnabled`
+-   `browserSyncInitOptions`
+-   `watchFilesAndReload` - list of files for browser sync - will cause browser to reload when any of them is changed at the fs level
 
-* `toClean` - list of files for `gulp clean`
+-   `toClean` - list of files for `gulp clean`
 
-* `stripCodeStartComment`
-* `stripCodeEndComment`
-* `filesToStripCodeFrom` - `gulp build:strip_code` stuff
+-   `stripCodeStartComment`
+-   `stripCodeEndComment`
+-   `filesToStripCodeFrom` - `gulp build:strip_code` stuff
 
 ## License
 
