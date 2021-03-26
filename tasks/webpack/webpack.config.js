@@ -36,76 +36,35 @@ module.exports = (options) => {
 	const webpackMultipleConfigs = []
 
 	options.entries.map((entry) => {
-		if (entry.forEachFolderIn) {
-			var folders = getFolders(entry.forEachFolderIn)
+		var toPush = {}
 
-			folders.map((folder) => {
-				var toPush = {}
+		toPush['entry'] = entry.entry
+		toPush['output'] = entry.output
 
-				toPush.context = path.join(
-					process.cwd(),
-					entry.forEachFolderIn,
-					folder
-				)
-
-				toPush.entry = entry.entry
-
-				toPush.output = Object.assign({}, entry.output, {
-					path: path.join(
-						process.cwd(),
-						entry.forEachFolderIn,
-						folder,
-						entry.output.path
-					),
-					filename: '[name].js',
-					jsonpFunction: camelcase(
-						(entry.jsonpPrefix || 'webpack-jsonp-') + folder
-					),
-				})
-
-				if (entry.licenseHeader) {
-					// toPush['ctTemporaryHeader'] = entry.licenseHeader;
-				}
-
-				if (
-					fs.existsSync(
-						path.join(entry.forEachFolderIn, folder, entry.entry)
-					)
-				) {
-					webpackMultipleConfigs.push(toPush)
-				}
-			})
-		} else {
-			var toPush = {}
-
-			toPush['entry'] = entry.entry
-			toPush['output'] = entry.output
-
-			if (entry.optimization) {
-				toPush['optimization'] = entry.optimization
-			}
-
-			if (entry.externals) {
-				toPush['externals'] = entry.externals
-			}
-
-			if (toPush['output']['path']) {
-				if (!path.isAbsolute(toPush['output']['path'])) {
-					toPush['output']['path'] = path.join(
-						process.cwd(),
-						toPush['output']['path']
-					)
-				}
-			}
-
-			toPush.context = process.cwd()
-
-			if (entry.licenseHeader) {
-				// toPush['ctTemporaryHeader'] = entry.licenseHeader;
-			}
-
-			webpackMultipleConfigs.push(toPush)
+		if (entry.optimization) {
+			toPush['optimization'] = entry.optimization
 		}
+
+		if (entry.externals) {
+			toPush['externals'] = entry.externals
+		}
+
+		if (toPush['output']['path']) {
+			if (!path.isAbsolute(toPush['output']['path'])) {
+				toPush['output']['path'] = path.join(
+					process.cwd(),
+					toPush['output']['path']
+				)
+			}
+		}
+
+		toPush.context = process.cwd()
+
+		if (entry.licenseHeader) {
+			// toPush['ctTemporaryHeader'] = entry.licenseHeader;
+		}
+
+		webpackMultipleConfigs.push(toPush)
 	})
 
 	var config = webpackMultipleConfigs.map((singleConfig) => {

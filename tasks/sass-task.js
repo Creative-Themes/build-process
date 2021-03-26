@@ -7,7 +7,6 @@ const sourcemaps = require('gulp-sourcemaps')
 const plumber = require('gulp-plumber')
 const notify = require('gulp-notify')
 const header = require('gulp-header')
-const cached = require('gulp-cached')
 const sassGlob = require('gulp-sass-glob')
 const _ = require('lodash')
 
@@ -19,80 +18,50 @@ const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
 
 module.exports = {
-	assign: sassTask
+	assign: sassTask,
 }
 
 function sassTask(gulp, options) {
-	/*
-    var series = options.sassFiles.map(function (sassFile) {
-        return function (callback) {
-            return gulp.src({cwd: 'shortcode/*'}, '')
-                .pipe(sass().on('error', sass.logError))
-                .pipe(gulp.dest('bundle'));
-        };
-    });
-    */
-
 	const browserSync = require('browser-sync').create()
 
-	function getFolders(dir) {
-		return fs.readdirSync(dir).filter(function (file) {
-			return fs.statSync(path.join(dir, file)).isDirectory()
-		})
-	}
+	console.log('here we go')
 
-	var series = options.sassFiles.map(function (entry) {
-		if (entry.forEachFolderIn) {
-			var folders = getFolders(entry.forEachFolderIn)
+	const makeSassTaskFor = (entry, { minified }) => {
+		const { input, output } = entry
 
-			var tasks = folders.map(function (folder) {
-				return function () {
-					return sassProcess(
-						path.join(entry.forEachFolderIn, folder, entry.input),
-						path.join(entry.forEachFolderIn, folder, entry.output),
-						entry
-					)
-				}
-			})
+		let filename = entry.filename || path.basename(entry.input, '.scss')
 
-			return gulp.series(tasks)
+		if (minified) {
+			filename += '.min'
 		}
 
-		return function () {
-			return sassProcess(entry.input, entry.output, entry)
-		}
-	})
-
-	function sassProcess(input, output, entry) {
-		return (
+		return () =>
 			gulp
 				.src(input, { allowEmpty: true })
 				.pipe(
 					plumber({
-						errorHandler: notify.onError(err => ({
+						errorHandler: notify.onError((err) => ({
 							title: 'Styles',
-							message: err.message
-						}))
+							message: err.message,
+						})),
 					})
 				)
-				// .pipe(cached('sass'))
-				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
+				.pipe(gulpIf(isDevelopment && !minified, sourcemaps.init()))
 				.pipe(sassGlob())
 				.pipe(
 					sass({
-						outputStyle: isDevelopment ? 'nested' : 'compressed',
+						// outputStyle: isDevelopment ? 'nested' : 'compressed',
+						outputStyle: minified ? 'compressed' : 'nested',
 						includePaths: [
 							'bower_components',
-							'node_modules'
-						].concat(options.sassIncludePaths)
+							'node_modules',
+						].concat(options.sassIncludePaths),
 					}).on('error', sass.logError)
 				)
 				.pipe(postcss([autoprefixer()]))
 				.pipe(
 					rename({
-						basename:
-							entry.filename ||
-							path.basename(entry.input, '.scss')
+						basename: filename,
 					})
 				)
 				.pipe(
@@ -104,16 +73,28 @@ function sassTask(gulp, options) {
 						)
 					)
 				)
-				.pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
+				.pipe(
+					gulpIf(isDevelopment && !minified, sourcemaps.write('./'))
+				)
 				.pipe(gulp.dest(output))
 				.pipe(
 					gulpIf(
-						isDevelopment && options.browserSyncEnabled,
+						isDevelopment &&
+							!minified &&
+							options.browserSyncEnabled,
 						browserSync.stream({ match: '**/*.css' })
 					)
 				)
-		)
 	}
+
+	var series = options.sassFiles.reduce(
+		(currentSeries, entry) => [
+			...currentSeries,
+			makeSassTaskFor(entry, { minified: true }),
+			makeSassTaskFor(entry, { minified: false }),
+		],
+		[]
+	)
 
 	gulp.task(
 		'sass',
@@ -133,24 +114,14 @@ function sassTask(gulp, options) {
 			}
 
 			var toWatch = options.sassFiles
-				.map(sassFile => {
-					if (sassFile.forEachFolderIn) {
-						return path.join(
-							sassFile.forEachFolderIn,
-							'*',
-							sassFile.input
-						)
-					}
-
-					return sassFile.input
-				})
+				.map((sassFile) => sassFile.input)
 				.concat(options.sassWatch)
 
 			if (options.browserSyncEnabled) {
 				browserSync.init(
 					_.extend(
 						{
-							ghostMode: false
+							ghostMode: false,
 						},
 						options.browserSyncInitOptions
 					)

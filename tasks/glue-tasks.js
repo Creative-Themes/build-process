@@ -15,31 +15,9 @@ function glueTasks(gulp, options) {
 	gulp.task('clean', () => {
 		return del(
 			options.entries
-				.map(entry => {
-					if (entry.forEachFolderIn) {
-						return path.join(
-							entry.forEachFolderIn,
-							'*',
-							entry.output + '.js'
-						)
-					}
-
-					return path.join(entry.output + '.js')
-				})
+				.map((entry) => path.join(entry.output + '.js'))
 				.concat(
-					options.sassFiles.map(sassFile => {
-						if (sassFile.forEachFolderIn) {
-							return path.join(
-								sassFile.forEachFolderIn,
-								'*',
-								sassFile.output,
-								path.basename(
-									sassFile.input,
-									path.extname(sassFile.input)
-								) + '.css'
-							)
-						}
-
+					options.sassFiles.map((sassFile) => {
 						return path.join(
 							sassFile.output,
 							path.basename(
@@ -61,7 +39,7 @@ function glueTasks(gulp, options) {
 	)
 
 	if (options.filesToStripCodeFrom.length > 0) {
-		gulp.task('build:strip_code', function() {
+		gulp.task('build:strip_code', function () {
 			return gulp
 				.src(options.filesToStripCodeFrom, {
 					base: './',

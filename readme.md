@@ -132,7 +132,6 @@ export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 -   `packageType` - unyson_extension | wordpress_theme
 -   `currentVersion` - current package version used by `gulp bump`
 -   `entries` - Multiple entries for [webpack-multi-compiler](https://github.com/webpack/webpack/tree/master/examples/multi-compiler). They have some syntactic sugar like
-    `forEachFolderIn`, which is kinda nice to have
 -   `webpackIncludePaths`
 -   `webpackExternals`
 -   `webpackResolveAliases`
