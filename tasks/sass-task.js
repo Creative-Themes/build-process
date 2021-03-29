@@ -26,14 +26,10 @@ function sassTask(gulp, options) {
 
 	console.log('here we go')
 
-	const makeSassTaskFor = (entry, { minified }) => {
+	const makeSassTaskFor = (entry) => {
 		const { input, output } = entry
 
 		let filename = entry.filename || path.basename(entry.input, '.scss')
-
-		if (minified) {
-			filename += '.min'
-		}
 
 		return () =>
 			gulp
@@ -46,12 +42,11 @@ function sassTask(gulp, options) {
 						})),
 					})
 				)
-				.pipe(gulpIf(isDevelopment && !minified, sourcemaps.init()))
+				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
 				.pipe(sassGlob())
 				.pipe(
 					sass({
-						// outputStyle: isDevelopment ? 'nested' : 'compressed',
-						outputStyle: minified ? 'compressed' : 'nested',
+						outputStyle: isDevelopment ? 'nested' : 'compressed',
 						includePaths: [
 							'bower_components',
 							'node_modules',
@@ -73,26 +68,18 @@ function sassTask(gulp, options) {
 						)
 					)
 				)
-				.pipe(
-					gulpIf(isDevelopment && !minified, sourcemaps.write('./'))
-				)
+				.pipe(gulpIf(isDevelopment, sourcemaps.write('./')))
 				.pipe(gulp.dest(output))
 				.pipe(
 					gulpIf(
-						isDevelopment &&
-							!minified &&
-							options.browserSyncEnabled,
+						isDevelopment && options.browserSyncEnabled,
 						browserSync.stream({ match: '**/*.css' })
 					)
 				)
 	}
 
 	var series = options.sassFiles.reduce(
-		(currentSeries, entry) => [
-			...currentSeries,
-			makeSassTaskFor(entry, { minified: true }),
-			makeSassTaskFor(entry, { minified: false }),
-		],
+		(currentSeries, entry) => [...currentSeries, makeSassTaskFor(entry)],
 		[]
 	)
 
