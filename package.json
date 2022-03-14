@@ -1,6 +1,6 @@
 {
 	"name": "ct-build-process",
-	"version": "5.3.6",
+	"version": "5.3.7",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -50,7 +50,7 @@
 		"gulp-shell": "^0.8.0",
 		"gulp-sourcemaps": "^2.6.5",
 		"gulp-strip-code": "^0.1.4",
-		"gulp-wp-pot": "^2.4.2",
+		"gulp-wp-pot": "^2.5.0",
 		"gulp-zip": "^5.0.1",
 		"gulplog": "^1.0.0",
 		"import-glob-loader": "^1.1.0",
