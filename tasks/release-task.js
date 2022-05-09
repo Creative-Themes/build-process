@@ -6,7 +6,7 @@ let shell = require('gulp-shell')
 let zip = require('gulp-zip')
 
 module.exports = {
-	assign: releaseTask
+	assign: releaseTask,
 }
 
 function releaseTask(gulp, options) {
@@ -22,7 +22,7 @@ function releaseTask(gulp, options) {
 					'!node_modules/**',
 					'!**/node_modules/**',
 					'!bower_components/**',
-					'!vendor/**'
+					'!vendor/**',
 				])
 				.pipe(debug({ title: 'copy_to_build:' }))
 				// .pipe(gitignore())
@@ -39,11 +39,17 @@ function releaseTask(gulp, options) {
 		getProductionZipsSeries(gulp, options)
 	)
 
-	let build_zips_series = [
-		shell.task(['NODE_ENV=production gulp build']),
-		'build:remove_tmp',
-		'build:copy_files'
-	]
+	let build_zips_series = []
+
+	if (gulp.task('build:before_initial_build')) {
+		build_zips_series.push('build:before_initial_build')
+	}
+
+	console.log('here', build_zips_series)
+
+	build_zips_series.push(shell.task(['NODE_ENV=production gulp build']))
+	build_zips_series.push('build:remove_tmp')
+	build_zips_series.push('build:copy_files')
 
 	if (gulp.task('build:before_creating_zips')) {
 		build_zips_series.push('build:before_creating_zips')
@@ -55,7 +61,7 @@ function releaseTask(gulp, options) {
 	gulp.task('build_zips', gulp.series(build_zips_series))
 
 	if (!(options.packageRepo.user || options.packageRepo.repo)) {
-		gulp.task('build:create_release', function(done) {
+		gulp.task('build:create_release', function (done) {
 			done()
 		})
 	} else {
@@ -138,7 +144,7 @@ function getCreateReleaseSeries(gulp, options) {
 	series.push(
 		shell.task([
 			`github-release release ${getAuthString()}`,
-			`github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-production.zip`
+			`github-release upload ${getAuthString()} --name ${version}-production.zip --file build_tmp/${version}-production.zip`,
 		])
 	)
 

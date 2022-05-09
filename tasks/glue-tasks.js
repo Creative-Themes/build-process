@@ -57,15 +57,4 @@ function glueTasks(gulp, options) {
 				.pipe(gulp.dest('./'))
 		})
 	}
-
-	gulp.task('gettext-generate:php', () =>
-		gulp
-			.src('**/*.php')
-			.pipe(
-				wpPot({
-					domain: options.packageI18nSlug,
-				})
-			)
-			.pipe(gulp.dest(`languages/${options.packageI18nSlug}-php.pot`))
-	)
 }
