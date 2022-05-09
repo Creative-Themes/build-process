@@ -24,8 +24,6 @@ module.exports = {
 function sassTask(gulp, options) {
 	const browserSync = require('browser-sync').create()
 
-	console.log('here we go')
-
 	const makeSassTaskFor = (entry) => {
 		const { input, output } = entry
 
