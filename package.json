@@ -55,7 +55,7 @@
 		"gulplog": "^1.0.0",
 		"import-glob-loader": "^1.1.0",
 		"lodash": "^4.17.15",
-		"node-sass": "^5.0.0",
+		"node-sass": "^7.0.1",
 		"parse-gitignore": "^1.0.1",
 		"plugin-error": "^1.0.1",
 		"postcss-loader": "3.0.0",
