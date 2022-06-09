@@ -2,7 +2,6 @@ const webpackTask = require('./tasks/webpack/webpack-task')
 
 const glueTasks = require('./tasks/glue-tasks')
 const sassTask = require('./tasks/sass-task')
-const bumpVersionTasks = require('./tasks/bump-version-task')
 const releaseTask = require('./tasks/release-task')
 
 if (!process.env.NODE_ENV) {
@@ -44,8 +43,7 @@ function registerTasks(gulp, options) {
 				'./build_tmp/build/gulpfile.js',
 				'./build_tmp/build/bower_components/',
 				'./build_tmp/build/node_modules/',
-				'./build_tmp/build/{flow,flow-typed,ct-flow-typed}',
-				'./build_tmp/build/{.flowconfig,.gitignore,.git,yarn.lock}',
+				'./build_tmp/build/{.gitignore,.git,yarn.lock}',
 			],
 
 			/**
@@ -114,7 +112,6 @@ function registerTasks(gulp, options) {
 
 	glueTasks.assign(gulp, options)
 
-	bumpVersionTasks.assign(gulp, options)
 	releaseTask.assign(gulp, options)
 }
 

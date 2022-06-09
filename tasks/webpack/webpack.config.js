@@ -2,7 +2,6 @@ var path = require('path')
 var webpack = require('webpack')
 var fs = require('fs')
 var extend = require('util')._extend
-var camelcase = require('camelcase')
 var autoprefixer = require('autoprefixer')
 var StatsPlugin = require('stats-webpack-plugin')
 
@@ -12,25 +11,6 @@ const isDevelopment =
 const isGettextMode = !!process.env.NODE_ENV_GETTEXT
 
 var CompressionPlugin = require('compression-webpack-plugin')
-
-function getFolders(dir) {
-	return fs.readdirSync(dir).filter(function (file) {
-		return fs.statSync(path.join(dir, file)).isDirectory()
-	})
-}
-
-const getPostcssloader = () => ({
-	loader: 'postcss-loader',
-	options: {
-		ident: 'postcss',
-		sourceMap: true,
-		plugins: (loader) => [
-			autoprefixer({
-				overrideBrowserslist: ['last 2 versions'],
-			}),
-		],
-	},
-})
 
 module.exports = (options) => {
 	const webpackMultipleConfigs = []
@@ -92,9 +72,6 @@ module.exports = (options) => {
 
 	return config
 
-	/**
-	 * Crazy hack for https://github.com/webpack/css-loader/issues/337
-	 */
 	function getCommonConfig(singleConfig) {
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
@@ -118,6 +95,12 @@ module.exports = (options) => {
 										'@babel/plugin-proposal-object-rest-spread'
 									),
 									require.resolve(
+										'@babel/plugin-proposal-optional-chaining'
+									),
+									require.resolve(
+										'@babel/plugin-proposal-nullish-coalescing-operator'
+									),
+									require.resolve(
 										'@babel/plugin-proposal-class-properties'
 									),
 									require.resolve(
@@ -131,8 +114,7 @@ module.exports = (options) => {
 													[
 														'@babel/plugin-transform-react-jsx',
 														{
-															pragma:
-																options.babelJsxReactPragma,
+															pragma: options.babelJsxReactPragma,
 														},
 													],
 											  ]
@@ -179,31 +161,6 @@ module.exports = (options) => {
 						},
 
 						{
-							test: /\.scss$/,
-							enforce: 'pre',
-							loaders: ['import-glob-loader'],
-						},
-
-						{
-							test: /\.scss$/,
-							loaders: [
-								'style-loader',
-								'css-loader?sourceMap',
-								getPostcssloader(),
-								'sass-loader?sourceMap&sourceMapContents',
-							],
-						},
-
-						{
-							test: /\.css$/,
-							loaders: [
-								'style-loader',
-								'css-loader?sourceMap',
-								getPostcssloader(),
-							],
-						},
-
-						{
 							test: /\.png$/,
 							loader: 'file-loader',
 						},
@@ -225,7 +182,7 @@ module.exports = (options) => {
 			),
 
 			resolve: {
-				extensions: ['.js', '.jsx', '.css'],
+				extensions: ['.js', '.jsx'],
 
 				modules: ['node_modules', 'bower_components'].concat(
 					options.webpackIncludePaths

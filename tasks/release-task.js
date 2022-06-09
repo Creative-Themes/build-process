@@ -1,5 +1,4 @@
 let del = require('del')
-let gitignore = require('gulp-gitignore')
 let debug = require('gulp-debug')
 let fs = require('fs')
 let shell = require('gulp-shell')
@@ -15,19 +14,16 @@ function releaseTask(gulp, options) {
 	})
 
 	gulp.task('build:copy_files', () => {
-		return (
-			gulp
-				.src([
-					'./**/*',
-					'!node_modules/**',
-					'!**/node_modules/**',
-					'!bower_components/**',
-					'!vendor/**',
-				])
-				.pipe(debug({ title: 'copy_to_build:' }))
-				// .pipe(gitignore())
-				.pipe(gulp.dest('build_tmp/build'))
-		)
+		return gulp
+			.src([
+				'./**/*',
+				'!node_modules/**',
+				'!**/node_modules/**',
+				'!bower_components/**',
+				'!vendor/**',
+			])
+			.pipe(debug({ title: 'copy_to_build:' }))
+			.pipe(gulp.dest('build_tmp/build'))
 	})
 
 	gulp.task('build:delete_files_from_build', () => {
@@ -44,8 +40,6 @@ function releaseTask(gulp, options) {
 	if (gulp.task('build:before_initial_build')) {
 		build_zips_series.push('build:before_initial_build')
 	}
-
-	console.log('here', build_zips_series)
 
 	build_zips_series.push(shell.task(['NODE_ENV=production gulp build']))
 	build_zips_series.push('build:remove_tmp')

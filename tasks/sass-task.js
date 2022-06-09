@@ -1,4 +1,4 @@
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'))
 const rename = require('gulp-rename')
 const path = require('path')
 const fs = require('fs')
@@ -42,15 +42,7 @@ function sassTask(gulp, options) {
 				)
 				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
 				.pipe(sassGlob())
-				.pipe(
-					sass({
-						outputStyle: isDevelopment ? 'nested' : 'compressed',
-						includePaths: [
-							'bower_components',
-							'node_modules',
-						].concat(options.sassIncludePaths),
-					}).on('error', sass.logError)
-				)
+				.pipe(sass().on('error', sass.logError))
 				.pipe(postcss([autoprefixer()]))
 				.pipe(
 					rename({

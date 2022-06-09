@@ -13,7 +13,7 @@ const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
 
 module.exports = {
-	assign: webpackTask
+	assign: webpackTask,
 }
 
 function webpackTask(gulp, options) {
@@ -24,16 +24,16 @@ function webpackTask(gulp, options) {
 			'[webpack]',
 			stats.toString({
 				colors: true,
-				chunks: false
+				chunks: false,
 			})
 		)
 	}
 
-	const getCompiler = options => {
+	const getCompiler = (options) => {
 		return webpack(webpackOptions(options))
 	}
 
-	gulp.task('webpack', done => {
+	gulp.task('webpack', (done) => {
 		if (webpackOptions(options).length === 0) {
 			done()
 			return
@@ -46,7 +46,7 @@ function webpackTask(gulp, options) {
 		})
 	})
 
-	gulp.task('webpack:watch', done => {
+	gulp.task('webpack:watch', (done) => {
 		if (webpackOptions(options).length === 0) {
 			done()
 			return
@@ -57,7 +57,7 @@ function webpackTask(gulp, options) {
 
 		compiler.watch(
 			{
-				aggregateTimeout: 301
+				aggregateTimeout: 301,
 			},
 			(err, stats) => {
 				handleWebpackOutput(err, stats)
