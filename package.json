@@ -1,6 +1,6 @@
 {
 	"name": "ct-build-process",
-	"version": "5.3.10",
+	"version": "5.4.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
