@@ -74,6 +74,46 @@ module.exports = (options) => {
 	return config
 
 	function getCommonConfig(singleConfig) {
+		const babelLoader = {
+			loader: require.resolve('babel-loader'),
+			options: {
+				presets: ['@babel/preset-env'],
+				plugins: [
+					require.resolve(
+						'@babel/plugin-proposal-object-rest-spread'
+					),
+					require.resolve('@babel/plugin-proposal-optional-chaining'),
+					require.resolve(
+						'@babel/plugin-proposal-nullish-coalescing-operator'
+					),
+					require.resolve('@babel/plugin-proposal-class-properties'),
+					require.resolve('@babel/plugin-syntax-dynamic-import'),
+				]
+					.concat(
+						options.babelJsxPlugin === 'vue'
+							? []
+							: [
+									[
+										'@babel/plugin-transform-react-jsx',
+										{
+											pragma: options.babelJsxReactPragma,
+										},
+									],
+							  ]
+					)
+					.concat(
+						isGettextMode
+							? [
+									require.resolve(
+										'../../lib/i18n-babel-plugin.js'
+									),
+							  ]
+							: []
+					)
+					.concat(options.babelAdditionalPlugins),
+			},
+		}
+
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
 
@@ -87,51 +127,25 @@ module.exports = (options) => {
 				{
 					rules: [
 						{
-							test: /\.(js|jsx)$/,
-							loader: require.resolve('babel-loader'),
-							options: {
-								presets: ['@babel/preset-env'],
-								plugins: [
-									require.resolve(
-										'@babel/plugin-proposal-object-rest-spread'
-									),
-									require.resolve(
-										'@babel/plugin-proposal-optional-chaining'
-									),
-									require.resolve(
-										'@babel/plugin-proposal-nullish-coalescing-operator'
-									),
-									require.resolve(
-										'@babel/plugin-proposal-class-properties'
-									),
-									require.resolve(
-										'@babel/plugin-syntax-dynamic-import'
-									),
-								]
-									.concat(
-										options.babelJsxPlugin === 'vue'
-											? []
-											: [
-													[
-														'@babel/plugin-transform-react-jsx',
-														{
-															pragma: options.babelJsxReactPragma,
-														},
-													],
-											  ]
-									)
-									.concat(
-										isGettextMode
-											? [
-													require.resolve(
-														'../../lib/i18n-babel-plugin.js'
-													),
-											  ]
-											: []
-									)
-									.concat(options.babelAdditionalPlugins),
-							},
+							test: /\.tsx?$/,
+							use: [
+								{
+									loader: 'ts-loader',
+									options: {
+										context: process.cwd(),
+										configFile: path.resolve(
+											__dirname,
+											'../../tsconfig.json'
+										),
+									},
+								},
+								babelLoader,
+							],
+						},
 
+						{
+							test: /\.(js|jsx)$/,
+							use: [babelLoader],
 							// TODO: configure load paths here. May slow down builds!!!
 							exclude: /(node_modules|bower_components)/,
 
@@ -183,7 +197,7 @@ module.exports = (options) => {
 			),
 
 			resolve: {
-				extensions: ['.js', '.jsx'],
+				extensions: ['.js', '.jsx', '.ts', '.tsx'],
 
 				modules: ['node_modules', 'bower_components'].concat(
 					options.webpackIncludePaths

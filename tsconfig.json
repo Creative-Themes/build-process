@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"jsx": "preserve",
+		"module": "commonjs",
+		"noImplicitAny": true,
+		"preserveConstEnums": true,
+		"removeComments": true,
+		"sourceMap": true,
+		"target": "es5",
+		"noImplicitAny": false,
+		"resolveJsonModule": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+	}
+}
