@@ -40,6 +40,7 @@
 		"del": "^5.1.0",
 		"fancy-log": "^2.0.0",
 		"file-loader": "^6.2.0",
+		"fork-ts-checker-webpack-plugin": "^7.2.11",
 		"gettext-parser": "^4.0.3",
 		"gulp": "4.0.2",
 		"gulp-cached": "^1.1.1",
