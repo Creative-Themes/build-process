@@ -14,6 +14,8 @@ const isGettextMode = !!process.env.NODE_ENV_GETTEXT
 
 var CompressionPlugin = require('compression-webpack-plugin')
 
+let isTsPluginAdded = 0
+
 module.exports = (options) => {
 	const webpackMultipleConfigs = []
 
@@ -219,15 +221,6 @@ module.exports = (options) => {
 				new NodePolyfillPlugin({
 					excludeAliases: ['console'],
 				}),
-				new ForkTsCheckerWebpackPlugin({
-					typescript: {
-						context: process.cwd(),
-						configFile: path.resolve(
-							__dirname,
-							'../../tsconfig.json'
-						),
-					},
-				}),
 			]
 				.concat(
 					isDevelopment || !options.webpackEnableCompression
@@ -243,7 +236,22 @@ module.exports = (options) => {
 						  ]
 						: []
 				)
-				.concat(options.webpackPlugins),
+				.concat(options.webpackPlugins)
+				.concat(
+					isTsPluginAdded > 2
+						? []
+						: [
+								new ForkTsCheckerWebpackPlugin({
+									typescript: {
+										context: process.cwd(),
+										configFile: path.resolve(
+											__dirname,
+											'../../tsconfig.json'
+										),
+									},
+								}),
+						  ]
+				),
 
 			externals: Object.assign(
 				{
@@ -254,6 +262,8 @@ module.exports = (options) => {
 				options.webpackExternals
 			),
 		}
+
+		isTsPluginAdded++
 
 		return commonConfig
 	}
