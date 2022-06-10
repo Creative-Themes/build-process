@@ -4,6 +4,7 @@ var fs = require('fs')
 var extend = require('util')._extend
 var autoprefixer = require('autoprefixer')
 var StatsPlugin = require('stats-webpack-plugin')
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 const isDevelopment =
 	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
@@ -199,6 +200,9 @@ module.exports = (options) => {
 				}),
 
 				new webpack.EnvironmentPlugin(['NODE_ENV']),
+				new NodePolyfillPlugin({
+					excludeAliases: ['console'],
+				}),
 			]
 				.concat(
 					isDevelopment || !options.webpackEnableCompression
