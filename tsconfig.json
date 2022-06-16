@@ -2,7 +2,6 @@
 	"compilerOptions": {
 		"jsx": "preserve",
 		"module": "commonjs",
-		"noImplicitAny": true,
 		"preserveConstEnums": true,
 		"removeComments": true,
 		"sourceMap": true,
@@ -10,6 +9,6 @@
 		"noImplicitAny": false,
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
-		"allowSyntheticDefaultImports": true,
+		"allowSyntheticDefaultImports": true
 	}
 }

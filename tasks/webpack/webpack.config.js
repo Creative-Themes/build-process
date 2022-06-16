@@ -80,7 +80,16 @@ module.exports = (options) => {
 		const babelLoader = {
 			loader: require.resolve('babel-loader'),
 			options: {
-				presets: ['@babel/preset-env', '@babel/preset-typescript'],
+				presets: [
+					'@babel/preset-env',
+
+					[
+						'@babel/preset-typescript',
+						{
+							jsxPragma: options.babelJsxReactPragma,
+						},
+					],
+				],
 				plugins: [
 					require.resolve(
 						'@babel/plugin-proposal-object-rest-spread'
