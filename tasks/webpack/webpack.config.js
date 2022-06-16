@@ -80,7 +80,7 @@ module.exports = (options) => {
 		const babelLoader = {
 			loader: require.resolve('babel-loader'),
 			options: {
-				presets: ['@babel/preset-env'],
+				presets: ['@babel/preset-env', '@babel/preset-typescript'],
 				plugins: [
 					require.resolve(
 						'@babel/plugin-proposal-object-rest-spread'
@@ -130,25 +130,7 @@ module.exports = (options) => {
 				{
 					rules: [
 						{
-							test: /\.tsx?$/,
-							use: [
-								{
-									loader: 'ts-loader',
-									options: {
-										transpileOnly: true,
-										context: process.cwd(),
-										configFile: path.resolve(
-											__dirname,
-											'../../tsconfig.json'
-										),
-									},
-								},
-								babelLoader,
-							],
-						},
-
-						{
-							test: /\.(js|jsx)$/,
+							test: /\.(js|jsx|ts|tsx)$/,
 							use: [babelLoader],
 							// TODO: configure load paths here. May slow down builds!!!
 							exclude: /(node_modules|bower_components)/,
