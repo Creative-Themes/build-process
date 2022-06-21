@@ -42,39 +42,25 @@ module.exports = (options) => {
 			}
 		}
 
-		toPush.context = process.cwd()
-
-		if (entry.licenseHeader) {
-			// toPush['ctTemporaryHeader'] = entry.licenseHeader;
+		toPush.output.environment = {
+			arrowFunction: false,
+			const: false,
+			optionalChaining: false,
+			templateLiteral: false,
 		}
+
+		toPush.context = process.cwd()
 
 		webpackMultipleConfigs.push(toPush)
 	})
 
-	var config = webpackMultipleConfigs.map((singleConfig) => {
-		// console.log('DEBUG', singleConfig.entry);
-
-		let result = Object.assign(
-			{},
-			options.commonWebpackFields,
-			getCommonConfig(singleConfig),
-			singleConfig
-		)
-
-		if (result.ctTemporaryHeader) {
-			/*
-			result.plugins = result.plugins.concat([
-				new webpack.BannerPlugin(result.ctTemporaryHeader, {
-					raw: true
-				})
-			]);
-            */
+	return webpackMultipleConfigs.map((singleConfig) => {
+		return {
+			...options.commonWebpackFields,
+			...getCommonConfig(singleConfig),
+			...singleConfig,
 		}
-
-		return result
 	})
-
-	return config
 
 	function getCommonConfig(singleConfig) {
 		const babelLoader = {
@@ -94,6 +80,7 @@ module.exports = (options) => {
 					require.resolve(
 						'@babel/plugin-proposal-object-rest-spread'
 					),
+					require.resolve('@babel/plugin-transform-arrow-functions'),
 					require.resolve('@babel/plugin-proposal-optional-chaining'),
 					require.resolve(
 						'@babel/plugin-proposal-nullish-coalescing-operator'
