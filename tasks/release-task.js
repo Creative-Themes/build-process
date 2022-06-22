@@ -41,7 +41,7 @@ function releaseTask(gulp, options) {
 		build_zips_series.push('build:before_initial_build')
 	}
 
-	build_zips_series.push(shell.task(['NODE_ENV=production gulp build']))
+	build_zips_series.push(shell.task(['NODE_ENV=production gulp build --silent']))
 	build_zips_series.push('build:remove_tmp')
 	build_zips_series.push('build:copy_files')
 
