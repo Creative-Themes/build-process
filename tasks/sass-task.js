@@ -42,7 +42,11 @@ function sassTask(gulp, options) {
 				)
 				.pipe(gulpIf(isDevelopment, sourcemaps.init()))
 				.pipe(sassGlob())
-				.pipe(sass().on('error', sass.logError))
+				.pipe(
+					sass({
+						outputStyle: isDevelopment ? 'expanded' : 'compressed',
+					}).on('error', sass.logError)
+				)
 				.pipe(postcss([autoprefixer()]))
 				.pipe(
 					rename({
