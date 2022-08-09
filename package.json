@@ -1,6 +1,6 @@
 {
 	"name": "ct-build-process",
-	"version": "5.4.8",
+	"version": "5.4.9",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
@@ -30,6 +30,7 @@
 		"@types/react": "^18.0.12",
 		"@types/react-dom": "^18.0.5",
 		"@types/webpack-env": "^1.17.0",
+		"@types/wordpress__a11y": "^2.9.0",
 		"@types/wordpress__block-editor": "^7.0.0",
 		"@types/wordpress__blocks": "^11.0.1",
 		"@types/wordpress__i18n": "^3.11.0",
