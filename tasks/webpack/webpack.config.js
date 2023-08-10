@@ -64,12 +64,16 @@ module.exports = (options) => {
 			...singleConfigRest,
 
 			optimization: {
-				minimize: true,
-				minimizer: [
-					new TerserPlugin({
-						extractComments: false,
-					}),
-				],
+				...(!isDevelopment
+					? {
+							minimize: true,
+							minimizer: [
+								new TerserPlugin({
+									extractComments: false,
+								}),
+							],
+					  }
+					: {}),
 
 				...(optimization || {}),
 			},
