@@ -1,36 +1,37 @@
-var path = require('path')
-var webpack = require('webpack')
-var fs = require('fs')
-var extend = require('util')._extend
-var autoprefixer = require('autoprefixer')
-var StatsPlugin = require('stats-webpack-plugin')
-const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+var path = require('path');
+var webpack = require('webpack');
+var fs = require('fs');
+var extend = require('util')._extend;
+var autoprefixer = require('autoprefixer');
+var StatsPlugin = require('stats-webpack-plugin');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const isDevelopment =
-	!process.env.NODE_ENV || process.env.NODE_ENV == 'development'
+	!process.env.NODE_ENV || process.env.NODE_ENV == 'development';
 
-const isGettextMode = !!process.env.NODE_ENV_GETTEXT
+const isGettextMode = !!process.env.NODE_ENV_GETTEXT;
 
-var CompressionPlugin = require('compression-webpack-plugin')
+var CompressionPlugin = require('compression-webpack-plugin');
 
-let isTsPluginAdded = 0
+let isTsPluginAdded = 0;
 
 module.exports = (options) => {
-	const webpackMultipleConfigs = []
+	const webpackMultipleConfigs = [];
 
 	options.entries.map((entry) => {
-		var toPush = {}
+		var toPush = {};
 
-		toPush['entry'] = entry.entry
-		toPush['output'] = entry.output
+		toPush['entry'] = entry.entry;
+		toPush['output'] = entry.output;
 
 		if (entry.optimization) {
-			toPush['optimization'] = entry.optimization
+			toPush['optimization'] = entry.optimization;
 		}
 
 		if (entry.externals) {
-			toPush['externals'] = entry.externals
+			toPush['externals'] = entry.externals;
 		}
 
 		if (toPush['output']['path']) {
@@ -38,7 +39,7 @@ module.exports = (options) => {
 				toPush['output']['path'] = path.join(
 					process.cwd(),
 					toPush['output']['path']
-				)
+				);
 			}
 		}
 
@@ -47,20 +48,33 @@ module.exports = (options) => {
 			const: false,
 			optionalChaining: false,
 			templateLiteral: false,
-		}
+		};
 
-		toPush.context = process.cwd()
+		toPush.context = process.cwd();
 
-		webpackMultipleConfigs.push(toPush)
-	})
+		webpackMultipleConfigs.push(toPush);
+	});
 
 	return webpackMultipleConfigs.map((singleConfig) => {
+		const { optimization, ...singleConfigRest } = singleConfig;
+
 		return {
 			...options.commonWebpackFields,
 			...getCommonConfig(singleConfig),
-			...singleConfig,
-		}
-	})
+			...singleConfigRest,
+
+			optimization: {
+				minimize: true,
+				minimizer: [
+					new TerserPlugin({
+						extractComments: false,
+					}),
+				],
+
+				...(optimization || {}),
+			},
+		};
+	});
 
 	function getCommonConfig(singleConfig) {
 		const babelLoader = {
@@ -111,12 +125,12 @@ module.exports = (options) => {
 					)
 					.concat(options.babelAdditionalPlugins),
 			},
-		}
+		};
 
 		const commonConfig = {
 			mode: isDevelopment ? 'development' : 'production',
 
-			...(options.webpackDevtool
+			...(isDevelopment && options.webpackDevtool
 				? {
 						devtool: options.webpackDevtool,
 				  }
@@ -134,9 +148,9 @@ module.exports = (options) => {
 							exclude: function (modulePath) {
 								let isNodeModule = /node_modules/.test(
 									modulePath
-								)
+								);
 
-								let isAModuleThatShouldBeCompiled = false
+								let isAModuleThatShouldBeCompiled = false;
 
 								options.modulesToCompileWithBabel.map(
 									(module) => {
@@ -145,15 +159,15 @@ module.exports = (options) => {
 												`node_modules\/${module}`
 											).test(modulePath)
 										) {
-											isAModuleThatShouldBeCompiled = true
+											isAModuleThatShouldBeCompiled = true;
 										}
 									}
-								)
+								);
 
 								return (
 									/node_modules/.test(modulePath) &&
 									!isAModuleThatShouldBeCompiled
-								)
+								);
 							},
 						},
 
@@ -239,10 +253,10 @@ module.exports = (options) => {
 				},
 				options.webpackExternals
 			),
-		}
+		};
 
-		isTsPluginAdded++
+		isTsPluginAdded++;
 
-		return commonConfig
+		return commonConfig;
 	}
-}
+};
