@@ -20,7 +20,6 @@ function releaseTask(gulp, options) {
 				'!node_modules/**',
 				'!**/node_modules/**',
 				'!bower_components/**',
-				'!vendor/**',
 			])
 			.pipe(debug({ title: 'copy_to_build:' }))
 			.pipe(gulp.dest('build_tmp/build'))
